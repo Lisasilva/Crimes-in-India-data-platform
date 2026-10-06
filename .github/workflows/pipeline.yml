@@ -26,12 +26,44 @@ jobs:
       - name: Unit tests
         run: pytest -q
 
-      - name: Ingest and check data
+      - name: Ingest, check, model and cluster
         run: python -m pipeline.run
 
-      - name: Upload data quality report
+      - name: Build website
+        run: python -m pipeline.site
+
+      - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: data-quality-report
+          name: reports
           path: reports/
+
+      # Pull requests keep the built site as a downloadable artifact to preview.
+      - name: Upload site preview
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-preview
+          path: site/
+
+      - name: Upload site for GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+  deploy:
+    # Publishes the site built from main. Needs Settings > Pages > Source set to "GitHub Actions".
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
