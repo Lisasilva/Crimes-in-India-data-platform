@@ -1,0 +1,28 @@
+# Registry of every raw file the pipeline reads.
+# Raw files are never edited by hand. If a file is replaced, update its
+# sha256 here; the ingestion step refuses to load a file whose checksum
+# does not match.
+sources:
+  - name: kaggle_state_crimes
+    file: kaggle_crimes_on_women_2001_2021.csv
+    description: >
+      State/UT-wise crimes against women in India, 2001-2021, seven crime
+      heads (rape, kidnapping and abduction, dowry deaths, assault on women,
+      insult to modesty, cruelty by husband or relatives, trafficking).
+    source_url: https://www.kaggle.com/datasets/balajivaraprasad/crimes-against-women-in-india-2001-2021
+    original_publisher: National Crime Records Bureau (NCRB), via data.gov.in
+    licence: Apache-2.0
+    downloaded_on: 2026-10-06
+    sha256: 15205a2fbb87772a8f5643fa4a67debb28e2b9040adac7f667ae5e1b99285f75
+
+  - name: ncrb_cases_2001_2010
+    file: ncrb_cases_crime_against_women_2001_2010.csv
+    description: >
+      State/UT-wise cases under crimes against women, 2001-2010, with police
+      and court disposal counts (reported, chargesheeted, convicted, ...).
+      This is the unmodified file used in the original analysis notebook.
+    source_url: https://www.kaggle.com/datasets/rajanand/crime-in-india
+    original_publisher: National Crime Records Bureau (NCRB), via data.gov.in
+    licence: see source page
+    downloaded_on: unknown  # taken from the original project folder
+    sha256: 2781aa4e1d231e6a0dae477b523e10dbb49ae257faca2ccf2a4220371620bd11
