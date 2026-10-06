@@ -1,0 +1,9 @@
+# Built on every run; never committed.
+warehouse/
+reports/
+
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.ipynb_checkpoints/
