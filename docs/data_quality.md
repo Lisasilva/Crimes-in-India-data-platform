@@ -49,7 +49,7 @@ NCRB file can safely fill Delhi's missing years.
   Nagar Haveli with Daman & Diu, so each unit covers the same area in every
   year. Telangana appears from 2014; before that it is part of Andhra Pradesh.
 - **Rates.** Rates per 100,000 women use the Census 2011 female population,
-  the latest census. Populations have grown since, so later rates are slightly
-  overstated, by the same proportion within a state.
+  the latest census. Populations have grown since, so later rates are somewhat
+  overstated, more so in faster-growing states.
 - **"WT" column.** In the Kaggle file it matches NCRB's "Importation of Girls"
   exactly, so it is labelled that way here rather than as general trafficking.
