@@ -1,0 +1,37 @@
+analysis_unit,valid_from_year,valid_to_year,female_population,note
+Jammu & Kashmir,2001,2099,5900640,Includes Ladakh
+Himachal Pradesh,2001,2099,3382729,
+Punjab,2001,2099,13103873,
+Chandigarh,2001,2099,474787,
+Uttarakhand,2001,2099,4948519,
+Haryana,2001,2099,11856728,
+Delhi,2001,2099,7800615,
+Rajasthan,2001,2099,32997440,
+Uttar Pradesh,2001,2099,95331831,
+Bihar,2001,2099,49821295,
+Sikkim,2001,2099,287507,
+Arunachal Pradesh,2001,2099,669815,
+Nagaland,2001,2099,953853,
+Manipur,2001,2099,1280219,
+Mizoram,2001,2099,541867,
+Tripura,2001,2099,1799541,
+Meghalaya,2001,2099,1475057,
+Assam,2001,2099,15266133,
+West Bengal,2001,2099,44467088,
+Jharkhand,2001,2099,16057819,
+Odisha,2001,2099,20762082,
+Chhattisgarh,2001,2099,12712303,
+Madhya Pradesh,2001,2099,35014503,
+Gujarat,2001,2099,28948432,
+Dadra & Nagar Haveli and Daman & Diu,2001,2099,242895,Dadra & Nagar Haveli 149949 + Daman & Diu 92946
+Maharashtra,2001,2099,54131277,
+Karnataka,2001,2099,30128640,
+Goa,2001,2099,719405,
+Lakshadweep,2001,2099,31350,
+Kerala,2001,2099,17378649,
+Tamil Nadu,2001,2099,36009055,
+Puducherry,2001,2099,635442,
+Andaman & Nicobar Islands,2001,2099,177710,
+Andhra Pradesh,2001,2013,42138631,"Undivided Andhra Pradesh, including Telangana"
+Andhra Pradesh,2014,2099,24746590,Undivided 42138631 minus Telangana 17392041
+Telangana,2014,2099,17392041,Census 2011 figures for the Telangana districts

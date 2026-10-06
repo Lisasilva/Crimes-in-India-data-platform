@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: Raw files loaded as text by pipeline/ingest.py.
+    schema: bronze
+    tables:
+      - name: kaggle_state_crimes
+        description: State/UT crimes against women, 2001-2021, seven crime heads (Kaggle copy of NCRB data).
+      - name: ncrb_cases_2001_2010
+        description: NCRB cases under crimes against women, 2001-2010, by crime head, with disposal counts.

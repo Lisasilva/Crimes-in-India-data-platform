@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: dim_state
+    description: States and union territories as analysed. Merged units list their parts in `includes`.
+    columns:
+      - name: analysis_unit
+        tests: [unique, not_null]
+      - name: unit_type
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['State', 'Union Territory']
+      - name: female_population_2011
+        tests: [not_null]
+
+  - name: dim_crime_type
+    description: The seven crime heads, with the column or label each source uses for them.
+    columns:
+      - name: crime_code
+        tests: [unique, not_null]
+
+  - name: fct_crimes_against_women
+    description: >
+      Cases and rate per 100,000 women for each state, year and crime type.
+      `cases` is empty where the source figure is known to be wrong, and
+      `data_issue` explains why. `was_relabelled` marks 2020-2021 rows whose
+      state label was corrected.
+    columns:
+      - name: fact_id
+        tests: [unique, not_null]
+      - name: analysis_unit
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_state')
+                field: analysis_unit
+      - name: crime_code
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_crime_type')
+                field: crime_code
+      - name: year
+        tests:
+          - not_null
+          - value_in_range:
+              arguments:
+                min_value: 2001
+                max_value: 2021
+      - name: female_population_2011
+        tests: [not_null]
+      - name: cases
+        tests:
+          - value_in_range:
+              arguments:
+                min_value: 0
+      - name: rate_per_100k_women
+        tests:
+          - value_in_range:
+              arguments:
+                min_value: 0
+                max_value: 1000
+
+  - name: mart_state_crime_profile
+    description: Average yearly rate per 100,000 women by crime type over the profile window; one row per state.
+    columns:
+      - name: analysis_unit
+        tests: [unique, not_null]
+
+  - name: mart_national_trend
+    description: All-India cases and rate per crime type and year.
+
+  - name: mart_source_comparison
+    description: Kaggle and NCRB 2001-2010 figures side by side, with whether they match.
+    columns:
+      - name: comparison
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['match', 'only in NCRB file']

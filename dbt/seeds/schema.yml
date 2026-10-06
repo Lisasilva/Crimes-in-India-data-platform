@@ -1,0 +1,41 @@
+version: 2
+
+# Reference tables kept in the repository. Each one is a reviewed decision, so
+# changing it goes through a pull request like code.
+seeds:
+  - name: state_names
+    description: Every spelling of a state name found in the sources, mapped to one state and one analysis unit.
+    columns:
+      - name: name_key
+        description: Upper-case name with single spaces around "&", as produced by the normalise_state macro.
+        tests: [unique, not_null]
+      - name: analysis_unit
+        description: >
+          The unit used for analysis. Ladakh is counted with Jammu & Kashmir, and
+          Dadra & Nagar Haveli with Daman & Diu, because they were split or merged
+          during 2001-2021.
+
+  - name: kaggle_relabel_2020_2021
+    description: >
+      Corrects the state labels of the Kaggle 2020 and 2021 rows. The figures in
+      those rows follow NCRB's 2020 state order (Jammu & Kashmir moved to the
+      union territories, Dadra & Nagar Haveli and Daman & Diu merged, Ladakh
+      added) while the labels kept the older order. Rows before Jammu & Kashmir
+      are correct and are not listed.
+
+  - name: crime_types
+    description: The seven crime heads and the column or label each source uses for them.
+    columns:
+      - name: crime_code
+        tests: [unique, not_null]
+
+  - name: known_source_errors
+    description: >
+      Figures known to be wrong in the source, with the action taken. "*" means
+      every state or every crime type. Values are set to missing, never guessed.
+
+  - name: female_population_2011
+    description: >
+      Census 2011 female population per analysis unit, used for rates per
+      100,000 women. Andhra Pradesh is split into its post-2014 part and
+      Telangana from 2014 onward.

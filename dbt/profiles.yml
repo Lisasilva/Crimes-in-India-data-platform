@@ -1,0 +1,8 @@
+crimes_in_india:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      # Set by pipeline/run.py; the default works when dbt is run from this folder.
+      path: "{{ env_var('DUCKDB_PATH', '../warehouse/crime.duckdb') }}"
+      threads: 4
