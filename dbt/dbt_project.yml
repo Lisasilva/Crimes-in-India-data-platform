@@ -1,0 +1,37 @@
+name: crimes_in_india
+version: "1.0.0"
+config-version: 2
+profile: crimes_in_india
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+vars:
+  # Years used for the state crime profiles that feed clustering. Telangana
+  # exists from 2014, so a recent five-year window keeps every state comparable.
+  profile_start_year: 2017
+  profile_end_year: 2021
+
+seeds:
+  crimes_in_india:
+    +schema: reference
+    kaggle_relabel_2020_2021:
+      +column_types: {year: integer}
+    known_source_errors:
+      +column_types: {year: integer}
+    female_population_2011:
+      +column_types: {valid_from_year: integer, valid_to_year: integer, female_population: bigint}
+
+models:
+  crimes_in_india:
+    staging:
+      +schema: silver
+      +materialized: view
+    intermediate:
+      +schema: silver
+      +materialized: table
+    marts:
+      +schema: gold
+      +materialized: table

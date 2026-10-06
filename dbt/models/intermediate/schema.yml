@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: int_kaggle_relabelled
+    description: Kaggle rows with the 2020-2021 state labels corrected.
+    columns:
+      - name: corrected_name_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('state_names')
+                field: name_key
+
+  - name: int_state_crimes_long
+    description: >
+      One row per state, year and crime type after all corrections. `cases` is
+      empty where the source is known to be wrong; `data_issue` says why.
+    columns:
+      - name: crime_code
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('crime_types')
+                field: crime_code
+      - name: source
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['kaggle', 'ncrb_2001_2010']

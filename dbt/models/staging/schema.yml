@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_kaggle__state_crimes
+    description: Kaggle file with proper types. Names and values are unchanged.
+    columns:
+      - name: name_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('state_names')
+                field: name_key
+      - name: year
+        tests: [not_null]
+
+  - name: stg_ncrb__cases_2001_2010
+    description: NCRB 2001-2010 file with proper types. Names and values are unchanged.
+    columns:
+      - name: name_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('state_names')
+                field: name_key
+      - name: cases_reported
+        tests: [not_null]

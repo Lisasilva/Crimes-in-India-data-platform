@@ -7,3 +7,9 @@ __pycache__/
 .pytest_cache/
 .venv/
 .ipynb_checkpoints/
+
+# dbt build output
+dbt/target/
+dbt/logs/
+logs/
+dbt/.user.yml

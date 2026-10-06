@@ -1,0 +1,7 @@
+analysis_unit,year,crime_code,action,reason
+*,2011,assault_on_women,set_missing,Reported as 0 for every state and UT in 2011; the column was not filled in.
+West Bengal,2019,*,set_missing,All seven figures are an exact copy of West Bengal 2018.
+Jharkhand,2004,*,set_missing,All seven figures are an exact copy of Jharkhand 2002.
+Telangana,2011,*,drop,Telangana was formed in 2014; its 2011-2013 rows are all zeros and the figures are inside Andhra Pradesh.
+Telangana,2012,*,drop,Telangana was formed in 2014; its 2011-2013 rows are all zeros and the figures are inside Andhra Pradesh.
+Telangana,2013,*,drop,Telangana was formed in 2014; its 2011-2013 rows are all zeros and the figures are inside Andhra Pradesh.

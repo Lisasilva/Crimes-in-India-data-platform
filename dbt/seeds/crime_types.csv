@@ -1,0 +1,8 @@
+crime_code,crime_name,kaggle_column,ncrb_sub_group,legal_section
+rape,Rape,Rape,01. Rape,IPC 376
+kidnapping_abduction,Kidnapping and abduction of women and girls,K&A,02. Kidnapping & Abduction of Women & Girls,IPC 363-373
+dowry_deaths,Dowry deaths,DD,03. Dowry Deaths,IPC 304B
+assault_on_women,Assault on women with intent to outrage her modesty,AoW,04. Molestation,IPC 354
+insult_to_modesty,Insult to the modesty of women,AoM,05. Sexual Harassment,IPC 509
+cruelty_by_husband,Cruelty by husband or his relatives,DV,06. Cruelty by Husband and Relatives,IPC 498A
+importation_of_girls,Importation of girls from a foreign country,WT,07. Importation of Girls,IPC 366B
