@@ -1,6 +1,7 @@
-"""Download raw files that are not kept in the repository.
+"""Download raw files that are missing from data/raw.
 
-Manifest entries with a `url` are downloaded into data/raw when missing, and
+A copy of every NCRB table is kept in the repository, so a normal run downloads
+nothing. Manifest entries with a `url` are downloaded into data/raw when missing, and
 every download must match the sha256 recorded in the manifest. The URLs point
 at one fixed commit of the source repository, so the same files come back on
 every run.
