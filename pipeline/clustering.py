@@ -1,16 +1,21 @@
 """Group states by their crime profile (K-Means) and flag unusual ones (DBSCAN).
 
-Input is gold.mart_state_crime_profile: each state's average yearly rate per
-100,000 women for each crime type over the profile window. Results are written
-back to the warehouse as gold.state_clusters and gold.cluster_scores, and to a
-report.
+This runs twice, once per view of the data:
+- all_crimes: gold.mart_state_all_crime_profile, each state's average yearly
+  rate per 100,000 people for eleven large IPC/BNS crime groups;
+- women: gold.mart_state_crime_profile, each state's average yearly rate per
+  100,000 women for six crimes against women.
+Results are written back to the warehouse as gold.state_clusters and
+gold.cluster_scores (one set of rows per view), and to a report.
 
 Choices, kept deliberately simple:
 - Rates, not case counts, so large states are not grouped together just for
   being large.
 - log(1 + rate), then z-scores, so no single crime type dominates the distance.
 - "Importation of girls" is left out: it is zero or near zero almost everywhere
-  and would only add noise.
+  and would only add noise. For the same reason the all-crimes view leaves out
+  the small heads (dacoity, counterfeiting, arson), and "other IPC crimes",
+  which mixes many unrelated offences.
 - The number of clusters is the one with the best silhouette score, which
   measures how well separated the groups are (from -1 to 1, higher is better).
 - DBSCAN marks a state as unusual when it has too few similar states nearby.
@@ -39,6 +44,24 @@ FEATURES = [
     "insult_to_modesty",
     "cruelty_by_husband",
 ]
+ALL_CRIME_FEATURES = [
+    "murder",
+    "attempt_to_murder",
+    "rape",
+    "kidnapping_abduction",
+    "robbery",
+    "burglary",
+    "theft",
+    "riots",
+    "cheating",
+    "hurt",
+    "causing_death_by_negligence",
+]
+# view name -> (profile table, features)
+VIEWS = {
+    "all_crimes": ("gold.mart_state_all_crime_profile", ALL_CRIME_FEATURES),
+    "women": ("gold.mart_state_crime_profile", FEATURES),
+}
 K_RANGE = range(2, 7)
 DBSCAN_MIN_SAMPLES = 3
 RANDOM_STATE = 42
@@ -54,8 +77,8 @@ class ClusteringResult:
     unusual_states: list[str]
 
 
-def prepare_features(profile: pd.DataFrame) -> np.ndarray:
-    return StandardScaler().fit_transform(np.log1p(profile[FEATURES].to_numpy(dtype=float)))
+def prepare_features(profile: pd.DataFrame, features: list[str] = FEATURES) -> np.ndarray:
+    return StandardScaler().fit_transform(np.log1p(profile[features].to_numpy(dtype=float)))
 
 
 def choose_k(x: np.ndarray) -> tuple[pd.DataFrame, int]:
@@ -85,9 +108,9 @@ def elbow_eps(x: np.ndarray, min_samples: int = DBSCAN_MIN_SAMPLES) -> float:
     return float(curve[int(np.argmax(distance_to_line))])
 
 
-def name_clusters(profile: pd.DataFrame, labels: np.ndarray) -> dict[int, str]:
+def name_clusters(profile: pd.DataFrame, labels: np.ndarray, features: list[str] = FEATURES) -> dict[int, str]:
     """Name clusters by their average total rate, from lowest to highest."""
-    total_rate = profile[FEATURES].sum(axis=1)
+    total_rate = profile[features].sum(axis=1)
     order = total_rate.groupby(labels).mean().sort_values().index
     names = ["Lower", "Middle", "Higher"] if len(order) == 3 else [f"Group {i + 1}" for i in range(len(order))]
     if len(order) == 2:
@@ -95,19 +118,19 @@ def name_clusters(profile: pd.DataFrame, labels: np.ndarray) -> dict[int, str]:
     return {int(cluster): f"{names[rank]} crime rates" for rank, cluster in enumerate(order)}
 
 
-def cluster_states(profile: pd.DataFrame) -> ClusteringResult:
-    profile = profile.dropna(subset=FEATURES).reset_index(drop=True)
-    x = prepare_features(profile)
+def cluster_states(profile: pd.DataFrame, features: list[str] = FEATURES) -> ClusteringResult:
+    profile = profile.dropna(subset=features).reset_index(drop=True)
+    x = prepare_features(profile, features)
 
     scores, best_k = choose_k(x)
     kmeans_labels = KMeans(n_clusters=best_k, n_init=20, random_state=RANDOM_STATE).fit_predict(x)
-    cluster_names = name_clusters(profile, kmeans_labels)
+    cluster_names = name_clusters(profile, kmeans_labels, features)
 
     eps = elbow_eps(x)
     dbscan_labels = DBSCAN(eps=eps, min_samples=DBSCAN_MIN_SAMPLES).fit_predict(x)
 
     coords = PCA(n_components=2, random_state=RANDOM_STATE).fit_transform(x)
-    states = profile[["analysis_unit", *FEATURES]].copy()
+    states = profile[["analysis_unit", *features]].copy()
     states["cluster"] = kmeans_labels
     states["cluster_name"] = [cluster_names[c] for c in kmeans_labels]
     states["is_unusual"] = dbscan_labels == -1
@@ -123,52 +146,62 @@ def cluster_states(profile: pd.DataFrame) -> ClusteringResult:
     )
 
 
-def run(con: duckdb.DuckDBPyConnection, out_dir: Path) -> ClusteringResult:
-    profile = con.sql("SELECT * FROM gold.mart_state_crime_profile ORDER BY analysis_unit").df()
-    result = cluster_states(profile)
+def run(con: duckdb.DuckDBPyConnection, out_dir: Path) -> dict[str, ClusteringResult]:
+    results = {}
+    for view, (table, features) in VIEWS.items():
+        profile = con.sql(f"SELECT * FROM {table} ORDER BY analysis_unit").df()
+        results[view] = cluster_states(profile, features)
 
-    con.register("states_df", result.states)
+    # One table for both views; each view keeps its own feature columns, so a
+    # view's rows are empty in the other view's columns.
+    states = pd.concat([r.states.assign(view=v) for v, r in results.items()], ignore_index=True)
+    scores = pd.concat([r.scores.assign(view=v) for v, r in results.items()], ignore_index=True)
+    con.register("states_df", states)
     con.execute("CREATE OR REPLACE TABLE gold.state_clusters AS SELECT * FROM states_df")
     con.unregister("states_df")
-    con.register("scores_df", result.scores)
+    con.register("scores_df", scores)
     con.execute("CREATE OR REPLACE TABLE gold.cluster_scores AS SELECT * FROM scores_df")
     con.unregister("scores_df")
 
-    write_report(result, out_dir)
-    return result
+    write_report(results, out_dir)
+    return results
 
 
-def write_report(result: ClusteringResult, out_dir: Path) -> Path:
+VIEW_TITLES = {"all_crimes": "All IPC/BNS crimes", "women": "Crimes against women"}
+
+
+def write_report(results: dict[str, ClusteringResult], out_dir: Path) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
-    summary = {k: v for k, v in asdict(result).items() if k not in ("states", "scores")}
-    (out_dir / "clustering_report.json").write_text(
-        json.dumps(
-            {
-                **summary,
-                "scores": result.scores.to_dict(orient="records"),
-                "states": result.states.to_dict(orient="records"),
-            },
-            indent=2,
-            default=str,
-        )
-    )
+    report = {}
+    for view, result in results.items():
+        summary = {k: v for k, v in asdict(result).items() if k not in ("states", "scores")}
+        report[view] = {
+            **summary,
+            "features": VIEWS[view][1],
+            "scores": result.scores.to_dict(orient="records"),
+            "states": result.states.to_dict(orient="records"),
+        }
+    (out_dir / "clustering_report.json").write_text(json.dumps(report, indent=2, default=str))
 
-    lines = [
-        "# State clustering",
-        "",
-        f"K-Means chose **{result.best_k} clusters** (silhouette {result.best_silhouette:.3f}). "
-        f"DBSCAN (eps {result.dbscan_eps}, min_samples {DBSCAN_MIN_SAMPLES}) marked "
-        f"{len(result.unusual_states)} states as unusual: {', '.join(result.unusual_states) or 'none'}.",
-        "",
-        "| k | Silhouette |",
-        "| --- | --- |",
-        *[f"| {r.k} | {r.silhouette:.3f} |" for r in result.scores.itertuples()],
-        "",
-        "| Cluster | States |",
-        "| --- | --- |",
-    ]
-    for name, group in result.states.groupby("cluster_name"):
-        lines.append(f"| {name} | {', '.join(sorted(group['analysis_unit']))} |")
+    lines = ["# State clustering"]
+    for view, result in results.items():
+        lines += [
+            "",
+            f"## {VIEW_TITLES[view]}",
+            "",
+            f"K-Means chose **{result.best_k} clusters** (silhouette {result.best_silhouette:.3f}). "
+            f"DBSCAN (eps {result.dbscan_eps}, min_samples {DBSCAN_MIN_SAMPLES}) marked "
+            f"{len(result.unusual_states)} states as unusual: {', '.join(result.unusual_states) or 'none'}.",
+            "",
+            "| k | Silhouette |",
+            "| --- | --- |",
+            *[f"| {r.k} | {r.silhouette:.3f} |" for r in result.scores.itertuples()],
+            "",
+            "| Cluster | States |",
+            "| --- | --- |",
+        ]
+        for name, group in result.states.groupby("cluster_name"):
+            lines.append(f"| {name} | {', '.join(sorted(group['analysis_unit']))} |")
     path = out_dir / "clustering_report.md"
     path.write_text("\n".join(lines) + "\n")
     return path

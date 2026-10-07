@@ -75,11 +75,12 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     with duckdb.connect(str(args.db)) as con:
-        result = clustering.run(con, args.reports)
-    log.info(
-        "Clustering: %d clusters (silhouette %.3f), unusual states: %s",
-        result.best_k, result.best_silhouette, ", ".join(result.unusual_states) or "none",
-    )
+        results = clustering.run(con, args.reports)
+    for view, result in results.items():
+        log.info(
+            "Clustering (%s): %d clusters (silhouette %.3f), unusual states: %s",
+            view, result.best_k, result.best_silhouette, ", ".join(result.unusual_states) or "none",
+        )
     append_to_step_summary(args.reports / "clustering_report.md")
     return 0
 

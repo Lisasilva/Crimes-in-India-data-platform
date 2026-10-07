@@ -1,17 +1,19 @@
 import numpy as np
 import pandas as pd
 
-from pipeline.clustering import FEATURES, cluster_states, elbow_eps
+from pipeline.clustering import ALL_CRIME_FEATURES, FEATURES, cluster_states, elbow_eps
 
 
-def make_profile(groups: dict[str, tuple[float, int]], seed: int = 0) -> pd.DataFrame:
+def make_profile(
+    groups: dict[str, tuple[float, int]], seed: int = 0, features: list[str] = FEATURES
+) -> pd.DataFrame:
     """States with rates scattered around a level, one level per group."""
     rng = np.random.default_rng(seed)
     rows = []
     for prefix, (level, count) in groups.items():
         for i in range(count):
-            rates = level * rng.uniform(0.9, 1.1, size=len(FEATURES))
-            rows.append({"analysis_unit": f"{prefix}{i}", **dict(zip(FEATURES, rates))})
+            rates = level * rng.uniform(0.9, 1.1, size=len(features))
+            rows.append({"analysis_unit": f"{prefix}{i}", **dict(zip(features, rates))})
     return pd.DataFrame(rows)
 
 
@@ -44,3 +46,12 @@ def test_elbow_eps_sits_between_the_dense_and_sparse_distances():
     x = np.vstack([np.zeros((10, 2)) + np.linspace(0, 0.1, 10)[:, None], [[5, 5], [9, 9]]])
     eps = elbow_eps(x, min_samples=3)
     assert 0 < eps < 5
+
+
+def test_all_crimes_view_uses_its_own_features():
+    profile = make_profile({"low": (100, 8), "high": (900, 8)}, features=ALL_CRIME_FEATURES)
+    result = cluster_states(profile, features=ALL_CRIME_FEATURES)
+
+    assert result.best_k == 2
+    names = result.states.set_index("analysis_unit")["cluster_name"]
+    assert set(names[names.index.str.startswith("high")]) == {"Higher crime rates"}
