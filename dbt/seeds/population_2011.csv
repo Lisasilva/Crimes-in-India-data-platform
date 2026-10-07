@@ -1,0 +1,37 @@
+analysis_unit,valid_from_year,valid_to_year,population,note
+Jammu & Kashmir,2001,2099,12541302,"Includes Ladakh (274,289)"
+Himachal Pradesh,2001,2099,6864602,
+Punjab,2001,2099,27743338,
+Chandigarh,2001,2099,1055450,
+Uttarakhand,2001,2099,10086292,
+Haryana,2001,2099,25351462,
+Delhi,2001,2099,16787941,
+Rajasthan,2001,2099,68548437,
+Uttar Pradesh,2001,2099,199812341,
+Bihar,2001,2099,104099452,
+Sikkim,2001,2099,610577,
+Arunachal Pradesh,2001,2099,1383727,
+Nagaland,2001,2099,1978502,
+Manipur,2001,2099,2570390,"Excludes three subdivisions of Senapati district, as in the female population seed"
+Mizoram,2001,2099,1097206,
+Tripura,2001,2099,3673917,
+Meghalaya,2001,2099,2966889,
+Assam,2001,2099,31205576,
+West Bengal,2001,2099,91276115,
+Jharkhand,2001,2099,32988134,
+Odisha,2001,2099,41974218,
+Chhattisgarh,2001,2099,25545198,
+Madhya Pradesh,2001,2099,72626809,
+Gujarat,2001,2099,60439692,
+Dadra & Nagar Haveli and Daman & Diu,2001,2099,586956,Dadra & Nagar Haveli 343709 + Daman & Diu 243247
+Maharashtra,2001,2099,112374333,
+Karnataka,2001,2099,61095297,
+Goa,2001,2099,1458545,
+Lakshadweep,2001,2099,64473,
+Kerala,2001,2099,33406061,
+Tamil Nadu,2001,2099,72147030,
+Puducherry,2001,2099,1247953,
+Andaman & Nicobar Islands,2001,2099,380581,
+Andhra Pradesh,2001,2013,84580777,"Undivided Andhra Pradesh, including Telangana"
+Andhra Pradesh,2014,2099,49577103,Undivided 84580777 minus Telangana 35003674
+Telangana,2014,2099,35003674,Census 2011 figures for the Telangana districts

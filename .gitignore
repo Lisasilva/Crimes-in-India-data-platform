@@ -14,3 +14,6 @@ dbt/logs/
 logs/
 dbt/.user.yml
 site/
+
+# Downloaded by pipeline/fetch.py
+data/raw/ncrb_cii/

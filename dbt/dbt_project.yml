@@ -13,6 +13,9 @@ vars:
   # exists from 2014, so a recent five-year window keeps every state comparable.
   profile_start_year: 2017
   profile_end_year: 2021
+  # From this year the all-crimes figures come from NCRB's own state tables
+  # instead of the district-wise files.
+  ncrb_tables_from_year: 2014
 
 seeds:
   crimes_in_india:
@@ -23,6 +26,12 @@ seeds:
       +column_types: {year: integer}
     female_population_2011:
       +column_types: {valid_from_year: integer, valid_to_year: integer, female_population: bigint}
+    population_2011:
+      +column_types: {valid_from_year: integer, valid_to_year: integer, population: bigint}
+    crime_head_columns:
+      +column_types: {year_from: integer, year_to: integer}
+    crime_groups:
+      +column_types: {is_against_women: boolean, sort_order: integer}
 
 models:
   crimes_in_india:

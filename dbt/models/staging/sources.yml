@@ -9,3 +9,12 @@ sources:
         description: State/UT crimes against women, 2001-2021, seven crime heads (Kaggle copy of NCRB data).
       - name: ncrb_cases_2001_2010
         description: NCRB cases under crimes against women, 2001-2010, by crime head, with disposal counts.
+      - name: ipc_district_cells
+        description: >
+          District-wise IPC crimes 2001-2014 (data.gov.in), one row per cell:
+          state, district, year, column name and value, all as text.
+      - name: ncrb_state_cells
+        description: >
+          NCRB state x crime-head tables 2014-2024 (tables 1.6 and 1A.4), one row
+          per cell: section, serial number, state, column name and value, with the
+          year from the manifest.

@@ -13,6 +13,7 @@ RAW_DIR = PROJECT_ROOT / "data" / "raw"
 MANIFEST_PATH = RAW_DIR / "manifest.yml"
 DEFAULT_DB_PATH = PROJECT_ROOT / "warehouse" / "crime.duckdb"
 REPORTS_DIR = PROJECT_ROOT / "reports"
+SEEDS_DIR = PROJECT_ROOT / "dbt" / "seeds"
 
 
 @dataclass(frozen=True)
@@ -96,4 +97,53 @@ NCRB_CASES_2001_2010 = SourceContract(
     total_label="Total Crime Against Women",
 )
 
+@dataclass(frozen=True)
+class TableSourceContract:
+    """A wide table with one column per crime head, loaded as one row per cell.
+
+    The crime-head columns change from year to year (new laws, renamed heads),
+    so bronze stores them as (column_name, value) pairs instead of fixed
+    columns. Which columns are used is decided by the reviewed seed
+    dbt/seeds/crime_head_columns.csv.
+    """
+
+    name: str
+    table: str
+    # Names given to the leading descriptive columns, by position. Their raw
+    # names differ between years ("STATE/UT" in 2013, "States/UTs" in 2014).
+    id_columns: list[str]
+    state_column: str
+    # The district files have a YEAR column; the NCRB tables are one file per
+    # year, so the year comes from the manifest.
+    year_in_manifest: bool
+    # Labels that mark a total row, compared in upper case. The district files
+    # mark them in the district column, the NCRB tables in the state column.
+    total_column: str
+    total_labels: tuple[str, ...]
+    # Column whose label identifies a row within one state and year.
+    row_column: str | None = None
+
+
+IPC_DISTRICT = TableSourceContract(
+    name="ipc_district",
+    table="bronze.ipc_district_cells",
+    id_columns=["state", "district", "year"],
+    state_column="state",
+    year_in_manifest=False,
+    total_column="district",
+    total_labels=("TOTAL", "DELHI UT TOTAL", "ZZ TOTAL"),
+    row_column="district",
+)
+
+NCRB_STATE_HEADS = TableSourceContract(
+    name="ncrb_state_heads",
+    table="bronze.ncrb_state_cells",
+    id_columns=["section", "sl_no", "state"],
+    state_column="state",
+    year_in_manifest=True,
+    total_column="state",
+    total_labels=("TOTAL STATE(S)", "TOTAL UT(S)", "TOTAL (ALL INDIA)", "TOTAL ALL INDIA"),
+)
+
 CONTRACTS = {c.name: c for c in (KAGGLE_STATE_CRIMES, NCRB_CASES_2001_2010)}
+TABLE_CONTRACTS = {c.name: c for c in (IPC_DISTRICT, NCRB_STATE_HEADS)}

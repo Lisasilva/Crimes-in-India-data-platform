@@ -1,5 +1,6 @@
 """Run the pipeline end to end.
 
+    fetch   download pinned raw files not kept in git (pipeline/fetch.py)
     bronze  load raw files into DuckDB (pipeline/ingest.py)
     checks  data quality checks on bronze (pipeline/quality.py)
     dbt     silver and gold models, with their tests (dbt/)
@@ -22,6 +23,7 @@ import duckdb
 from dbt.cli.main import dbtRunner
 
 from pipeline import clustering
+from pipeline.fetch import fetch
 from pipeline.ingest import ingest
 from pipeline.quality import has_critical_failures, run_checks, write_report
 from pipeline.sources import DEFAULT_DB_PATH, PROJECT_ROOT, REPORTS_DIR
@@ -56,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     args.db.parent.mkdir(parents=True, exist_ok=True)
 
+    fetch()
     with duckdb.connect(str(args.db)) as con:
         ingest(con)
         results = run_checks(con)
