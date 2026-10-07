@@ -14,12 +14,13 @@ def test_site_builds_with_charts_and_downloads(tmp_path):
         for chart in ("trend-0", "ranking", "map", "heatmap", "explorer"):
             assert f'id="chart-{view}-{chart}"' in page
     assert "Unusual states (DBSCAN)." in page
-    # One reset button per chart card: the trends, the ranking, the map and the explorer, in each view.
-    assert page.count('class="reset"') == 10
+    # One reset button per zoomable chart card: trends, map, heatmap and explorer, in each view.
+    assert page.count('class="reset"') == 8
     for view in ("all_crimes", "women"):
         assert f'data-theme="{view}"' in page
     assert "Respect is not measured by the names we give women" in page
     assert "Other methods checked" in page
+    assert page.count('class="callout"') == 2
     # Every side-navigation link points at a section that exists.
     for target in ("top", "quality", "built"):
         assert f'id="{target}"' in page
