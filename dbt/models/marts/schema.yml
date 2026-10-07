@@ -50,7 +50,7 @@ models:
           - value_in_range:
               arguments:
                 min_value: 2001
-                max_value: 2024
+                max_value: "{{ var('latest_year') }}"
       - name: female_population
         tests: [not_null]
       - name: cases
@@ -170,7 +170,7 @@ models:
           - value_in_range:
               arguments:
                 min_value: 2001
-                max_value: 2024
+                max_value: "{{ var('latest_year') }}"
       - name: population
         tests: [not_null]
       - name: cases

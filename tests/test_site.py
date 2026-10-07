@@ -11,13 +11,19 @@ def test_site_builds_with_charts_and_downloads(tmp_path):
 
     page = (out / "index.html").read_text()
     for view in ("all_crimes", "women"):
-        for chart in ("trend-0", "ranking", "map", "explorer"):
+        for chart in ("trend-0", "ranking", "map", "heatmap", "explorer"):
             assert f'id="chart-{view}-{chart}"' in page
     assert "Unusual states (DBSCAN)." in page
     # One reset button per chart card: the trends, the ranking, the map and the explorer, in each view.
-    assert page.count('class="reset"') == 8
+    assert page.count('class="reset"') == 10
     for view in ("all_crimes", "women"):
         assert f'data-theme="{view}"' in page
     assert "Respect is not measured by the names we give women" in page
+    assert "Other methods checked" in page
+    # Every side-navigation link points at a section that exists.
+    for target in ("top", "quality", "built"):
+        assert f'id="{target}"' in page
+    for target in ("trends", "ranking", "groups", "patterns", "explore"):
+        assert page.count(f'data-nav="{target}"') == 2
     for name in ("crimes.csv", "crimes_against_women.csv", "state_clusters.csv", "national_trend.csv"):
         assert (out / "data" / name).stat().st_size > 0

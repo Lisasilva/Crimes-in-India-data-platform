@@ -55,3 +55,14 @@ def test_all_crimes_view_uses_its_own_features():
     assert result.best_k == 2
     names = result.states.set_index("analysis_unit")["cluster_name"]
     assert set(names[names.index.str.startswith("high")]) == {"Higher crime rates"}
+
+
+def test_model_comparison_covers_kmeans_and_alternatives():
+    profile = make_profile({"low": (1, 8), "high": (50, 8)})
+    comparison = cluster_states(profile).model_comparison.set_index("method")
+
+    assert list(comparison.index) == [
+        "K-Means", "Hierarchical (Ward)", "Hierarchical (average linkage)", "Gaussian mixture",
+    ]
+    # Two clean groups of eight: every method should find them.
+    assert (comparison["smallest_group"] == 8).all()
