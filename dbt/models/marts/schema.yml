@@ -108,6 +108,19 @@ models:
       - name: analysis_unit
         tests: [unique, not_null]
 
+  - name: mart_state_all_crime_profile
+    description: >
+      Average yearly rate per 100,000 people by crime group over the profile
+      window; one row per state. The input to the all-crimes clustering.
+    columns:
+      - name: analysis_unit
+        tests: [unique, not_null]
+      - name: years_with_data
+        tests:
+          - accepted_values:
+              arguments:
+                values: [5]
+
   - name: mart_national_trend
     description: All-India cases and rate per crime type and year.
 

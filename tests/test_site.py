@@ -10,8 +10,9 @@ def test_site_builds_with_charts_and_downloads(tmp_path):
     assert build_site(["--db", str(db), "--reports", str(reports), "--out", str(out)]) == 0
 
     page = (out / "index.html").read_text()
-    for chart in ("chart-trend-0", "chart-ranking", "chart-map", "chart-explorer"):
-        assert f'id="{chart}"' in page
+    for view in ("all_crimes", "women"):
+        for chart in ("trend-0", "ranking", "map", "explorer"):
+            assert f'id="chart-{view}-{chart}"' in page
     assert "Unusual states." in page
-    for name in ("crimes_against_women.csv", "state_clusters.csv", "national_trend.csv"):
+    for name in ("crimes.csv", "crimes_against_women.csv", "state_clusters.csv", "national_trend.csv"):
         assert (out / "data" / name).stat().st_size > 0

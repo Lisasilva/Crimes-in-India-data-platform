@@ -48,7 +48,9 @@ def test_women_figures_match_ncrb_published_totals(built):
             "WHERE analysis_unit = 'Delhi' AND year = 2020 AND crime_code = 'rape'"
         ).fetchone()[0]
         sources = con.sql("SELECT DISTINCT source FROM gold.fct_crimes_against_women").fetchall()
-        clustered = con.sql("SELECT count(*) FROM gold.state_clusters").fetchone()[0]
+        clustered = dict(
+            con.sql("SELECT view, count(*) FROM gold.state_clusters GROUP BY view").fetchall()
+        )
 
     # All-India total crimes against women and rate per 100,000 women, as
     # printed by NCRB (tables 5.1 and 3A.1).
@@ -58,7 +60,7 @@ def test_women_figures_match_ncrb_published_totals(built):
     assert sorted(national) == list(range(2001, 2025))
     assert delhi == 997
     assert sources == [("ncrb_women_heads",)]
-    assert clustered == 35
+    assert clustered == {"all_crimes": 35, "women": 35}
 
 
 def test_all_crimes_match_ncrb_published_totals(built):
