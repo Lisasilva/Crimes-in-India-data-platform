@@ -221,6 +221,10 @@ def state_ranking_chart(view: View) -> go.Figure:
     fig.update_xaxes(title=dict(text=f"Average cases {view.unit} a year", font=dict(size=12)),
                      showgrid=True, gridcolor=GRID)
     fig.update_yaxes(showgrid=False, tickfont=dict(size=12, color=view.theme.ink_2))
+    # Every state is already visible, so zooming adds nothing.
+    fig.update_layout(dragmode=False)
+    fig.update_xaxes(fixedrange=True)
+    fig.update_yaxes(fixedrange=True)
     return fig
 
 
@@ -478,10 +482,21 @@ def silhouette_note(score: float) -> str:
             "types of state.")
 
 
-def chart_card(inner: str, note: str = "") -> str:
+def chart_card(inner: str, note: str = "", reset: bool = True) -> str:
     """A card holding one or more charts, with a button that undoes any zoom."""
+    if not reset:
+        return f'<div class="card">{inner}{note}</div>'
     return (f'<div class="card chart-card"><button type="button" class="reset" '
             f'title="Undo any zoom or pan on this chart">↺ Reset view</button>{inner}{note}</div>')
+
+
+def purpose_callout() -> str:
+    """The shared 'Behind every number' statement; its colours follow the theme."""
+    return (f'<aside class="callout"><span class="icon">{PEOPLE_ICON}</span><div>'
+            '<div class="label">Behind every number</div>'
+            '<p class="big">Every point on this dashboard represents lives affected, not just numbers.</p>'
+            '<p class="small">The goal is not to provoke fear, but to encourage understanding, accountability, '
+            'and meaningful action.</p></div></aside>')
 
 
 def theme_note(key: str) -> str:
@@ -526,9 +541,10 @@ def view_section(view: View) -> str:
 
 <section data-nav="ranking">
   <h2>Which states have the highest rates</h2>
+  {purpose_callout()}
   <p>Average yearly cases {view.unit}, {profile_window()}, {esc(text['ranking'])}.
   Colour shows the K-Means group each state falls into, and ◆ marks a state DBSCAN flagged as unusual.</p>
-  {chart_card(chart_html(state_ranking_chart(view), f'chart-{k}-ranking'))}
+  {chart_card(chart_html(state_ranking_chart(view), f'chart-{k}-ranking'), reset=False)}
   <p class="note">The bars are sorted by this total, but K-Means groups states by their pattern across all {n}
   rates, each given equal weight. So a state can rank above one in the higher group and still fall in the lower
   group, for example when one crime type is high and the others are low.</p>
@@ -620,6 +636,10 @@ def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -
   --hero-bg: linear-gradient(160deg, {NAVY} 0%, #1c2541 100%); --hero-ink: {IVORY}; --hero-ink-2: #c5cad3;
   --hero-tile: rgba(255,255,255,.06); --hero-line: rgba(255,255,255,.14);
   --tab-on-bg: {AMBER}; --tab-on-ink: {NAVY};
+  --callout-bg: linear-gradient(110deg, {NAVY} 0%, #1c2541 100%); --callout-bar: {AMBER};
+  --callout-icon-bg: {AMBER}; --callout-icon: {NAVY}; --callout-label: {AMBER};
+  --callout-ink: {IVORY}; --callout-ink-2: #c5cad3; --callout-shadow: rgba(11,19,43,.18);
+  --closing-link: {AMBER}; --closing-step: {AMBER};
   --ok: #0ca30c; --warn: #b07a00; --bad: #d03b3b;
 }}
 body[data-theme="women"] {{
@@ -628,10 +648,14 @@ body[data-theme="women"] {{
   --hero-ink: {CHARCOAL}; --hero-ink-2: #55586b;
   --hero-tile: #ffffff; --hero-line: #dccdee;
   --tab-on-bg: {PURPLE}; --tab-on-ink: #ffffff;
+  --callout-bg: linear-gradient(110deg, {PURPLE} 0%, #4a2f80 100%); --callout-bar: {GOLD};
+  --callout-icon-bg: {GOLD}; --callout-icon: #ffffff; --callout-label: #f1dfae;
+  --callout-ink: #ffffff; --callout-ink-2: #e3d9f3; --callout-shadow: rgba(91,58,154,.25);
+  --closing-link: {PURPLE}; --closing-step: {PURPLE};
 }}
 * {{ box-sizing: border-box; }}
 body {{ margin: 0; background: var(--surface); color: var(--ink); font: 16px/1.6 {FONT}; transition: color .2s; }}
-main {{ max-width: 1040px; margin: 0 auto; padding: 0 16px 64px; }}
+main {{ max-width: 1040px; margin: 0 auto; padding: 0 16px; }}
 .hero {{ background: var(--hero-bg); color: var(--hero-ink); border-bottom: 4px solid var(--accent); transition: background .3s; }}
 body[data-theme="women"] .hero {{ border-bottom: 6px solid {GOLD}; }}
 .hero-inner {{ max-width: 1040px; margin: 0 auto; padding: 56px 16px 36px; text-align: center; }}
@@ -664,13 +688,18 @@ body[data-theme="women"] .tile.women-tile .label {{ color: #e8def7; }}
 .quote-band svg {{ color: {GOLD}; }}
 .quote-band blockquote {{ margin: 8px auto 0; max-width: 760px; font: italic 600 clamp(22px, 3vw, 30px)/1.35 {SERIF}; }}
 .quote-band .rule {{ width: 64px; height: 3px; background: {GOLD}; margin: 18px auto 0; border-radius: 2px; }}
-.purpose {{ display: flex; gap: 16px; align-items: flex-start; text-align: left; max-width: 820px; margin: 20px auto 0;
-  background: #fff; border: 1px solid #e4dcef; border-left: 6px solid {TEAL}; border-radius: 12px; padding: 18px 20px; }}
-.purpose .icon {{ flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
-  background: #e3f3f1; color: {TEAL}; }}
-.purpose .label {{ font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: {TEAL}; }}
-.purpose p {{ margin: 4px 0 0; font-size: 17px; line-height: 1.55; color: {CHARCOAL}; }}
-.purpose p b {{ color: {PURPLE}; }}
+/* "Behind every number": the same words in both views, in the open view's colours. */
+.callout {{ display: flex; gap: 18px; align-items: center; margin: 18px 0 20px; padding: 22px 24px 22px 28px;
+  background: var(--callout-bg); border-radius: 14px; position: relative; overflow: hidden;
+  box-shadow: 0 8px 22px var(--callout-shadow); }}
+.callout::before {{ content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--callout-bar); }}
+.callout .icon {{ flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--callout-icon-bg); color: var(--callout-icon); }}
+.callout .icon svg {{ width: 24px; height: 24px; }}
+.callout .label {{ font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--callout-label); }}
+.callout .big {{ margin: 4px 0 0; font: 600 clamp(19px, 2.2vw, 23px)/1.35 {SERIF}; color: var(--callout-ink); }}
+.callout .small {{ margin: 6px 0 0; font-size: 15px; color: var(--callout-ink-2); }}
+@media (max-width: 560px) {{ .callout {{ flex-direction: column; align-items: flex-start; }} }}
 .palette {{ margin: 24px auto 0; padding-top: 16px; border-top: 1px solid var(--hero-line); max-width: 860px; }}
 .palette-head {{ display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 14px; }}
 .palette p {{ font-size: 14px; color: var(--hero-ink-2); margin: 8px 0 0; }}
@@ -736,6 +765,20 @@ body[data-theme="women"] .sidenav a.active {{ color: #fff; }}
 .sidenav [data-label]:hover::after, .sidenav [data-label]:focus-visible::after {{ opacity: 1; transform: none; }}
 @media (max-width: 1180px) {{ .sidenav {{ right: 8px; }} }}
 @media (max-width: 760px) {{ .sidenav {{ display: none; }} }}
+/* The closing sections (data quality onwards) carry the theme as strongly as the header. */
+.closing {{ margin-top: 72px; background: var(--hero-bg); color: var(--hero-ink); border-top: 4px solid var(--accent); transition: background .3s; }}
+body[data-theme="women"] .closing {{ border-top: 6px solid {GOLD}; }}
+.closing-inner {{ max-width: 1040px; margin: 0 auto; padding: 8px 16px 48px; }}
+.closing section > p {{ color: var(--hero-ink-2); }}
+.closing h2 {{ color: var(--hero-ink); }}
+body[data-theme="women"] .closing h2 {{ color: {PURPLE}; }}
+.closing h2::before {{ background: var(--closing-step); }}
+body[data-theme="women"] .closing h2::before {{ background: {GOLD}; }}
+.closing .card, .closing .step {{ color: {NAVY}; }}
+body[data-theme="women"] .closing .card, body[data-theme="women"] .closing .step {{ color: {CHARCOAL}; }}
+.closing .step {{ border-top: 4px solid var(--closing-step); }}
+.closing > .closing-inner > section > p a, .closing footer a {{ color: var(--closing-link); }}
+.closing footer {{ border-top-color: var(--hero-line); color: var(--hero-ink-2); }}
 footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }}
 </style>
 </head>
@@ -762,9 +805,6 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
   <div class="switch" role="tablist" aria-label="Choose a view">{tabs}</div>
   <div class="only-women">
     <figure class="quote-band">{QUOTE_ICON}<blockquote>{esc(WOMEN_QUOTE)}</blockquote><div class="rule"></div></figure>
-    <div class="purpose"><span class="icon">{PEOPLE_ICON}</span><div><div class="label">Behind every number</div>
-      <p><b>Every point on this dashboard represents lives affected, not just numbers.</b> The goal is not to
-      provoke fear, but to encourage understanding, accountability, and meaningful action.</p></div></div>
   </div>
   {theme_note('all_crimes')}
   {theme_note('women')}
@@ -773,7 +813,8 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
 <main>
 
 {sections}
-
+</main>
+<div class="closing"><div class="closing-inner">
 <section id="quality">
   <h2>Data quality</h2>
   <p>The raw files are checked before anything is built. Critical problems stop the pipeline, and each known
@@ -827,7 +868,7 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
   files on data.gov.in. Population: NCRB (Registrar General of India projections); Census of India 2011
   for the female share before 2012.
 </footer>
-</main>
+</div></div>
 <script>
 // The view switch: show one view, change the theme, and size the view's charts to their boxes.
 const tabs = document.querySelectorAll(".switch button");
@@ -838,6 +879,7 @@ tabs.forEach((tab) => tab.addEventListener("click", () => {{
     document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
   }});
   document.body.dataset.theme = tab.dataset.theme;
+  window.scrollTo({{ top: 0, behavior: "smooth" }});
   document.querySelectorAll(".sidenav [data-switch]").forEach((b) =>
     b.setAttribute("aria-pressed", b.dataset.switch === tab.dataset.theme));
   document.querySelectorAll("#" + tab.getAttribute("aria-controls") + " .plotly-graph-div")
