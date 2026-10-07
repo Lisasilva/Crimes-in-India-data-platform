@@ -9,12 +9,13 @@ Indian state and union territory from 2001 to 2024. It verifies the raw tables a
 data quality checks, models the data in dbt on DuckDB, groups states by clustering, and publishes a
 website with two views: **all crimes** under the Indian Penal Code (and, from July 2024, the
 Bharatiya Nyaya Sanhita), and **crimes against women**. The whole pipeline runs in GitHub Actions on
-every code change, using only free, open-source tools. Adding a new year means adding its NCRB table
-to the manifest; the same pipeline then checks, maps and rebuilds everything.
+every code change, using only free, open-source tools. Adding a new year means adding its NCRB tables
+(see [Adding a new year of data](#adding-a-new-year-of-data)); the same pipeline then checks, maps
+and rebuilds everything.
 
 It grew out of my university Data Mining project, which applied K-Means and DBSCAN to crimes against
 women for 2001–2010 ([original repository](https://github.com/Lisasilva/Crime-Analysis-in-India),
-[notebook](notebooks/original_analysis.ipynb), [report](docs/Final_Report_Crime_Analysis.pdf)).
+with the notebook and report).
 This version adds the engineering around that analysis: automated ingestion, data quality checks,
 layered modelling, tests, CI/CD and documentation. It also extends the data to 2024 and to all
 crimes, and replaces a community copy of the data with NCRB's own published tables.
@@ -39,8 +40,8 @@ flowchart LR
 | Ingestion | Python, DuckDB | Reads the NCRB tables kept in `data/raw` (a copy taken from one fixed commit of the source, so the project does not depend on that repository staying online), verifies each file against its sha256 in `data/raw/manifest.yml`, and loads every cell as text so nothing is coerced or lost. |
 | Data quality | Python, SQL | 75 checks: schema drift, unrecognised state names, invalid numbers, missing years, totals that do not add up to NCRB's all-India row, copied years and sudden jumps. Critical checks stop the run. |
 | Modelling | dbt-core, dbt-duckdb | Staging views, a silver layer that maps NCRB's changing column names onto stable crime groups using reviewed seed files, and a gold star schema with rates per 100,000 people or women. Backed by 118 dbt tests, including tests that reproduce NCRB's own published totals and rates. |
-| Analysis | scikit-learn | For each view, K-Means picks the number of groups by silhouette score and DBSCAN flags states unlike any other. |
-| Presentation | Plotly, GitHub Pages | A static site rebuilt from the gold tables on every run, with an All crimes / Crimes against women switch (each view has its own colour theme), a reset button on every chart, and CSV downloads. |
+| Analysis | scikit-learn | For each view, K-Means picks the number of groups by silhouette score and DBSCAN flags states unlike any other. Every run also scores three alternatives (hierarchical clustering with Ward and average linkage, and a Gaussian mixture) on the same data. |
+| Presentation | Plotly, GitHub Pages | A static site rebuilt from the gold tables on every run, with an All crimes / Crimes against women switch (each view has its own colour theme), a heatmap of what sets each group apart, side navigation, a reset button on every chart, and CSV downloads. |
 | Orchestration | GitHub Actions | Runs tests, then the pipeline, then deploys the site, on every push and pull request. |
 
 ## Data quality
@@ -89,6 +90,12 @@ The full list, with evidence for each problem, is in [docs/data_quality.md](docs
   crimes against women the silhouette score is 0.31, so the groups are real but overlap. For all
   crimes it is 0.18, which is weak: the states sit on a spectrum rather than forming clear types.
   (The original notebook reported 0.74, but that was measured on synthetic practice data.)
+- **Model choice.** K-Means was checked against hierarchical clustering (Ward and average linkage)
+  and a Gaussian mixture, with the same two groups. None finds clearly better groups: for crimes
+  against women K-Means scores 0.31, Ward 0.30, average linkage 0.22 and the Gaussian mixture 0.22.
+  For all crimes, average linkage scores 0.34 against K-Means' 0.18, but only by putting Delhi in a
+  group of its own, which is not a useful grouping. The scores are recomputed on every run
+  (`reports/clustering_report.md`) and shown on the site.
 - **Unusual states.** DBSCAN flags Delhi, Mizoram and Lakshadweep in the all-crimes view, and Bihar
   and Lakshadweep in the women view, where dowry deaths in Bihar are over four times the typical
   state's rate.
@@ -108,6 +115,39 @@ python -m pipeline.site    # builds site/index.html from the gold tables
 To explore the warehouse afterwards, open `warehouse/crime.duckdb` with the DuckDB CLI or Python, or
 run dbt directly from `dbt/` with `dbt build --profiles-dir .`.
 
+## Adding a new year of data
+
+NCRB publishes *Crime in India* once a year. Everything below can be done in the browser on GitHub,
+plus one command in a free GitHub Codespace (Code → Codespaces → Create codespace).
+
+1. **Get the tables as CSV.** For year `YYYY` the pipeline needs five NCRB tables:
+   1A.4 (IPC/BNS crimes by crime head and state), 1A.1 (total crimes, population and rate),
+   3A.1 (total crimes against women and female population), and 3A.2(i) and 3A.2(ii) (crimes against
+   women by crime head, under IPC/BNS and under special and local laws). The
+   [reclaimchennai/NCRB](https://github.com/reclaimchennai/NCRB) project publishes these as CSV
+   extracted from NCRB's PDFs; use the same layout as last year's files.
+2. **Add the files** to the repository, named like last year's:
+   - `data/raw/ncrb_cii/YYYY_table_1A.4.csv`
+   - `data/raw/ncrb_cii/ncrb_ipc_totals/YYYY_table_1A.1.csv`
+   - `data/raw/ncrb_cii/ncrb_women_totals/YYYY_table_3A.1.csv`
+   - `data/raw/ncrb_cii/ncrb_women_heads/YYYY_table_3A.2i.csv` and `YYYY_table_3A.2ii.csv`
+3. **Register them in `data/raw/manifest.yml`.** Copy last year's five entries, change the year,
+   file names and URLs, and set each `sha256`. In the Codespace terminal, `sha256sum data/raw/ncrb_cii/YYYY_*
+   data/raw/ncrb_cii/*/YYYY_*` prints them. The checksum is what proves later runs read exactly
+   these files.
+4. **Map the columns.** In `dbt/seeds/crime_head_columns.csv` and `dbt/seeds/population_columns.csv`,
+   each row says which column of which year's table holds which figure. If NCRB kept last year's
+   column names, change `year_to` on last year's rows to `YYYY`; if a name changed, add a row for
+   `YYYY` with the new name, copied exactly from the CSV header.
+5. **Raise `latest_year`** to `YYYY` in `dbt/dbt_project.yml`.
+6. **Open a pull request** with these changes instead of committing to `main`. GitHub Actions runs
+   every test and the full pipeline on it, without touching the live site.
+7. **Read the result.** If the run is green, merge, and the site rebuilds with the new year. If it
+   is red, nothing has been published: the failed run names the problem. A mapped column missing
+   from the new table means step 4 needs a new row. A failed total or rate check means the new
+   figures don't add up to NCRB's own totals, so check the CSV against the NCRB PDF before going any
+   further. The live site keeps the last good version until a run passes.
+
 ## Repository layout
 
 ```
@@ -115,8 +155,7 @@ data/raw/          raw files and the checksum manifest (including a copy of ever
 pipeline/          download, ingestion, quality checks, clustering, site builder, entry point
 dbt/               models (staging, intermediate, marts), seeds, tests
 tests/             pytest suite
-docs/              data quality write-up, original report
-notebooks/         original university analysis
+docs/              data quality write-up
 .github/workflows/ CI/CD: test, build, deploy
 ```
 

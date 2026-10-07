@@ -21,6 +21,10 @@ Choices, kept deliberately simple:
 - DBSCAN marks a state as unusual when it has too few similar states nearby.
   Its distance threshold (eps) is the "elbow" of the sorted distances to each
   state's k-th nearest neighbour, the standard way to choose it.
+- K-Means is checked against three other ways of grouping the same states
+  (hierarchical clustering with Ward and with average linkage, and a Gaussian
+  mixture), with the same number of groups. The comparison is reported, not
+  used to pick a method, so the choice stays easy to explain.
 """
 
 import json
@@ -30,9 +34,10 @@ from pathlib import Path
 import duckdb
 import numpy as np
 import pandas as pd
-from sklearn.cluster import DBSCAN, KMeans
+from sklearn.cluster import DBSCAN, AgglomerativeClustering, KMeans
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
+from sklearn.mixture import GaussianMixture
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler
 
@@ -75,6 +80,7 @@ class ClusteringResult:
     best_silhouette: float
     dbscan_eps: float
     unusual_states: list[str]
+    model_comparison: pd.DataFrame
 
 
 def prepare_features(profile: pd.DataFrame, features: list[str] = FEATURES) -> np.ndarray:
@@ -89,6 +95,29 @@ def choose_k(x: np.ndarray) -> tuple[pd.DataFrame, int]:
     scores = pd.DataFrame(rows)
     best_k = int(scores.loc[scores["silhouette"].idxmax(), "k"])
     return scores, best_k
+
+
+def compare_models(x: np.ndarray, k: int) -> pd.DataFrame:
+    """Silhouette score and smallest group size for K-Means and three alternatives, all with k groups.
+
+    The smallest group matters: a method can score well by putting one extreme
+    state in a group of its own, which is not a useful grouping.
+    """
+    models = {
+        "K-Means": KMeans(n_clusters=k, n_init=20, random_state=RANDOM_STATE),
+        "Hierarchical (Ward)": AgglomerativeClustering(n_clusters=k, linkage="ward"),
+        "Hierarchical (average linkage)": AgglomerativeClustering(n_clusters=k, linkage="average"),
+        "Gaussian mixture": GaussianMixture(n_components=k, n_init=5, random_state=RANDOM_STATE),
+    }
+    rows = []
+    for name, model in models.items():
+        labels = model.fit_predict(x)
+        rows.append({
+            "method": name,
+            "silhouette": round(float(silhouette_score(x, labels)), 4),
+            "smallest_group": int(np.bincount(labels).min()),
+        })
+    return pd.DataFrame(rows)
 
 
 def elbow_eps(x: np.ndarray, min_samples: int = DBSCAN_MIN_SAMPLES) -> float:
@@ -143,6 +172,7 @@ def cluster_states(profile: pd.DataFrame, features: list[str] = FEATURES) -> Clu
         best_silhouette=float(scores["silhouette"].max()),
         dbscan_eps=round(eps, 4),
         unusual_states=sorted(states.loc[states["is_unusual"], "analysis_unit"]),
+        model_comparison=compare_models(x, best_k),
     )
 
 
@@ -174,11 +204,12 @@ def write_report(results: dict[str, ClusteringResult], out_dir: Path) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     report = {}
     for view, result in results.items():
-        summary = {k: v for k, v in asdict(result).items() if k not in ("states", "scores")}
+        summary = {k: v for k, v in asdict(result).items() if k not in ("states", "scores", "model_comparison")}
         report[view] = {
             **summary,
             "features": VIEWS[view][1],
             "scores": result.scores.to_dict(orient="records"),
+            "model_comparison": result.model_comparison.to_dict(orient="records"),
             "states": result.states.to_dict(orient="records"),
         }
     (out_dir / "clustering_report.json").write_text(json.dumps(report, indent=2, default=str))
@@ -196,6 +227,13 @@ def write_report(results: dict[str, ClusteringResult], out_dir: Path) -> Path:
             "| k | Silhouette |",
             "| --- | --- |",
             *[f"| {r.k} | {r.silhouette:.3f} |" for r in result.scores.itertuples()],
+            "",
+            f"Other methods with {result.best_k} groups:",
+            "",
+            "| Method | Silhouette | Smallest group |",
+            "| --- | --- | --- |",
+            *[f"| {r.method} | {r.silhouette:.3f} | {r.smallest_group} |"
+              for r in result.model_comparison.itertuples()],
             "",
             "| Cluster | States |",
             "| --- | --- |",

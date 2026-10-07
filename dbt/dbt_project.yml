@@ -9,6 +9,8 @@ test-paths: ["tests"]
 macro-paths: ["macros"]
 
 vars:
+  # The newest year of data. Raise it when a new year of NCRB tables is added.
+  latest_year: 2024
   # Years used for the state crime profiles that feed clustering. Telangana
   # exists from 2014, so a recent five-year window keeps every state comparable.
   profile_start_year: 2017
