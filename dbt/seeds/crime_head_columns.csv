@@ -1,0 +1,311 @@
+source,year_from,year_to,crime_group,column_name
+ipc_district,2001,2012,murder,MURDER
+ipc_district,2001,2012,attempt_to_murder,ATTEMPT TO MURDER
+ipc_district,2001,2012,culpable_homicide,CULPABLE HOMICIDE NOT AMOUNTING TO MURDER
+ipc_district,2001,2012,rape,RAPE
+ipc_district,2001,2012,kidnapping_abduction,KIDNAPPING & ABDUCTION
+ipc_district,2001,2012,dacoity,DACOITY
+ipc_district,2001,2012,robbery,ROBBERY
+ipc_district,2001,2012,burglary,BURGLARY
+ipc_district,2001,2012,theft,THEFT
+ipc_district,2001,2012,riots,RIOTS
+ipc_district,2001,2012,criminal_breach_of_trust,CRIMINAL BREACH OF TRUST
+ipc_district,2001,2012,cheating,CHEATING
+ipc_district,2001,2012,counterfeiting,COUNTERFIETING
+ipc_district,2001,2012,arson,ARSON
+ipc_district,2001,2012,hurt,HURT/GREVIOUS HURT
+ipc_district,2001,2012,dowry_deaths,DOWRY DEATHS
+ipc_district,2001,2012,assault_on_women,ASSAULT ON WOMEN WITH INTENT TO OUTRAGE HER MODESTY
+ipc_district,2001,2012,insult_to_modesty,INSULT TO MODESTY OF WOMEN
+ipc_district,2001,2012,cruelty_by_husband,CRUELTY BY HUSBAND OR HIS RELATIVES
+ipc_district,2001,2012,importation_of_girls,IMPORTATION OF GIRLS FROM FOREIGN COUNTRIES
+ipc_district,2001,2012,causing_death_by_negligence,CAUSING DEATH BY NEGLIGENCE
+ipc_district,2001,2012,total_ipc,TOTAL IPC CRIMES
+ipc_district,2013,2013,murder,MURDER
+ipc_district,2013,2013,attempt_to_murder,ATTEMPT TO MURDER
+ipc_district,2013,2013,culpable_homicide,CULPABLE HOMICIDE NOT AMOUNTING TO MURDER
+ipc_district,2013,2013,rape,RAPE
+ipc_district,2013,2013,kidnapping_abduction,KIDNAPPING & ABDUCTION
+ipc_district,2013,2013,dacoity,DACOITY
+ipc_district,2013,2013,robbery,ROBBERY
+ipc_district,2013,2013,burglary,BURGLARY
+ipc_district,2013,2013,theft,THEFT
+ipc_district,2013,2013,riots,RIOTS
+ipc_district,2013,2013,criminal_breach_of_trust,CRIMINAL BREACH OF TRUST
+ipc_district,2013,2013,cheating,CHEATING
+ipc_district,2013,2013,counterfeiting,COUNTERFIETING
+ipc_district,2013,2013,arson,ARSON
+ipc_district,2013,2013,hurt,HURT/GREVIOUS HURT
+ipc_district,2013,2013,dowry_deaths,DOWRY DEATHS
+ipc_district,2013,2013,assault_on_women,ASSAULT ON WOMEN WITH INTENT TO OUTRAGE HER MODESTY
+ipc_district,2013,2013,insult_to_modesty,INSULT TO MODESTY OF WOMEN
+ipc_district,2013,2013,cruelty_by_husband,CRUELTY BY HUSBAND OR HIS RELATIVES
+ipc_district,2013,2013,importation_of_girls,IMPORTATION OF GIRLS FROM FOREIGN COUNTRIES
+ipc_district,2013,2013,causing_death_by_negligence,CAUSING DEATH BY NEGLIGENCE
+ipc_district,2013,2013,total_ipc,TOTAL IPC CRIMES
+ipc_district,2014,2014,murder,Murder
+ipc_district,2014,2014,attempt_to_murder,Attempt to commit Murder
+ipc_district,2014,2014,culpable_homicide,Culpable Homicide not amounting to Murder
+ipc_district,2014,2014,rape,Rape
+ipc_district,2014,2014,kidnapping_abduction,Kidnapping & Abduction_Total
+ipc_district,2014,2014,dacoity,Dacoity
+ipc_district,2014,2014,robbery,Robbery
+ipc_district,2014,2014,burglary,Criminal Trespass/Burglary
+ipc_district,2014,2014,theft,Theft
+ipc_district,2014,2014,riots,Riots
+ipc_district,2014,2014,criminal_breach_of_trust,Criminal Breach of Trust
+ipc_district,2014,2014,cheating,Cheating
+ipc_district,2014,2014,counterfeiting,Counterfeiting
+ipc_district,2014,2014,arson,Arson
+ipc_district,2014,2014,hurt,Grievous Hurt
+ipc_district,2014,2014,dowry_deaths,Dowry Deaths
+ipc_district,2014,2014,assault_on_women,Assault on Women with intent to outrage her Modesty
+ipc_district,2014,2014,insult_to_modesty,Insult to the Modesty of Women
+ipc_district,2014,2014,cruelty_by_husband,Cruelty by Husband or his Relatives
+ipc_district,2014,2014,importation_of_girls,Importation of Girls from Foreign Country
+ipc_district,2014,2014,causing_death_by_negligence,Causing Death by Negligence
+ipc_district,2014,2014,total_ipc,Total Cognizable IPC crimes
+ncrb_state_heads,2014,2014,murder,Murder | I
+ncrb_state_heads,2014,2014,attempt_to_murder,Attempt To Commit Murder | I
+ncrb_state_heads,2014,2014,culpable_homicide,C.H. Not Amounting To Murder | I
+ncrb_state_heads,2014,2014,rape,Rape* | Total Rape (Custodial+ Other than Custodial) | I
+ncrb_state_heads,2014,2014,kidnapping_abduction,Kidnaping & Abduction | Kidnapping & Abduction (Total) | I
+ncrb_state_heads,2014,2014,dacoity,Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2014,2014,robbery,Robbery | I
+ncrb_state_heads,2014,2014,burglary,Criminal Trespass/Burglary | Criminal Trespass/Burglary (Total) | I
+ncrb_state_heads,2014,2014,theft,Theft | Theft (Total) | I
+ncrb_state_heads,2014,2014,riots,Riots | Riots (Total) | I
+ncrb_state_heads,2014,2014,criminal_breach_of_trust,Criminal Breach of Trust | I
+ncrb_state_heads,2014,2014,cheating,Cheating | I
+ncrb_state_heads,2014,2014,counterfeiting,Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2014,2014,arson,Arson | I
+ncrb_state_heads,2014,2014,hurt,Grievous Hurt | Grievous Hurt (Total) | I
+ncrb_state_heads,2014,2014,dowry_deaths,Dowry Deaths* | I
+ncrb_state_heads,2014,2014,assault_on_women,Assault on Women with Intent To Outrage Her Modesty* | Assault on Women with Intent To Outrage Her Modesty (Total) | I
+ncrb_state_heads,2014,2014,insult_to_modesty,Insult to The Modesty of Women* | Insult to The Modesty of Women (Total) | I
+ncrb_state_heads,2014,2014,cruelty_by_husband,Cruelty By Husband or His Relatives* | I
+ncrb_state_heads,2014,2014,importation_of_girls,Importation of Girls From Foreign Country* | I
+ncrb_state_heads,2014,2014,causing_death_by_negligence,Causing Death By Negligence | Causing Death By Negligence (Total) | I
+ncrb_state_heads,2014,2014,total_ipc,Total Cognizable IPC Crimes (Column 3 To 190 Excluding Sub Heads) | I
+ncrb_state_heads,2015,2015,murder,Murder | I
+ncrb_state_heads,2015,2015,attempt_to_murder,Attempt to Commit Murder | I
+ncrb_state_heads,2015,2015,culpable_homicide,C.H. Not Amounting To Murder | I
+ncrb_state_heads,2015,2015,rape,Rape * | Total Rape (Custodial +Other than Custodial) | I
+ncrb_state_heads,2015,2015,kidnapping_abduction,Kidnaping & Abduction | Kidnapping & Abduction (Total) | I
+ncrb_state_heads,2015,2015,dacoity,Dacoity (Total) | Total Dacoity | I
+ncrb_state_heads,2015,2015,robbery,Robbery | I
+ncrb_state_heads,2015,2015,burglary,Criminal Trespass/Burglary | Criminal Trespass/Burglary (Total) | I
+ncrb_state_heads,2015,2015,theft,Theft | Theft (Total) | I
+ncrb_state_heads,2015,2015,riots,Riots | Riots (Total) | I
+ncrb_state_heads,2015,2015,criminal_breach_of_trust,Criminal Breach of Trust | I
+ncrb_state_heads,2015,2015,cheating,Cheating | I
+ncrb_state_heads,2015,2015,counterfeiting,Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2015,2015,arson,Arson | I
+ncrb_state_heads,2015,2015,hurt,"Grievous Hurt (Section 325, 326, 326A & 326B IPC) | Grievous Hurt (Total) | I"
+ncrb_state_heads,2015,2015,dowry_deaths,Dowry Deaths* | I
+ncrb_state_heads,2015,2015,assault_on_women,Assault on Women With Intent to Outrage Her Modesty* | Assault on Women With Intent to Outrage Her Modesty (Total) | I
+ncrb_state_heads,2015,2015,insult_to_modesty,Insult to Modesty of Women (Section 509 IPC)* | Insult to Modesty of Women (Total) | I
+ncrb_state_heads,2015,2015,cruelty_by_husband,Cruelty By Husband Or His Relatives * | I
+ncrb_state_heads,2015,2015,importation_of_girls,Importation of Girls from Foreign Country* | I
+ncrb_state_heads,2015,2015,causing_death_by_negligence,Causing Death By Negligence | Causing Death By Negligence (Total) | I
+ncrb_state_heads,2015,2015,total_ipc,Total Cognizable IPC Crimes (Excluding Sub Heads) | I
+ncrb_state_heads,2016,2016,murder,Offences affecting the Human Body | Murder (Sec 302 IPC) | I
+ncrb_state_heads,2016,2016,attempt_to_murder,Offences affecting the Human Body | Attempt to Commit Murder (Sec 307 IPC) | I
+ncrb_state_heads,2016,2016,culpable_homicide,Offences affecting the Human Body | Culpable Homicide Not Amounting To Murder (Sec 304 IPC) | I
+ncrb_state_heads,2016,2016,rape,Offences affecting the Human Body Rape | Rape (Total) | I
+ncrb_state_heads,2016,2016,kidnapping_abduction,Offences affecting the Human Body Kidnapping & Abduction | Kidnapping & Abduction (Total ) | I
+ncrb_state_heads,2016,2016,dacoity,Offences against Property | Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2016,2016,robbery,Offences against Property | Robbery (Sec 392 to 394 IPC) | I
+ncrb_state_heads,2016,2016,burglary,Offences against Property | Criminal Trespass & Burglary (Sec 453 to 457 IPC r/w 380 IPC) | I
+ncrb_state_heads,2016,2016,theft,Offences against Property Theft (Sec 379 to 382 IPC) | Theft (Total) | I
+ncrb_state_heads,2016,2016,riots,Offences against Public Tranquility | Rioting (Sec 147 - 151 & 153A IPC) | Rioting (Total) | I
+ncrb_state_heads,2016,2016,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Sec 406 to 409 IPC) | I
+ncrb_state_heads,2016,2016,cheating,Offences against Property | Cheating (Sec 420 IPC) | I
+ncrb_state_heads,2016,2016,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2016,2016,arson,Offences against Property | Arson (Sec 435 to 438 IPC) | I
+ncrb_state_heads,2016,2016,hurt,Offences affecting the Human Body | Grievous Hurt | Grievous Hurt (Total) | I
+ncrb_state_heads,2016,2016,dowry_deaths,Offences affecting the Human Body | Dowry Deaths* (Sec 304B IPC) | I
+ncrb_state_heads,2016,2016,assault_on_women,Offences affecting the Human Body Assault on Women With intent to Outrage her Modesty | Assault On Women With Intent To Outrage Her Modesty (Total) | I
+ncrb_state_heads,2016,2016,insult_to_modesty,Miscellaneous Insult to the Modesty of Women (Sec 509 IPC) | I
+ncrb_state_heads,2016,2016,cruelty_by_husband,Miscellaneous Cruelty By Husband or His Relatives (Sec 498A IPC) | I
+ncrb_state_heads,2016,2016,causing_death_by_negligence,Offences affecting the Human Body | Causing Death By Negligence | Causing Death By Negligence (Total) (Sec 304A IPC) | I
+ncrb_state_heads,2016,2016,total_ipc,Total Cognizable IPC Crimes | I
+ncrb_state_heads,2017,2017,murder,Offences affecting the Human Body | Murder (Sec.302 IPC) | I
+ncrb_state_heads,2017,2017,attempt_to_murder,Offences affecting the Human Body | Attempt to Commit Murder (Sec.307 IPC) | I
+ncrb_state_heads,2017,2017,culpable_homicide,Offences affecting the Human Body | Culpable Homicide not amounting to Murder (Sec.304 IPC) | I
+ncrb_state_heads,2017,2017,rape,Offences affecting the Human Body | Rape (Sec.376 IPC) | I
+ncrb_state_heads,2017,2017,kidnapping_abduction,Offences affecting the Human Body Kidnapping and Abduction | Kidnapping and Abduction (Total) | I
+ncrb_state_heads,2017,2017,dacoity,Offences against Property | Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2017,2017,robbery,Offences against Property | Robbery (Sec.392/394/397 IPC) | I
+ncrb_state_heads,2017,2017,burglary,Offences against Property | Burglary (Sec.454 to 460 r/w Sec.380 IPC) | Burglary (Total) | I
+ncrb_state_heads,2017,2017,theft,Offences against Property Theft (Section 379 IPC) Theft (Total) | I
+ncrb_state_heads,2017,2017,riots,Offences against Public Tranquillity | Rioting (Sec.147-151 IPC) | Rioting (Total) | I
+ncrb_state_heads,2017,2017,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Sec.406 to 409 IPC) | I
+ncrb_state_heads,2017,2017,cheating,"Offences Relating to Documents & Property Marks Forgery, Cheating & Fraud | Cheating (Sec.420 IPC) | I"
+ncrb_state_heads,2017,2017,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2017,2017,arson,"Miscellaneous IPC Crimes | Arson (Sec.435, 436 & 438 IPC) | I"
+ncrb_state_heads,2017,2017,hurt,Offences affecting the Human Body Hurt | Grievous Hurt Grievous Hurt (Total) | I
+ncrb_state_heads,2017,2017,dowry_deaths,Offences affecting the Human Body | Dowry Deaths (Sec.304-B IPC) | I
+ncrb_state_heads,2017,2017,assault_on_women,Offences affecting the Human Body | Assault on Women with Intent to Outrage her Modesty Assault on Women with Intent to Outrage her Modesty (Sec.354 IPC) (Total) | I
+ncrb_state_heads,2017,2017,insult_to_modesty,Miscellaneous IPC Crimes | Insult to the Modesty of Women (Sec.509 IPC) | I
+ncrb_state_heads,2017,2017,cruelty_by_husband,Miscellaneous IPC Crimes | Cruelty by Husband or his Relatives (Sec.498-A IPC) | I
+ncrb_state_heads,2017,2017,importation_of_girls,Offences affecting the Human Body | Kidnapping and Abduction | Importation of Girls from Foreign Country (Sec.366-B IPC) | I
+ncrb_state_heads,2017,2017,causing_death_by_negligence,Offences affecting the Human Body | Causing Death by Negligence Causing Death by Negligence (Sec.304-A IPC) (Total) | I
+ncrb_state_heads,2017,2017,total_ipc,Total Cognizable IPC crimes | I
+ncrb_state_heads,2018,2018,murder,Offences affecting the Human Body | Murder (Sec.302 IPC) | I
+ncrb_state_heads,2018,2018,attempt_to_murder,Offences affecting the Human Body | Attempt to Commit Murder (Sec.307 IPC) | I
+ncrb_state_heads,2018,2018,culpable_homicide,Offences affecting the Human Body | Culpable Homicide not amounting to Murder (Sec.304 IPC) | I
+ncrb_state_heads,2018,2018,rape,Offences affecting the Human Body | Rape (Sec.376 IPC) | I
+ncrb_state_heads,2018,2018,kidnapping_abduction,Offences affecting the Human Body Kidnapping and Abduction | Kidnapping and Abduction (Total) | I
+ncrb_state_heads,2018,2018,dacoity,Offences against Property | Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2018,2018,robbery,Offences against Property | Robbery (Sec.392/394/397 IPC) | I
+ncrb_state_heads,2018,2018,burglary,Offences against Property | Burglary (Sec.454 to 460 r/w Sec.380 IPC) | Burglary (Total) | I
+ncrb_state_heads,2018,2018,theft,Offences against Property Theft (Section 379 IPC) Theft (Total) | I
+ncrb_state_heads,2018,2018,riots,Offences against Public Tranquillity | Rioting (Sec.147-151 IPC) | Rioting (Total) | I
+ncrb_state_heads,2018,2018,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Sec.406 to 409 IPC) | I
+ncrb_state_heads,2018,2018,cheating,"Offences Relating to Documents & Property Marks Forgery, Cheating & Fraud | Cheating (Sec.420 IPC) | I"
+ncrb_state_heads,2018,2018,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2018,2018,arson,"Miscellaneous IPC Crimes | Arson (Sec.435, 436 & 438 IPC) | I"
+ncrb_state_heads,2018,2018,hurt,Offences affecting the Human Body Hurt | Grievous Hurt Grievous Hurt (Total) | I
+ncrb_state_heads,2018,2018,dowry_deaths,Offences affecting the Human Body | Dowry Deaths (Sec.304-B IPC) | I
+ncrb_state_heads,2018,2018,assault_on_women,Offences affecting the Human Body | Assault on Women with Intent to Outrage her Modesty Assault on Women with Intent to Outrage her Modesty (Sec.354 IPC) (Total) | I
+ncrb_state_heads,2018,2018,insult_to_modesty,Miscellaneous IPC Crimes | Insult to the Modesty of Women (Sec.509 IPC) | I
+ncrb_state_heads,2018,2018,cruelty_by_husband,Miscellaneous IPC Crimes | Cruelty by Husband or his Relatives (Sec.498-A IPC) | I
+ncrb_state_heads,2018,2018,importation_of_girls,Offences affecting the Human Body | Kidnapping and Abduction | Importation of Girls from Foreign Country (Sec.366-B IPC) | I
+ncrb_state_heads,2018,2018,causing_death_by_negligence,Offences affecting the Human Body | Causing Death by Negligence Causing Death by Negligence (Sec.304-A IPC) (Total) | I
+ncrb_state_heads,2018,2018,total_ipc,Total Cognizable IPC crimes | I
+ncrb_state_heads,2019,2019,murder,Offences affecting the Human Body | Murder (Sec.302 IPC) | I
+ncrb_state_heads,2019,2019,attempt_to_murder,Offences affecting the Human Body | Attempt to Commit Murder (Sec.307 IPC) | I
+ncrb_state_heads,2019,2019,culpable_homicide,Offences affecting the Human Body | Culpable Homicide not amounting to Murder (Sec.304 IPC) | I
+ncrb_state_heads,2019,2019,rape,Offences affecting the Human Body | Rape (Sec.376 IPC) | I
+ncrb_state_heads,2019,2019,kidnapping_abduction,Offences affecting the Human Body Kidnapping and Abduction | Kidnapping and Abduction (Total) | I
+ncrb_state_heads,2019,2019,dacoity,Offences against Property | Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2019,2019,robbery,Offences against Property | Robbery (Sec.392/394/397 IPC) | I
+ncrb_state_heads,2019,2019,burglary,Offences against Property | Burglary (Sec.454 to 460 r/w Sec.380 IPC) | Burglary (Total) | I
+ncrb_state_heads,2019,2019,theft,Offences against Property Theft (Section 379 IPC) | Theft (Total) | I
+ncrb_state_heads,2019,2019,riots,Offences against Public Tranquillity | Rioting (Sec.147-151 IPC) | Rioting (Total) | I
+ncrb_state_heads,2019,2019,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Sec.406 to 409 IPC) | I
+ncrb_state_heads,2019,2019,cheating,"Offences Relating to Documents & Property Marks Forgery, Cheating & Fraud | Cheating (Sec.420 IPC) | I"
+ncrb_state_heads,2019,2019,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2019,2019,arson,"Miscellaneous IPC Crimes | Arson (Sec.435, 436 & 438 IPC) | I"
+ncrb_state_heads,2019,2019,hurt,Offences affecting the Human Body Hurt | Grievous Hurt Grievous Hurt (Total) | I
+ncrb_state_heads,2019,2019,dowry_deaths,Offences affecting the Human Body | Dowry Deaths (Sec.304-B IPC) | I
+ncrb_state_heads,2019,2019,assault_on_women,Offences affecting the Human Body | Assault on Women with Intent to Outrage her Modesty Assault on Women with Intent to Outrage her Modesty (Total) | I
+ncrb_state_heads,2019,2019,insult_to_modesty,Miscellaneous IPC Crimes | Insult to the Modesty of Women (Sec.509 IPC) | I
+ncrb_state_heads,2019,2019,cruelty_by_husband,Miscellaneous IPC Crimes | Cruelty by Husband or his Relatives (Sec.498-A IPC) | I
+ncrb_state_heads,2019,2019,importation_of_girls,Offences affecting the Human Body | Kidnapping and Abduction | Importation of Girls from Foreign Country (Sec.366-B IPC) | I
+ncrb_state_heads,2019,2019,causing_death_by_negligence,Offences affecting the Human Body | Causing Death by Negligence Causing Death by Negligence (Sec.304-A IPC) (Total) | I
+ncrb_state_heads,2019,2019,total_ipc,Total Cognizable IPC crimes | I
+ncrb_state_heads,2020,2020,murder,Offences affecting the Human Body | Murder (Sec.302 IPC) | I
+ncrb_state_heads,2020,2020,attempt_to_murder,Offences affecting the Human Body | Attempt to Commit Murder (Sec.307 IPC) | I
+ncrb_state_heads,2020,2020,culpable_homicide,Offences affecting the Human Body | Culpable Homicide not Amounting to Murder | I
+ncrb_state_heads,2020,2020,rape,Offences affecting the Human Body | Rape (Sec.376 IPC) | I
+ncrb_state_heads,2020,2020,kidnapping_abduction,Offences affecting the Human Body Kidnapping and Abduction | Kidnapping and Abduction (Total) | I
+ncrb_state_heads,2020,2020,dacoity,Offences against Property | Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2020,2020,robbery,Offences against Property | Robbery (Sec.392/394/397 IPC) | I
+ncrb_state_heads,2020,2020,burglary,Offences against Property | Burglary (Sec.454 to 460 r/w Sec.380 IPC) | Burglary (Total) | I
+ncrb_state_heads,2020,2020,theft,Offences against Property Theft (Section 379 IPC) | Theft (Total) | I
+ncrb_state_heads,2020,2020,riots,Offences against Public Tranquillity | Rioting (Sec.147‐151 IPC) | Rioting (Total) | I
+ncrb_state_heads,2020,2020,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Sec.406 to 409 IPC) | I
+ncrb_state_heads,2020,2020,cheating,"Offences Relating to Documents & Property Marks Forgery, Cheating & Fraud | Cheating (Sec.420 IPC) | I"
+ncrb_state_heads,2020,2020,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2020,2020,arson,"Miscellaneous IPC Crimes | Arson (Sec.435, 436 & 438 IPC) | I"
+ncrb_state_heads,2020,2020,hurt,Offences affecting the Human Body Hurt | Grievous Hurt Grievous Hurt (Total) | I
+ncrb_state_heads,2020,2020,dowry_deaths,Offences affecting the Human Body | Dowry Deaths (Sec.304‐B IPC) | I
+ncrb_state_heads,2020,2020,assault_on_women,Offences affecting the Human Body | Assault on Women with Intent to Outrage her Modesty Assault on Women with Intent to Outrage her Modesty (Total) | I
+ncrb_state_heads,2020,2020,insult_to_modesty,Miscellaneous IPC Crimes | Insult to the Modesty of Women (Sec.509 IPC) | I
+ncrb_state_heads,2020,2020,cruelty_by_husband,Miscellaneous IPC Crimes | Cruelty by Husband or his Relatives (Sec.498‐A IPC) | I
+ncrb_state_heads,2020,2020,importation_of_girls,Offences affecting the Human Body | Kidnapping and Abduction | Importation of Girls from Foreign Country (Sec.366‐B IPC) | I
+ncrb_state_heads,2020,2020,causing_death_by_negligence,Offences affecting the Human Body | Causing Death by Negligence Causing Death by Negligence (Sec.304‐A IPC) | I
+ncrb_state_heads,2020,2020,total_ipc,Total Cognizable IPC crimes | I
+ncrb_state_heads,2021,2021,murder,Offences affecting the Human Body | Murder (Sec.302 IPC) | I
+ncrb_state_heads,2021,2021,attempt_to_murder,Offences affecting the Human Body | Attempt to Commit Murder (Sec.307 IPC) | I
+ncrb_state_heads,2021,2021,culpable_homicide,Offences affecting the Human Body | Culpable Homicide not Amounting to Murder (Sec. 304 IPC) | I
+ncrb_state_heads,2021,2021,rape,Offences affecting the Human Body | Rape (Sec.376 IPC) | I
+ncrb_state_heads,2021,2021,kidnapping_abduction,Offences affecting the Human Body Kidnapping and Abduction | Kidnapping and Abduction (Total) | I
+ncrb_state_heads,2021,2021,dacoity,Offences against Property | Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2021,2021,robbery,Offences against Property | Robbery (Sec.392/394/397 IPC) | I
+ncrb_state_heads,2021,2021,burglary,Offences against Property | Burglary (Sec.454 to 460 r/w Sec.380 IPC) | Burglary (Total) | I
+ncrb_state_heads,2021,2021,theft,Offences against Property Theft (Section 379 IPC) | Theft (Total) | I
+ncrb_state_heads,2021,2021,riots,Offences against Public Tranquility | Rioting (Sec.147-151 IPC) | Rioting (Total) | I
+ncrb_state_heads,2021,2021,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Sec.406 to 409 IPC) | I
+ncrb_state_heads,2021,2021,cheating,"Offences Relating to Documents & Property Marks Forgery, Cheating & Fraud | Cheating (Sec.420 IPC) | I"
+ncrb_state_heads,2021,2021,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2021,2021,arson,"Miscellaneous IPC Crimes | Arson (Sec.435, 436 & 438 IPC) | I"
+ncrb_state_heads,2021,2021,hurt,Offences affecting the Human Body Hurt | Grievous Hurt Grievous Hurt (Total) | I
+ncrb_state_heads,2021,2021,dowry_deaths,Offences affecting the Human Body | Dowry Deaths (Sec.304-B IPC) | I
+ncrb_state_heads,2021,2021,assault_on_women,Offences affecting the Human Body | Assault on Women with Intent to Outrage her Modesty Assault on Women with Intent to Outrage her Modesty (Total) | I
+ncrb_state_heads,2021,2021,insult_to_modesty,Miscellaneous IPC Crimes | Insult to the Modesty of Women (Sec.509 IPC) | I
+ncrb_state_heads,2021,2021,cruelty_by_husband,Miscellaneous IPC Crimes | Cruelty by Husband or his Relatives (Sec.498-A IPC) | I
+ncrb_state_heads,2021,2021,importation_of_girls,Offences affecting the Human Body | Kidnapping and Abduction | Importation of Girls from Foreign Country (Sec.366-B IPC) | I
+ncrb_state_heads,2021,2021,causing_death_by_negligence,Offences affecting the Human Body | Causing Death by Negligence Causing Death by Negligence (Sec.304-A IPC) (Total) | I
+ncrb_state_heads,2021,2021,total_ipc,Total Cognizable IPC crimes | I
+ncrb_state_heads,2022,2022,murder,Offences affecting the Human Body | Murder (Sec.302 IPC) | I
+ncrb_state_heads,2022,2022,attempt_to_murder,Offences affecting the Human Body | Attempt to Commit Murder (Sec.307 IPC) | I
+ncrb_state_heads,2022,2022,culpable_homicide,Offences affecting the Human Body | Culpable Homicide not Amounting to Murder (Sec. 304 IPC) | I
+ncrb_state_heads,2022,2022,rape,Offences affecting the Human Body | Rape (Sec.376 IPC) | I
+ncrb_state_heads,2022,2022,kidnapping_abduction,Offences affecting the Human Body Kidnapping and Abduction | Kidnapping and Abduction (Total) | I
+ncrb_state_heads,2022,2022,dacoity,Offences against Property | Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2022,2022,robbery,Offences against Property | Robbery (Sec.392/394/397 IPC) | I
+ncrb_state_heads,2022,2022,burglary,Offences against Property | Burglary (Sec.454 to 460 r/w Sec.380 IPC) | Burglary (Total) | I
+ncrb_state_heads,2022,2022,theft,Offences against Property Theft (Section 379 IPC) | Theft (Total) | I
+ncrb_state_heads,2022,2022,riots,Offences against Public Tranquility | Rioting (Sec.147-151 IPC) | Rioting (Total) | I
+ncrb_state_heads,2022,2022,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Sec.406 to 409 IPC) | I
+ncrb_state_heads,2022,2022,cheating,"Offences Relating to Documents & Property Marks Forgery, Cheating & Fraud | Cheating (Sec.420 IPC) | I"
+ncrb_state_heads,2022,2022,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2022,2022,arson,"Miscellaneous IPC Crimes | Arson (Sec.435, 436 & 438 IPC) | I"
+ncrb_state_heads,2022,2022,hurt,Offences affecting the Human Body Hurt | Grievous Hurt Grievous Hurt (Total) | I
+ncrb_state_heads,2022,2022,dowry_deaths,Offences affecting the Human Body | Dowry Deaths (Sec.304-B IPC) | I
+ncrb_state_heads,2022,2022,assault_on_women,Offences affecting the Human Body | Assault on Women with Intent to Outrage her Modesty Assault on Women with Intent to Outrage her Modesty (Total) | I
+ncrb_state_heads,2022,2022,insult_to_modesty,Miscellaneous IPC Crimes | Insult to the Modesty of Women (Sec. 509 IPC) | I
+ncrb_state_heads,2022,2022,cruelty_by_husband,Miscellaneous IPC Crimes | Cruelty by Husband or his Relatives (Sec.498-A IPC) | I
+ncrb_state_heads,2022,2022,importation_of_girls,Offences affecting the Human Body | Kidnapping and Abduction | Importation of Girls from Foreign Country (Sec.366-B IPC) | I
+ncrb_state_heads,2022,2022,causing_death_by_negligence,Offences affecting the Human Body | Causing Death by Negligence Causing Death by Negligence (Sec.304-A IPC) (Total) | I
+ncrb_state_heads,2022,2022,total_ipc,Total Cognizable IPC crimes | I
+ncrb_state_heads,2023,2023,murder,Offences affecting the Human Body | Murder (Sec.302 IPC) | I
+ncrb_state_heads,2023,2023,attempt_to_murder,Offences affecting the Human Body | Attempt to Commit Murder (Sec.307 IPC) | I
+ncrb_state_heads,2023,2023,culpable_homicide,Offences affecting the Human Body | Culpable Homicide not Amounting to Murder (Sec. 304 IPC) | I
+ncrb_state_heads,2023,2023,rape,Offences affecting the Human Body | Rape (Sec.376 IPC) | I
+ncrb_state_heads,2023,2023,kidnapping_abduction,Offences affecting the Human Body Kidnapping and Abduction | Kidnapping and Abduction (Total) | I
+ncrb_state_heads,2023,2023,dacoity,Offences against Property | Dacoity | Dacoity (Total) | I
+ncrb_state_heads,2023,2023,robbery,Offences against Property | Robbery (Sec.392/394/397 IPC) | I
+ncrb_state_heads,2023,2023,burglary,Offences against Property | Burglary (Sec.454 to 460 r/w Sec.380 IPC) | Burglary (Total) | I
+ncrb_state_heads,2023,2023,theft,Offences against Property Theft (Section 379 IPC) | Theft (Total) | I
+ncrb_state_heads,2023,2023,riots,Offences against Public Tranquility | Rioting (Sec.147-151 IPC) | Rioting (Total) | I
+ncrb_state_heads,2023,2023,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Sec.406 to 409 IPC) | I
+ncrb_state_heads,2023,2023,cheating,"Offences Relating to Documents & Property Marks Forgery, Cheating & Fraud | Cheating (Sec.420 IPC) | I"
+ncrb_state_heads,2023,2023,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total) | I
+ncrb_state_heads,2023,2023,arson,"Miscellaneous IPC Crimes | Arson (Sec.435, 436 & 438 IPC) | I"
+ncrb_state_heads,2023,2023,hurt,Offences affecting the Human Body Hurt | Grievous Hurt Grievous Hurt (Total) | I
+ncrb_state_heads,2023,2023,dowry_deaths,Offences affecting the Human Body | Dowry Deaths (Sec.304-B IPC) | I
+ncrb_state_heads,2023,2023,assault_on_women,Offences affecting the Human Body | Assault on Women with Intent to Outrage her Modesty Assault on Women with Intent to Outrage her Modesty (Total) | I
+ncrb_state_heads,2023,2023,insult_to_modesty,Miscellaneous IPC Crimes | Insult to the Modesty of Women (Sec. 509 IPC) | I
+ncrb_state_heads,2023,2023,cruelty_by_husband,Miscellaneous IPC Crimes | Cruelty by Husband or his Relatives (Sec.498-A IPC) | I
+ncrb_state_heads,2023,2023,importation_of_girls,Offences affecting the Human Body | Kidnapping and Abduction | Importation of Girls from Foreign Country (Sec.366-B IPC) | I
+ncrb_state_heads,2023,2023,causing_death_by_negligence,Offences affecting the Human Body | Causing Death by Negligence Causing Death by Negligence (Sec.304-A IPC) (Total) | I
+ncrb_state_heads,2023,2023,total_ipc,Total Cognizable IPC crimes | I
+ncrb_state_heads,2024,2024,murder,Offences affecting Human Body Murder Murder (Section 103 (1) BNS /Section 302 IPC) (Total a+b+c) | Total
+ncrb_state_heads,2024,2024,attempt_to_murder,Offences affecting Human Body | Attempt to commit Murder (Section 109 BNS/Section 307 IPC) | Total
+ncrb_state_heads,2024,2024,culpable_homicide,Offences affecting Human Body | Culpable Homicide not amounting to Murder (Section 105 BNS/Section 304 IPC) | Total
+ncrb_state_heads,2024,2024,rape,"Offences against Women and Child Rape (Section 64 to Section 71 BNS / Section 376 Attempt to Commit Rape (Section 64-68,70- | IPC) | Total"
+ncrb_state_heads,2024,2024,kidnapping_abduction,Offences affecting Human Body | Kidnapping & Abduction (Section 137-142 BNS/Section 363-369 IPC) Kidnapping & Abduction (Section 137-142 BNS/Section 363-369 IPC) (Total a to f) | Total
+ncrb_state_heads,2024,2024,dacoity,Offences against Property Dacoity (Section 310 (2 & 3)/311 BNS)/Section 395/397 IPC) | Dacoity (Total a+b) | Total
+ncrb_state_heads,2024,2024,robbery,"Offences against Property | Robbery (Section 309 (4), 309(6), 311 BNS/Section 392/394/397 IPC) | Total"
+ncrb_state_heads,2024,2024,burglary,"Offences against Property Burglary (Section 329(4),332-334 r/w Section 303 or 331 r/w 305 BNS/Section 454-460 r/w 380 IPC) | Burglary (Total a+b) | Total"
+ncrb_state_heads,2024,2024,theft,"Offences against Property Theft (Section 303,305-307 BNS/Section 379- 382 IPC) Theft (Total a to g) | Total"
+ncrb_state_heads,2024,2024,riots,"Offences against Public Tranquillity Rioting (Section 190, 189(6), 189(5), 191(2),191(3) BNS/Section 147-151 IPC) | Rioting (Total a to r) | Total"
+ncrb_state_heads,2024,2024,criminal_breach_of_trust,Offences against Property | Criminal Breach of Trust (Section 316 BNS/Section 406-409 IPC) | Total
+ncrb_state_heads,2024,2024,cheating,"Offences Relating to Documents & Property Marks Forgery, Cheating & Fraud | b) Cheating (Section 318 (4) BNS/Section 420 IPC) (Cases not included under 49A) | Total"
+ncrb_state_heads,2024,2024,counterfeiting,Offences Relating to Documents & Property Marks Counterfeiting | Counterfeiting (Total a+b+c+d) | Total
+ncrb_state_heads,2024,2024,arson,"Miscellaneous IPC/BNS Crimes | Arson (Section 326(f),326(G) & 327 (2) BNS/Section 435,436 & 438 IPC) | Total"
+ncrb_state_heads,2024,2024,dowry_deaths,Offences against Women and Child | Dowry Death (Section 80 BNS/Section 304B IPC) | Total
+ncrb_state_heads,2024,2024,assault_on_women,Offences against Women and Child | Assault or use of Criminal Force to woman with intent to outrage her modesty (Section 74 BNS/Sec 354 IPC) | Total
+ncrb_state_heads,2024,2024,assault_on_women,Offences against Women and Child | Sexual Harassment (Section 75 BNS/ Section 354A IPC) Sexual Harassment (Total a+b+c+d+e+f) | Total
+ncrb_state_heads,2024,2024,assault_on_women,Offences against Women and Child | Assault or Use of criminal force to women with intent to disrobe (Section 76 BNS / Section 354B IPC) ) | Total
+ncrb_state_heads,2024,2024,assault_on_women,Offences against Women and Child | Voyeurism (Section 77 BNS /Section 354C IPC) | Total
+ncrb_state_heads,2024,2024,assault_on_women,Offences against Women and Child | Stalking (Section 78 BNS /Section 354D IPC) | Total
+ncrb_state_heads,2024,2024,insult_to_modesty,Offences against Women and Child | Insult modesty of women (Section 79 BNS / Section 509 IPC) | Total
+ncrb_state_heads,2024,2024,cruelty_by_husband,Offences against Women and Child | Cruelty by Husband or Relatives (Section 85 BNS/Section 498-A IPC) | Total
+ncrb_state_heads,2024,2024,importation_of_girls,Offences affecting Human Body Kidnapping & Abduction (Section 137-142 BNS/Section 363-369 IPC) e) Importation of Girl or Boy from Foreign Country (Section 141 BNS/Section 366-B IPC) | i) Importation of Girls Below 21 yrs | Total
+ncrb_state_heads,2024,2024,causing_death_by_negligence,Offences affecting Human Body Causing Death by Negligence (Section 106 BNS /Section 304-A IPC) | Causing Death by Negligence (Total a+b+c+d+e) | Total
+ncrb_state_heads,2024,2024,total_ipc,Total Cognizable IPC/BNS crimes | Total

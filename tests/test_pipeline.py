@@ -55,3 +55,21 @@ def test_gold_layer_has_corrected_figures(built):
     assert delhi_2005 == "ncrb_2001_2010"
     assert copied == 0
     assert clustered == 35
+
+
+def test_all_crimes_match_ncrb_published_totals(built):
+    _, out = built
+    with duckdb.connect(str(out / "crime.duckdb")) as con:
+        totals = dict(con.sql(
+            "SELECT year, cases FROM gold.mart_national_crime_trend WHERE crime_group = 'total_ipc'"
+        ).fetchall())
+        units = con.sql(
+            "SELECT count(DISTINCT analysis_unit) FROM gold.fct_crimes WHERE year = 2024"
+        ).fetchone()[0]
+    # All-India total cognisable IPC (and from 2024 BNS) crimes, as printed by NCRB.
+    assert totals[2012] == 2387188
+    assert totals[2013] == 2647722
+    assert totals[2020] == 4254356
+    assert totals[2024] == 3544608
+    assert sorted(totals) == list(range(2001, 2025))
+    assert units == 35

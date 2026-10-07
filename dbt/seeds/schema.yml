@@ -39,3 +39,35 @@ seeds:
       Census 2011 female population per analysis unit, used for rates per
       100,000 women. Andhra Pradesh is split into its post-2014 part and
       Telangana from 2014 onward.
+
+  - name: population_2011
+    description: >
+      Census 2011 total population per analysis unit, used for rates per
+      100,000 people. Built the same way as female_population_2011.
+
+  - name: crime_head_columns
+    description: >
+      Which source column makes up each crime group, per source and year. NCRB
+      renamed and regrouped its crime heads in 2014, 2017 and 2024 (IPC to BNS),
+      so each year has its own rows. A group with several rows in one year is
+      their sum. Every column listed must exist in the raw files
+      (pipeline/quality.py, check mapped_columns_present).
+    columns:
+      - name: source
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['ipc_district', 'ncrb_state_heads']
+      - name: crime_group
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('crime_groups')
+                field: crime_group
+
+  - name: crime_groups
+    description: The standard crime groups used across all years, and which are crimes against women.
+    columns:
+      - name: crime_group
+        tests: [unique, not_null]

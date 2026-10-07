@@ -26,3 +26,173 @@ sources:
     licence: see source page
     downloaded_on: unknown  # taken from the original project folder
     sha256: 2781aa4e1d231e6a0dae477b523e10dbb49ae257faca2ccf2a4220371620bd11
+
+  # All IPC crimes by district, 2001-2014. State totals match NCRB's
+  # published "Crime in India" figures.
+  - name: ipc_district
+    file: 01_District_wise_crimes_committed_IPC_2001_2012.csv
+    description: >
+      District-wise IPC crimes, 2001-2012, 30 crime heads.
+    source_url: https://www.data.gov.in/catalog/district-wise-crimes-under-various-sections-indian-penal-code-ipc-crimes
+    original_publisher: National Crime Records Bureau (NCRB), via data.gov.in
+    licence: Government Open Data License - India
+    downloaded_on: 2026-10-06
+    sha256: 590bd77d0c827d68c4370f8ff94b126951ecbf1bd61d5e7dbb6db9fdfb9a6388
+
+  - name: ipc_district
+    file: 01_District_wise_crimes_committed_IPC_2013.csv
+    description: >
+      District-wise IPC crimes, 2013, 30 crime heads.
+    source_url: https://www.data.gov.in/catalog/district-wise-crimes-under-various-sections-indian-penal-code-ipc-crimes
+    original_publisher: National Crime Records Bureau (NCRB), via data.gov.in
+    licence: Government Open Data License - India
+    downloaded_on: 2026-10-06
+    sha256: 4958a8c2fde531284daede807eb530a0577523d3f21c7d9c9dd267e5ab64822b
+
+  - name: ipc_district
+    file: 01_District_wise_crimes_committed_IPC_2014.csv
+    description: >
+      District-wise IPC crimes, 2014, 88 crime heads (new heads after the 2013 criminal law amendment). Used to cross-check NCRB table 1.6 for 2014.
+    source_url: https://www.data.gov.in/catalog/district-wise-crimes-under-various-sections-indian-penal-code-ipc-crimes
+    original_publisher: National Crime Records Bureau (NCRB), via data.gov.in
+    licence: Government Open Data License - India
+    downloaded_on: 2026-10-06
+    sha256: d30406c09b3d4187c53bc97eccc4273ede8f207c9641226d844b93fecccd2039
+
+  # NCRB "Crime in India" state x crime-head tables, 2014-2024, as CSV
+  # extracted from the official PDFs by the reclaimchennai/NCRB project (MIT).
+  # pipeline/fetch.py downloads them from one fixed commit; they are not kept
+  # in git. original_url and original_sha256 identify the NCRB PDF each table
+  # was taken from.
+  - name: ncrb_state_heads
+    file: ncrb_cii/2014_table_1.6.csv
+    year: 2014
+    description: "1.6 Incidence (I), Victims(V) & Rate (R) of Cognizable Crimes (IPC) under Different Crime Heads During 2014"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2014/6_table1-6-2014.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2014/6_table1-6-2014.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2014.pdf"
+    original_sha256: 4362e0b525cd66f24252738ff36b4ca3e6158612f955aefa3bbfdc4fb13c7006
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2014
+    licence: MIT (extraction); NCRB data
+    sha256: 9ccbf8dc2d8603303f62f0bdf562fb5469b86df22468de0e591fb9b5bdf1480b
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2015_table_1.6.csv
+    year: 2015
+    description: "1.6 Cases Reported (I), Victims(V) & Rate(R) of Cognizable Crimes (IPC) Under Different Crime Heads During 2015"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/6_table-1-6-2015.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/6_table-1-6-2015.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-1-6_2015.pdf"
+    original_sha256: 6adb40aae877a65d1d9a4f408cd21b4ff931fc316d2577762466004664eca2d8
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 22cab5bc566018f2abb52e09e761bbaaa130689df247e37a6e392c936115b67a
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2016_table_1A.4.csv
+    year: 2016
+    description: "1A.4 IPC Crimes - 2016"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/1a-4_1682590784table1a4.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/1a-4_1682590784table1a4.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1682590784Table1A4.pdf"
+    original_sha256: 1e17054a58f2235ec786bb26a451aafb1fd14f946afbe9f9945f3e22be4e16f4
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2016
+    licence: MIT (extraction); NCRB data
+    sha256: 0542b47633bde66244c8184ca33f57b8eb78f446811c1117364ce8f87cffc926
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2017_table_1A.4.csv
+    year: 2017
+    description: "1A.4 IPC Crimes (Crime Head-wise & States/UT-wise) - 2017"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/1a-4_table-1-1-7-2017.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/1a-4_table-1-1-7-2017.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/table 1.1_7-2017.pdf"
+    original_sha256: 0f963aa0be407672edeb2480e2f0690fe36d18696cf3ba62940692269ded1540
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2017
+    licence: MIT (extraction); NCRB data
+    sha256: fc3eb3505a30a856123f60cf7a846dd269e86a5deea5c72194390f08b329ddd7
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2018_table_1A.4.csv
+    year: 2018
+    description: "1A.4 IPC Crimes (Crime Head-wise & States/UT-wise) - 2018"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/1a-4_table-1a-4-0-2018.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/1a-4_table-1a-4-0-2018.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/table-1A.4_0-2018.pdf"
+    original_sha256: 933ce3e3a3bd6c9f5171332ef5600cd3ec6cf4893be0151e168a031a265e3533
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2018
+    licence: MIT (extraction); NCRB data
+    sha256: 5ea111d90d7d26e18eaa031ca0287258abce26efc92d62cb4a2fd8daf516d961
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2019_table_1A.4.csv
+    year: 2019
+    description: "1A.4 IPC Crimes (Crime Head-wise & State/UT-wise) - 2019"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/1a-4_table-1a-4-2-2019.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/1a-4_table-1a-4-2-2019.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/table-1A.4_2-2019.pdf"
+    original_sha256: 67a5a3fc45e2887d38838b70a0e5bd5d66ff080813c49db67f82e10b69b07f76
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2019
+    licence: MIT (extraction); NCRB data
+    sha256: 7c6074afcf8dda36edd3c839b12be74aa87921a3f01f1e0bc7c8ae2b3171ef7d
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2020_table_1A.4.csv
+    year: 2020
+    description: "1A.4 IPC Crimes (Crime Head‐wise & State/UT‐wise) ‐ 2020"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/1a-4_table-1a-4-2020.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/1a-4_table-1a-4-2020.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/table-1A.4-2020.pdf"
+    original_sha256: dbe62135c8d57e9a79fcfa1fbd12bb008917779650c6acd78689b2e2e7b531c0
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2020
+    licence: MIT (extraction); NCRB data
+    sha256: 611694ba4906b7dee11d98f5d994bd75c29f1596169698ea1bdb4adcf6c7fc53
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2021_table_1A.4.csv
+    year: 2021
+    description: "1A.4 IPC Crimes (Crime Head-wise & State/UT-wise) - 2021"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/1a-4_1679649759table1a4.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/1a-4_1679649759table1a4.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/post/1679649759TABLE1A4.pdf"
+    original_sha256: c9469dab83bf9c9033df864accd74489f9b64d82254e8131bbd56012f30cb8a7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2021
+    licence: MIT (extraction); NCRB data
+    sha256: 59608339c589882bd918bf866f1cd6fd04ce5b3979d078e657d5ae28c7505c58
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2022_table_1A.4.csv
+    year: 2022
+    description: "1A.4 IPC Crimes (Crime Head-wise & State/UT-wise) - 2022"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/1a-4_1701860888table1a4.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/1a-4_1701860888table1a4.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1701860888TABLE1A4.pdf"
+    original_sha256: 6f09f3bab2794aa327bdabd1c7086c92e9e17b14885be607a206198a831df2da
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2022
+    licence: MIT (extraction); NCRB data
+    sha256: 60bf87558616cbe632cd15ba41329edf70442345f24a8bf5ab3d4004eb467171
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2023_table_1A.4.csv
+    year: 2023
+    description: "1A.4 IPC Crimes (Crime Head-wise & State/UT-wise) - 2023"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/4_table1a4.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/4_table1a4.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE1A4.pdf"
+    original_sha256: 00e8fc638dba992b8aeb7fe23ad5faa6c66a8ecbcf29df659a9d47f5139daedc
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2023
+    licence: MIT (extraction); NCRB data
+    sha256: 04ae9adec0148de99683557ae884ec2c8504ea36c4c19e4ef887be8664f60bf0
+
+  - name: ncrb_state_heads
+    file: ncrb_cii/2024_table_1A.4.csv
+    year: 2024
+    description: "1A.4 IPC/BNS Crimes (Crime Head-wise & State/UT-wise) - 2024"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/4_table1a41.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/4_table1a41.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE1A41.pdf"
+    original_sha256: aba283d9e9ffdc1e424d6af3b8fa8fef34e60e9d336b008ba665c7009568f408
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2024
+    licence: MIT (extraction); NCRB data
+    sha256: 6ebfc7ba20776d378c8c9d56b5bcc7ce9b6dfe9d523b301c37f430d87c5159f9
+

@@ -1,0 +1,24 @@
+crime_group,crime_name,is_against_women,sort_order,definition_note
+murder,Murder,false,1,
+attempt_to_murder,Attempt to murder,false,2,
+culpable_homicide,Culpable homicide not amounting to murder,false,3,
+rape,Rape,true,4,The legal definition was widened by the Criminal Law (Amendment) Act 2013.
+kidnapping_abduction,Kidnapping and abduction,false,5,All victims. NCRB does not publish kidnapping of women separately in every year.
+dacoity,Dacoity,false,6,
+robbery,Robbery,false,7,
+burglary,Burglary,false,8,2014-2016 include criminal trespass.
+theft,Theft,false,9,
+riots,Riots,false,10,
+criminal_breach_of_trust,Criminal breach of trust,false,11,
+cheating,Cheating,false,12,From 2017 NCRB counts fraud separately; from 2024 cyber cheating is also separate.
+counterfeiting,Counterfeiting,false,13,
+arson,Arson,false,14,
+hurt,Hurt,false,15,"2001-2013: all hurt. 2014-2023: grievous hurt only, because NCRB split simple hurt out. 2024 is left out: the BNS grievous hurt group also counts simple hurt by dangerous weapons, so it is not comparable."
+dowry_deaths,Dowry deaths,true,16,
+assault_on_women,Assault on women with intent to outrage her modesty,true,17,"From 2014 includes sexual harassment, assault to disrobe, voyeurism and stalking (IPC 354A-354D)."
+insult_to_modesty,Insult to the modesty of women,true,18,
+cruelty_by_husband,Cruelty by husband or his relatives,true,19,
+importation_of_girls,Importation of girls from a foreign country,true,20,Not published separately in the 2016 table.
+causing_death_by_negligence,Causing death by negligence,false,21,
+other_ipc,Other IPC/BNS crimes,false,22,Total IPC/BNS crimes minus the groups above.
+total_ipc,Total IPC/BNS crimes,false,23,"All cognisable IPC crimes; from July 2024 IPC and BNS together."

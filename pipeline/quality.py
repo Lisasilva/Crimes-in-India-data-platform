@@ -13,7 +13,7 @@ from pathlib import Path
 
 import duckdb
 
-from pipeline.sources import CONTRACTS, SourceContract
+from pipeline.sources import CONTRACTS, SEEDS_DIR, TABLE_CONTRACTS, SourceContract, TableSourceContract
 
 CRITICAL = "critical"
 WARNING = "warning"
@@ -375,9 +375,239 @@ CHECKS = [
 ]
 
 
-def run_checks(con: duckdb.DuckDBPyConnection, contracts=None) -> list[CheckResult]:
-    contracts = contracts or CONTRACTS.values()
-    return [check(con, contract) for contract in contracts for check in CHECKS]
+# --- checks for the wide crime-head tables -----------------------------------
+#
+# These sources are stored as one row per cell. The checks look at the cells
+# the models actually use, as listed in the crime_head_columns seed, on rows
+# that are a known state, a district or a total row.
+
+
+def sql_text(value) -> str:
+    """A string literal for SQL statements that cannot take parameters (views)."""
+    return "'" + str(value).replace("'", "''") + "'"
+
+
+def used_cells(con, c: TableSourceContract, seeds_dir: Path) -> str:
+    """Create temporary views of the mapping seed and the used cells; return the cells view.
+
+    row_type is 'total' for total rows, 'state' for rows whose state name is
+    in the state_names seed (districts, in the district files) and 'other' for
+    anything else, such as footnotes extracted from the PDFs.
+    """
+    view = f"used_{c.name}"
+    totals = ", ".join(sql_text(label) for label in c.total_labels)
+    key = rf"upper(regexp_replace(trim(t.{c.state_column}), '\s*&\s*', ' & ', 'g'))"
+    con.execute(
+        f"""
+        CREATE OR REPLACE TEMP VIEW heads_{c.name} AS
+        SELECT * FROM read_csv({sql_text(seeds_dir / "crime_head_columns.csv")}, all_varchar = true)
+        WHERE source = {sql_text(c.name)}
+        """
+    )
+    con.execute(
+        f"""
+        CREATE OR REPLACE TEMP VIEW {view} AS
+        WITH heads AS (SELECT * FROM heads_{c.name}),
+        states AS (SELECT name_key FROM read_csv({sql_text(seeds_dir / "state_names.csv")}, all_varchar = true))
+        SELECT t.*, {key} AS name_key, h.crime_group,
+               CASE
+                   WHEN upper(trim(t.{c.total_column})) IN ({totals}) THEN 'total'
+                   WHEN {key} IN (SELECT name_key FROM states) THEN 'state'
+                   ELSE 'other'
+               END AS row_type,
+               upper(trim(t.{c.total_column})) LIKE '%ALL INDIA%' AS is_all_india
+        FROM {c.table} AS t
+        JOIN heads AS h
+          ON h.column_name = t.column_name
+         AND TRY_CAST(t.year AS INTEGER) BETWEEN CAST(h.year_from AS INTEGER) AND CAST(h.year_to AS INTEGER)
+        """
+    )
+    return view
+
+
+def check_table_not_empty(con, c: TableSourceContract, view: str) -> CheckResult:
+    n = con.execute(f"SELECT count(*) FROM {c.table}").fetchone()[0]
+    return result("table_not_empty", c, CRITICAL, int(n == 0), f"{n} cells loaded.")
+
+
+def check_table_rejected_rows(con, c: TableSourceContract, view: str) -> CheckResult:
+    return check_rejected_rows(con, c)
+
+
+def check_mapped_columns_present(con, c: TableSourceContract, view: str) -> CheckResult:
+    """Every column named in the mapping seed exists in the file for that year."""
+    examples = fetch_dicts(
+        con,
+        f"""
+        WITH expected AS (
+            SELECT y.year, h.crime_group, h.column_name
+            FROM heads_{c.name} AS h,
+                 range(CAST(h.year_from AS INTEGER), CAST(h.year_to AS INTEGER) + 1) AS y(year)
+        ),
+        found AS (SELECT DISTINCT TRY_CAST(year AS INTEGER) AS year, column_name FROM {c.table})
+        SELECT e.year, e.crime_group, e.column_name
+        FROM expected AS e
+        LEFT JOIN found AS f USING (year, column_name)
+        WHERE f.column_name IS NULL
+        ORDER BY e.year, e.crime_group
+        """,
+    )
+    return result(
+        "mapped_columns_present", c, CRITICAL, len(examples),
+        f"{len(examples)} year/column pairs in the crime-head mapping are missing from the files.",
+        examples,
+    )
+
+
+def check_table_numbers(con, c: TableSourceContract, view: str) -> CheckResult:
+    examples = fetch_dicts(
+        con,
+        f"""
+        SELECT _source_file, _line_number, {c.state_column} AS state, column_name, value
+        FROM {view}
+        WHERE row_type <> 'other' AND value <> '' AND NOT regexp_full_match(value, '[0-9]+')
+        ORDER BY _source_file, _line_number
+        """,
+    )
+    return result(
+        "numbers_are_valid", c, CRITICAL, len(examples),
+        f"{len(examples)} used values on state or total rows are not whole numbers.", examples,
+    )
+
+
+def check_table_duplicates(con, c: TableSourceContract, view: str) -> CheckResult:
+    """The rows the models read (state totals, or state rows) hold one value per column."""
+    used = "total" if c.row_column else "state"
+    examples = fetch_dicts(
+        con,
+        f"""
+        SELECT year, name_key, column_name, count(*) AS copies,
+               list(_line_number ORDER BY _line_number) AS line_numbers
+        FROM {view}
+        WHERE row_type = '{used}' AND value <> ''
+        GROUP BY ALL
+        HAVING count(*) > 1
+        ORDER BY copies DESC
+        """,
+    )
+    failing = sum(e["copies"] for e in examples)
+    return result(
+        "keys_are_unique", c, CRITICAL, failing,
+        f"{len(examples)} {used} rows have more than one value for the same year and column "
+        f"({failing} cells).",
+        examples,
+    )
+
+
+def check_repeated_rows(con, c: TableSourceContract, view: str) -> CheckResult:
+    """Rows the models do not read directly (districts) appear once per state and year."""
+    if not c.row_column:
+        return result("rows_not_repeated", c, WARNING, 0, "Not applicable (state rows are checked by keys_are_unique).")
+    examples = fetch_dicts(
+        con,
+        f"""
+        SELECT year, name_key, {c.row_column}, list(DISTINCT _line_number ORDER BY _line_number) AS line_numbers
+        FROM {view}
+        WHERE row_type = 'state'
+        GROUP BY ALL
+        HAVING count(DISTINCT _line_number) > 1
+        ORDER BY year, name_key
+        """,
+    )
+    return result(
+        "rows_not_repeated", c, WARNING, len(examples),
+        f"{len(examples)} {c.row_column} names appear on more than one row in the same state and year. "
+        "The models use the state total rows, so this does not change any figure.",
+        examples,
+    )
+
+
+def check_table_missing_values(con, c: TableSourceContract, view: str) -> CheckResult:
+    examples = fetch_dicts(
+        con,
+        f"""
+        SELECT year, crime_group, column_name, count(*) AS empty_cells
+        FROM {view}
+        WHERE row_type <> 'other' AND value = ''
+        GROUP BY ALL
+        ORDER BY year, crime_group
+        """,
+    )
+    failing = sum(e["empty_cells"] for e in examples)
+    return result(
+        "no_missing_measures", c, WARNING, failing,
+        f"{failing} used values are empty on state or total rows.", examples,
+    )
+
+
+def check_unrecognised_rows(con, c: TableSourceContract, view: str) -> CheckResult:
+    examples = fetch_dicts(
+        con,
+        f"""
+        SELECT _source_file, _line_number, {c.state_column} AS state, count(*) AS numbers
+        FROM {view}
+        WHERE row_type = 'other' AND regexp_full_match(value, '[0-9]+')
+        GROUP BY ALL
+        ORDER BY _source_file, _line_number
+        """,
+    )
+    return result(
+        "no_unrecognised_rows", c, WARNING, len(examples),
+        f"{len(examples)} rows carry figures but are neither a known state nor a total row, "
+        "so the models skip them. Add the state name to the state_names seed if it is real.",
+        examples,
+    )
+
+
+def check_table_totals(con, c: TableSourceContract, view: str) -> CheckResult:
+    """District rows add up to the state total row; state rows add up to the all-India row."""
+    if c.row_column:
+        parts, total, group = "row_type = 'state'", "row_type = 'total'", "year, name_key, column_name"
+        what = "state-year columns where the districts do not add up to the state total row"
+    else:
+        parts, total, group = "row_type = 'state'", "is_all_india", "year, column_name"
+        what = "year/columns where the states and union territories do not add up to the all-India row"
+    examples = fetch_dicts(
+        con,
+        f"""
+        WITH sums AS (
+            SELECT {group}, any_value(crime_group) AS crime_group,
+                   sum(TRY_CAST(value AS BIGINT)) FILTER (WHERE {parts}) AS sum_of_parts,
+                   sum(TRY_CAST(value AS BIGINT)) FILTER (WHERE {total}) AS reported_total
+            FROM {view}
+            GROUP BY ALL
+        )
+        SELECT * FROM sums
+        WHERE reported_total IS DISTINCT FROM sum_of_parts
+        ORDER BY abs(coalesce(reported_total, 0) - coalesce(sum_of_parts, 0)) DESC
+        """,
+    )
+    return result("totals_match_parts", c, WARNING, len(examples), f"{len(examples)} {what}.", examples)
+
+
+TABLE_CHECKS = [
+    check_table_not_empty,
+    check_table_rejected_rows,
+    check_mapped_columns_present,
+    check_table_numbers,
+    check_table_duplicates,
+    check_repeated_rows,
+    check_table_missing_values,
+    check_unrecognised_rows,
+    check_table_totals,
+]
+
+
+def run_checks(con: duckdb.DuckDBPyConnection, contracts=None, table_contracts=None,
+               seeds_dir: Path = SEEDS_DIR) -> list[CheckResult]:
+    """Run every check. Passing only `contracts` (as the unit tests do) skips the table sources."""
+    if contracts is None and table_contracts is None:
+        contracts, table_contracts = CONTRACTS.values(), TABLE_CONTRACTS.values()
+    results = [check(con, contract) for contract in contracts or [] for check in CHECKS]
+    for contract in table_contracts or []:
+        view = used_cells(con, contract, seeds_dir)
+        results += [check(con, contract, view) for check in TABLE_CHECKS]
+    return results
 
 
 def has_critical_failures(results: list[CheckResult]) -> bool:

@@ -82,3 +82,61 @@ models:
           - accepted_values:
               arguments:
                 values: ['match', 'only in NCRB file']
+
+  - name: dim_crime_group
+    description: The crime groups of fct_crimes, with whether each is a crime against women and the years covered.
+    columns:
+      - name: crime_group
+        tests: [unique, not_null]
+
+  - name: fct_crimes
+    description: >
+      Cases and rate per 100,000 people for each state, year and crime group,
+      for all IPC/BNS crimes, 2001-2024. 2001-2013 come from the district-wise
+      files (state total rows), 2014-2024 from NCRB's state tables.
+    columns:
+      - name: fact_id
+        tests: [unique, not_null]
+      - name: analysis_unit
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_state')
+                field: analysis_unit
+      - name: crime_group
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_crime_group')
+                field: crime_group
+      - name: year
+        tests:
+          - not_null
+          - value_in_range:
+              arguments:
+                min_value: 2001
+                max_value: 2024
+      - name: population_2011
+        tests: [not_null]
+      - name: cases
+        tests:
+          - value_in_range:
+              arguments:
+                min_value: 0
+
+  - name: mart_national_crime_trend
+    description: All-India cases and rate per 100,000 people per crime group and year, 2001-2024.
+
+  - name: mart_crime_source_overlap
+    description: >
+      Figures that two sources both report, side by side: the 2014 district
+      file against NCRB table 1.6, and the Kaggle women file against NCRB's
+      own tables for the women crime groups.
+    columns:
+      - name: comparison
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['match', 'different', 'missing in one source']

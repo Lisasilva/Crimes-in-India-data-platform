@@ -16,7 +16,7 @@ import duckdb
 import pandas as pd
 import yaml
 
-from pipeline.sources import CONTRACTS, MANIFEST_PATH, RAW_DIR, SourceContract
+from pipeline.sources import CONTRACTS, MANIFEST_PATH, RAW_DIR, TABLE_CONTRACTS, SourceContract, TableSourceContract
 
 log = logging.getLogger(__name__)
 
@@ -105,6 +105,40 @@ def read_raw_csv(path: Path, contract: SourceContract) -> tuple[pd.DataFrame, pd
     return data, rejects, repaired, header
 
 
+def read_table_csv(path: Path, contract: TableSourceContract, year: int | None = None) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
+    """Read a wide crime-head table as one row per cell, all values as text.
+
+    Returns (cells, rejected rows, header as found in the file). Rows whose
+    field count differs from the header are rejected whole, never guessed.
+    """
+    n_ids = len(contract.id_columns)
+    cells, rejected = [], []
+    with path.open(newline="", encoding="utf-8-sig") as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        measures = header[n_ids:]
+        for line_number, row in enumerate(reader, start=2):
+            if not row:
+                continue
+            if len(row) != len(header):
+                rejected.append(
+                    {"line_number": line_number, "field_count": len(row), "raw_line": ",".join(row)}
+                )
+                continue
+            ids = [value.strip() for value in row[:n_ids]]
+            for column_name, value in zip(measures, row[n_ids:]):
+                cells.append([line_number, *ids, column_name.strip(), value.strip()])
+
+    data = pd.DataFrame(
+        cells, columns=["_line_number", *contract.id_columns, "column_name", "value"], dtype="string"
+    )
+    data["_line_number"] = data["_line_number"].astype("int64")
+    if contract.year_in_manifest:
+        data["year"] = pd.Series([str(year)] * len(data), dtype="string")
+    rejects = pd.DataFrame(rejected, columns=["line_number", "field_count", "raw_line"])
+    return data, rejects, header
+
+
 def ingest(con: duckdb.DuckDBPyConnection, raw_dir: Path = RAW_DIR, manifest: list[dict] | None = None) -> list[LoadResult]:
     """Load every manifest source into the bronze schema. Re-running replaces the tables."""
     manifest = manifest if manifest is not None else load_manifest()
@@ -129,7 +163,25 @@ def ingest(con: duckdb.DuckDBPyConnection, raw_dir: Path = RAW_DIR, manifest: li
     )
 
     results = []
+    table_frames: dict[str, list[pd.DataFrame]] = {}
+    for name in {e["name"] for e in manifest if e["name"] in TABLE_CONTRACTS}:
+        con.execute("DELETE FROM bronze.rejected_rows WHERE source = ?", [name])
     for entry in manifest:
+        if entry["name"] in TABLE_CONTRACTS:
+            contract = TABLE_CONTRACTS[entry["name"]]
+            path = raw_dir / entry["file"]
+            checksum = verify_checksum(path, entry["sha256"])
+            data, rejects, header = read_table_csv(path, contract, entry.get("year"))
+            data["_source_file"] = entry["file"]
+            data["_loaded_at"] = loaded_at
+            table_frames.setdefault(contract.name, []).append(data)
+            _store_rejects(con, contract.name, rejects, loaded_at)
+            rows_read = data["_line_number"].nunique()
+            results.append(_log_load(
+                con, LoadResult(contract.name, entry["file"], checksum, rows_read, 0, len(rejects), header), loaded_at
+            ))
+            continue
+
         contract = CONTRACTS[entry["name"]]
         path = raw_dir / entry["file"]
         checksum = verify_checksum(path, entry["sha256"])
@@ -142,24 +194,38 @@ def ingest(con: duckdb.DuckDBPyConnection, raw_dir: Path = RAW_DIR, manifest: li
         con.unregister("incoming")
 
         con.execute("DELETE FROM bronze.rejected_rows WHERE source = ?", [contract.name])
-        if not rejects.empty:
-            rejects.insert(0, "source", contract.name)
-            rejects["loaded_at"] = loaded_at
-            con.register("incoming_rejects", rejects)
-            con.execute("INSERT INTO bronze.rejected_rows SELECT * FROM incoming_rejects")
-            con.unregister("incoming_rejects")
+        _store_rejects(con, contract.name, rejects, loaded_at)
+        results.append(_log_load(
+            con, LoadResult(contract.name, entry["file"], checksum, len(data), repaired, len(rejects), header), loaded_at
+        ))
 
-        result = LoadResult(
-            contract.name, entry["file"], checksum, len(data), repaired, len(rejects), header
-        )
-        con.execute(
-            "INSERT INTO bronze.load_log VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [result.source, result.file, result.sha256, result.rows_read,
-             result.rows_repaired, result.rows_rejected, result.header, loaded_at],
-        )
-        log.info(
-            "%s: %d rows loaded, %d repaired, %d rejected",
-            result.source, result.rows_read, result.rows_repaired, result.rows_rejected,
-        )
-        results.append(result)
+    # Each wide-table source can span several files (one per year); they are
+    # loaded into one bronze table.
+    for name, frames in table_frames.items():
+        con.register("incoming", pd.concat(frames, ignore_index=True))
+        con.execute(f"CREATE OR REPLACE TABLE {TABLE_CONTRACTS[name].table} AS SELECT * FROM incoming")
+        con.unregister("incoming")
     return results
+
+
+def _store_rejects(con, source: str, rejects: pd.DataFrame, loaded_at) -> None:
+    if rejects.empty:
+        return
+    rejects.insert(0, "source", source)
+    rejects["loaded_at"] = loaded_at
+    con.register("incoming_rejects", rejects)
+    con.execute("INSERT INTO bronze.rejected_rows SELECT * FROM incoming_rejects")
+    con.unregister("incoming_rejects")
+
+
+def _log_load(con, result: LoadResult, loaded_at) -> LoadResult:
+    con.execute(
+        "INSERT INTO bronze.load_log VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [result.source, result.file, result.sha256, result.rows_read,
+         result.rows_repaired, result.rows_rejected, result.header, loaded_at],
+    )
+    log.info(
+        "%s (%s): %d rows loaded, %d repaired, %d rejected",
+        result.source, result.file, result.rows_read, result.rows_repaired, result.rows_rejected,
+    )
+    return result
