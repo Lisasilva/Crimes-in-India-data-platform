@@ -1,8 +1,9 @@
-crime_code,crime_name,kaggle_column,ncrb_sub_group,legal_section
-rape,Rape,Rape,01. Rape,IPC 376
-kidnapping_abduction,Kidnapping and abduction of women and girls,K&A,02. Kidnapping & Abduction of Women & Girls,IPC 363-373
-dowry_deaths,Dowry deaths,DD,03. Dowry Deaths,IPC 304B
-assault_on_women,Assault on women with intent to outrage her modesty,AoW,04. Molestation,IPC 354
-insult_to_modesty,Insult to the modesty of women,AoM,05. Sexual Harassment,IPC 509
-cruelty_by_husband,Cruelty by husband or his relatives,DV,06. Cruelty by Husband and Relatives,IPC 498A
-importation_of_girls,Importation of girls from a foreign country,WT,07. Importation of Girls,IPC 366B
+crime_code,crime_name,kaggle_column,ncrb_sub_group,legal_section,definition_note
+rape,Rape,Rape,01. Rape,IPC 376 / BNS 64-68 and 70-71,"The legal definition was widened by the Criminal Law (Amendment) Act 2013. From 2014 attempt to rape is counted separately, as NCRB does."
+kidnapping_abduction,Kidnapping and abduction of women and girls,K&A,02. Kidnapping & Abduction of Women & Girls,IPC 363-373 / BNS 137-142,From 2017 NCRB's total includes importation of girls (a few dozen cases a year).
+dowry_deaths,Dowry deaths,DD,03. Dowry Deaths,IPC 304B / BNS 80,
+assault_on_women,Assault on women with intent to outrage her modesty,AoW,04. Molestation,IPC 354 / BNS 74-78,"From 2013 includes sexual harassment, assault to disrobe, voyeurism and stalking (IPC 354A-354D, added by the Criminal Law (Amendment) Act 2013). In 2024 NCRB lists these separately, so they are added up."
+insult_to_modesty,Insult to the modesty of women,AoM,05. Sexual Harassment,IPC 509 / BNS 79,
+cruelty_by_husband,Cruelty by husband or his relatives,DV,06. Cruelty by Husband and Relatives,IPC 498A / BNS 85,
+importation_of_girls,Importation of girls from a foreign country,WT,07. Importation of Girls,IPC 366B / BNS 141,Not published separately in the 2016 table.
+total_against_women,Total crimes against women,,,IPC/BNS and special and local laws,"All crimes against women NCRB counts that year, under the IPC/BNS and special and local laws. The special-law heads counted change over time (for example POCSO cases with girl victims from 2017), so part of a year-to-year change can come from what is counted."

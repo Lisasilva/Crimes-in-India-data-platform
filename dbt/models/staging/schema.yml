@@ -26,3 +26,20 @@ models:
                 field: name_key
       - name: cases_reported
         tests: [not_null]
+
+  - name: stg_ncrb__population
+    description: >
+      NCRB state totals with the population and rate NCRB used, one row per
+      source, state, year and measure.
+    columns:
+      - name: measure
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['cases', 'population_lakhs', 'published_rate']
+      - name: value
+        tests:
+          - not_null
+          - value_in_range:
+              arguments:
+                min_value: 0

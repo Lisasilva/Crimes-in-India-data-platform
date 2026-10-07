@@ -64,18 +64,11 @@ def load(con: duckdb.DuckDBPyConnection) -> dict[str, pd.DataFrame]:
         "scores": con.sql("SELECT * FROM gold.cluster_scores ORDER BY k").df(),
         "fact": con.sql("SELECT * FROM gold.fct_crimes_against_women ORDER BY analysis_unit, year, crime_code").df(),
         "states": con.sql("SELECT * FROM gold.dim_state ORDER BY analysis_unit").df(),
-        "corrections": con.sql(
+        "overlap": con.sql(
             """
-            SELECT analysis_unit, year, crime_code, data_issue
-            FROM gold.fct_crimes_against_women
-            WHERE data_issue IS NOT NULL
+            SELECT comparison_type, comparison, count(*) AS n
+            FROM gold.mart_crime_source_overlap GROUP BY ALL
             """
-        ).df(),
-        "relabelled": con.sql(
-            "SELECT count(*) AS n FROM gold.fct_crimes_against_women WHERE was_relabelled"
-        ).df(),
-        "comparison": con.sql(
-            "SELECT comparison, count(*) AS n FROM gold.mart_source_comparison GROUP BY 1"
         ).df(),
         "profile_years": con.sql(
             "SELECT min(year) AS first, max(year) AS last FROM gold.fct_crimes_against_women"
@@ -241,10 +234,12 @@ def quality_rows(quality: dict) -> str:
 def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -> str:
     fact, clusters = data["fact"], data["clusters"]
     first, last = int(data["profile_years"]["first"][0]), int(data["profile_years"]["last"][0])
-    total_cases = int(fact["cases"].sum())
+    total_cases = int(fact.loc[fact["crime_code"] == "total_against_women", "cases"].sum())
     summary = quality["summary"]
-    comparison = dict(zip(data["comparison"]["comparison"], data["comparison"]["n"]))
-    corrected = int(data["relabelled"]["n"][0]) + len(data["corrections"])
+    overlap = {(r.comparison_type, r.comparison): int(r.n) for r in data["overlap"].itertuples()}
+    cross_checked = overlap.get(("NCRB women tables vs NCRB crime-head tables", "match"), 0)
+    kaggle_match = overlap.get(("Kaggle women file vs NCRB women tables", "match"), 0)
+    kaggle_diff = overlap.get(("Kaggle women file vs NCRB women tables", "different"), 0)
     built = datetime.now(timezone.utc).strftime("%d %B %Y")
     best = clustering["best_k"]
     score_rows = "".join(
@@ -337,15 +332,14 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
     <div class="tile"><div class="value">{total_cases:,}</div><div class="label">cases recorded, {first}–{last}</div></div>
     <div class="tile"><div class="value">{len(data['states'])}</div><div class="label">states and union territories</div></div>
     <div class="tile"><div class="value">{summary['checks_passed']} / {summary['checks_run']}</div><div class="label">data quality checks passed; the rest are reported problems in the sources</div></div>
-    <div class="tile"><div class="value">{corrected:,}</div><div class="label">figures corrected or set aside by reviewed rules</div></div>
+    <div class="tile"><div class="value">{cross_checked:,}</div><div class="label">figures confirmed by a second NCRB table</div></div>
   </div>
 </header>
 
 <section>
   <h2>How rates have changed across India</h2>
-  <p>Cases reported per 100,000 women each year, for the six main crime types. Gaps are deliberate:
-  a year is left blank when a state's figure for it is known to be wrong. For example, 2019 is blank because
-  West Bengal's 2019 figures are an exact copy of 2018, and assault on women is blank for 2011 because every state reported zero.</p>
+  <p>Cases reported per 100,000 women each year, for the six main crime types, from NCRB's own
+  tables. Rates use the female population NCRB itself used that year.</p>
   <div class="card"><div class="minis">{charts['trend']}</div></div>
   <p class="note">Reported cases depend on whether crimes are reported and recorded, so a rising line can mean better reporting as well as more crime.
   Legal definitions also changed after the Criminal Law (Amendment) Act, 2013, which is why several lines bend around 2013–2014.</p>
@@ -388,11 +382,15 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
   warnings describe problems in the published sources, and each one is handled by a reviewed rule rather than a manual edit.</p>
   <div class="card">
     <ul class="note">
-      <li><b>2020–2021 state labels were shifted.</b> From Jammu &amp; Kashmir onward, each row held the next state's figures
-      (NCRB changed its state order in 2020). {int(data['relabelled']['n'][0]):,} figures were moved back to the right state.</li>
-      <li><b>Copied and empty years</b> (West Bengal 2019, Jharkhand 2004, assault on women in 2011) are set to missing, never guessed.</li>
-      <li><b>Delhi 2001–2010</b> was missing and is filled from a second NCRB file. Where both files have data,
-      all {comparison.get('match', 0):,} figures match exactly.</li>
+      <li><b>Official tables only.</b> Every figure comes from NCRB's <i>Crime in India</i> tables, downloaded from
+      one fixed version with a checksum for each file, and every state adds up to NCRB's all-India row.</li>
+      <li><b>Two NCRB tables agree.</b> The crimes-against-women tables and the all-crimes tables report
+      {cross_checked:,} of the same figures, and all of them match.</li>
+      <li><b>Rates match NCRB's.</b> Rates use the population NCRB used, and reproduce NCRB's printed rates.
+      NCRB did not publish the female population before 2012, so for 2001–2011 it is estimated from
+      NCRB's total population and each state's female share in the 2011 Census.</li>
+      <li><b>The Kaggle copy is a backup only.</b> Compared with NCRB's tables, {kaggle_match:,} of its figures match
+      and {kaggle_diff:,} differ, so it is no longer used for the charts.</li>
     </ul>
     <details><summary>Show all {summary['checks_run']} checks from the latest run</summary>
       <div class="table-wrap"><table>
@@ -411,7 +409,7 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
     <div class="step"><b>Raw files</b><span>CSV files with recorded checksums</span></div>
     <div class="step"><b>Bronze</b><span>Loaded into DuckDB as text; broken rows repaired or kept aside</span></div>
     <div class="step"><b>Checks</b><span>{summary['checks_run']} data quality checks in Python and SQL</span></div>
-    <div class="step"><b>Silver &amp; gold</b><span>dbt models, reviewed corrections and dbt tests</span></div>
+    <div class="step"><b>Silver &amp; gold</b><span>dbt models, reviewed mappings and dbt tests</span></div>
     <div class="step"><b>Clustering</b><span>K-Means and DBSCAN with scikit-learn</span></div>
     <div class="step"><b>This site</b><span>Plotly charts published to GitHub Pages</span></div>
   </div>
@@ -423,8 +421,10 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
 </section>
 
 <footer>
-  Source: National Crime Records Bureau (NCRB), <i>Crime in India</i>, via Kaggle copies of data.gov.in releases.
-  Female population: Census of India 2011. Built {built}.
+  Source: National Crime Records Bureau (NCRB), <i>Crime in India</i> 2001–2024, as extracted by the
+  <a href="https://github.com/reclaimchennai/NCRB">reclaimchennai/NCRB</a> project, and NCRB's district-wise
+  files on data.gov.in. Population: NCRB (Registrar General of India projections); Census of India 2011
+  for the female share before 2012. Built {built}.
 </footer>
 </main>
 <script>

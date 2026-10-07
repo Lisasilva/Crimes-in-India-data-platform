@@ -1,6 +1,6 @@
 -- Grain: one row per analysis unit, year and crime group, for all IPC/BNS crimes.
--- other_ipc is total_ipc minus the named groups. Rates use the Census 2011
--- population, the latest census available.
+-- other_ipc is total_ipc minus the named groups. Rates use the mid-year
+-- population NCRB used that year (dim_population).
 with by_unit as (
     select
         analysis_unit,
@@ -36,10 +36,10 @@ select
     o.year,
     o.crime_group,
     o.cases,
-    p.population                                                    as population_2011,
+    p.population,
     round(o.cases * 100000.0 / p.population, 2)                     as rate_per_100k,
     o.source
 from with_other as o
-left join {{ ref('population_2011') }} as p
+left join {{ ref('dim_population') }} as p
     on p.analysis_unit = o.analysis_unit
-   and o.year between p.valid_from_year and p.valid_to_year
+   and p.year = o.year

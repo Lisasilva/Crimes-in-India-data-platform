@@ -390,17 +390,25 @@ def sql_text(value) -> str:
 def used_cells(con, c: TableSourceContract, seeds_dir: Path) -> str:
     """Create temporary views of the mapping seed and the used cells; return the cells view.
 
-    row_type is 'total' for total rows, 'state' for rows whose state name is
-    in the state_names seed (districts, in the district files) and 'other' for
-    anything else, such as footnotes extracted from the PDFs.
+    row_type is 'city' for the city section of the older NCRB tables (it
+    repeats some state names, such as Delhi), 'total' for total rows, 'state'
+    for rows whose state name is in the state_names seed (districts, in the
+    district files) and 'other' for anything else, such as footnotes extracted
+    from the PDFs.
     """
+    city = "t.section ILIKE 'CIT%'" if "section" in c.id_columns else "false"
     view = f"used_{c.name}"
     totals = ", ".join(sql_text(label) for label in c.total_labels)
-    key = rf"upper(regexp_replace(trim(t.{c.state_column}), '\s*&\s*', ' & ', 'g'))"
+    # Same as the normalise_state dbt macro.
+    key = (
+        rf"upper(regexp_replace(regexp_replace(trim(t.{c.state_column}), '[\s*@+#‐-]+$', ''), "
+        rf"'\s*&\s*', ' & ', 'g'))"
+    )
     con.execute(
         f"""
         CREATE OR REPLACE TEMP VIEW heads_{c.name} AS
-        SELECT * FROM read_csv({sql_text(seeds_dir / "crime_head_columns.csv")}, all_varchar = true)
+        SELECT *, {c.mapped_to_column} AS mapped_to
+        FROM read_csv({sql_text(seeds_dir / c.mapping_seed)}, all_varchar = true)
         WHERE source = {sql_text(c.name)}
         """
     )
@@ -409,13 +417,14 @@ def used_cells(con, c: TableSourceContract, seeds_dir: Path) -> str:
         CREATE OR REPLACE TEMP VIEW {view} AS
         WITH heads AS (SELECT * FROM heads_{c.name}),
         states AS (SELECT name_key FROM read_csv({sql_text(seeds_dir / "state_names.csv")}, all_varchar = true))
-        SELECT t.*, {key} AS name_key, h.crime_group,
+        SELECT t.*, {key} AS name_key, h.mapped_to,
                CASE
+                   WHEN {city} THEN 'city'
                    WHEN upper(trim(t.{c.total_column})) IN ({totals}) THEN 'total'
                    WHEN {key} IN (SELECT name_key FROM states) THEN 'state'
                    ELSE 'other'
                END AS row_type,
-               upper(trim(t.{c.total_column})) LIKE '%ALL INDIA%' AS is_all_india
+               regexp_matches(upper(t.{c.total_column}), 'ALL.INDIA') AS is_all_india
         FROM {c.table} AS t
         JOIN heads AS h
           ON h.column_name = t.column_name
@@ -440,16 +449,16 @@ def check_mapped_columns_present(con, c: TableSourceContract, view: str) -> Chec
         con,
         f"""
         WITH expected AS (
-            SELECT y.year, h.crime_group, h.column_name
+            SELECT y.year, h.mapped_to, h.column_name
             FROM heads_{c.name} AS h,
                  range(CAST(h.year_from AS INTEGER), CAST(h.year_to AS INTEGER) + 1) AS y(year)
         ),
         found AS (SELECT DISTINCT TRY_CAST(year AS INTEGER) AS year, column_name FROM {c.table})
-        SELECT e.year, e.crime_group, e.column_name
+        SELECT e.year, e.mapped_to, e.column_name
         FROM expected AS e
         LEFT JOIN found AS f USING (year, column_name)
         WHERE f.column_name IS NULL
-        ORDER BY e.year, e.crime_group
+        ORDER BY e.year, e.mapped_to
         """,
     )
     return result(
@@ -460,18 +469,29 @@ def check_mapped_columns_present(con, c: TableSourceContract, view: str) -> Chec
 
 
 def check_table_numbers(con, c: TableSourceContract, view: str) -> CheckResult:
+    """Case counts are whole numbers; populations and rates are decimals.
+
+    A decimal may carry one of NCRB's footnote marks (for example "509.2*"),
+    which the staging models strip.
+    """
+    decimals = ", ".join(sql_text(m) for m in c.decimal_measures) or "''"
     examples = fetch_dicts(
         con,
         f"""
         SELECT _source_file, _line_number, {c.state_column} AS state, column_name, value
         FROM {view}
-        WHERE row_type <> 'other' AND value <> '' AND NOT regexp_full_match(value, '[0-9]+')
+        WHERE row_type IN ('state', 'total') AND value <> ''
+          AND CASE WHEN mapped_to IN ({decimals})
+                   THEN NOT regexp_full_match(value, '[0-9]+(\\.[0-9]+)? ?[*#+@]*')
+                   ELSE NOT regexp_full_match(value, '[0-9]+')
+              END
         ORDER BY _source_file, _line_number
         """,
     )
     return result(
         "numbers_are_valid", c, CRITICAL, len(examples),
-        f"{len(examples)} used values on state or total rows are not whole numbers.", examples,
+        f"{len(examples)} used values on state or total rows are not valid numbers "
+        "(whole numbers for cases, decimals for populations and rates).", examples,
     )
 
 
@@ -526,11 +546,11 @@ def check_table_missing_values(con, c: TableSourceContract, view: str) -> CheckR
     examples = fetch_dicts(
         con,
         f"""
-        SELECT year, crime_group, column_name, count(*) AS empty_cells
+        SELECT year, mapped_to, column_name, count(*) AS empty_cells
         FROM {view}
-        WHERE row_type <> 'other' AND value = ''
+        WHERE row_type IN ('state', 'total') AND value = ''
         GROUP BY ALL
-        ORDER BY year, crime_group
+        ORDER BY year, mapped_to
         """,
     )
     failing = sum(e["empty_cells"] for e in examples)
@@ -567,14 +587,16 @@ def check_table_totals(con, c: TableSourceContract, view: str) -> CheckResult:
     else:
         parts, total, group = "row_type = 'state'", "is_all_india", "year, column_name"
         what = "year/columns where the states and union territories do not add up to the all-India row"
+    decimals = ", ".join(sql_text(m) for m in c.decimal_measures) or "''"
     examples = fetch_dicts(
         con,
         f"""
         WITH sums AS (
-            SELECT {group}, any_value(crime_group) AS crime_group,
+            SELECT {group}, any_value(mapped_to) AS mapped_to,
                    sum(TRY_CAST(value AS BIGINT)) FILTER (WHERE {parts}) AS sum_of_parts,
                    sum(TRY_CAST(value AS BIGINT)) FILTER (WHERE {total}) AS reported_total
             FROM {view}
+            WHERE mapped_to NOT IN ({decimals})
             GROUP BY ALL
         )
         SELECT * FROM sums

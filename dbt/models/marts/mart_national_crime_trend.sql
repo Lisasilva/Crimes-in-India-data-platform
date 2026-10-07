@@ -7,8 +7,8 @@ select
     g.is_against_women,
     sum(f.cases)                                                    as cases,
     count(f.cases)                                                  as units_reporting,
-    sum(f.population_2011)                                          as population_2011,
-    round(sum(f.cases) * 100000.0 / sum(f.population_2011), 2)      as rate_per_100k
+    sum(f.population)                                               as population,
+    round(sum(f.cases) * 100000.0 / sum(f.population), 2)           as rate_per_100k
 from {{ ref('fct_crimes') }} as f
 join {{ ref('crime_groups') }} as g using (crime_group)
 group by all

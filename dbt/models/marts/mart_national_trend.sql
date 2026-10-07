@@ -6,7 +6,7 @@ select
     case when count(cases) = count(*) then sum(cases) end                      as cases,
     round(
         case when count(cases) = count(*) then sum(cases) end * 100000.0
-        / sum(female_population_2011), 2
+        / sum(female_population), 2
     )                                                                           as rate_per_100k_women,
     count(*)                                                                    as units_expected,
     count(cases)                                                                as units_reporting

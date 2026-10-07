@@ -196,3 +196,855 @@ sources:
     licence: MIT (extraction); NCRB data
     sha256: 6ebfc7ba20776d378c8c9d56b5bcc7ce9b6dfe9d523b301c37f430d87c5159f9
 
+
+  # Crimes against women by crime head. 2001-2015: NCRB's consolidated table
+  # "Cases reported under crimes against women during 2001-2015", one sheet
+  # per year. 2016-2024: tables 3A.2(i) (IPC/BNS) and 3A.2(ii) (special and
+  # local laws). Same download and checksum rules as above.
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2001_crimes_against_women.csv
+    year: 2001
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2001"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: f830dd77944845c848a6e92cc4f40162dd84ebd69b895181259b5e8c7a2d2e4e
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2002_crimes_against_women.csv
+    year: 2002
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2002"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t2.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t2.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: e852261a604dbcb67c1f076c022e085292de2785b598fdd296ac24e54f29affb
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2003_crimes_against_women.csv
+    year: 2003
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2003"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t3.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t3.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 7a93535139fba876ec45a4fad8dce02f7a04a2c9439e2cb2b3cba779af1fa72c
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2004_crimes_against_women.csv
+    year: 2004
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2004"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t4.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t4.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 2abadb536d6d8054f7abff7452604266156e5264dc2c6b8e379a546f117f8834
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2005_crimes_against_women.csv
+    year: 2005
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2005"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t5.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t5.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 3ccd2867e47257cb9c92436d29a7e197467f5eb0db01909914468c3e2f37ff86
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2006_crimes_against_women.csv
+    year: 2006
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2006"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t6.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t6.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: ba8fbdf2e2f2150c56f059ddc6ec603d3bcaa1231125b2cf718af5add3c16ac4
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2007_crimes_against_women.csv
+    year: 2007
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2007"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t7.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t7.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 00c65ac1d6122dabf02c360b46b41784f457aae29c8bfec42baf68eb29f180cb
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2008_crimes_against_women.csv
+    year: 2008
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2008"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t8.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t8.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: f1853f8dba49568e3eac70f8e533250215f1539c070314c1083a4ad8fd96105b
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2009_crimes_against_women.csv
+    year: 2009
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2009"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t9.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t9.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 30803e7c69985472bd2e2c8a7a8529cc5f0c6abb431de4f5663d615c637b4dfd
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2010_crimes_against_women.csv
+    year: 2010
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2010"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t10.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t10.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 5412fa951a97eccc4763b69e9e1b4fb3e3f4a5e30bd706259ce58573c3d17cd7
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2011_crimes_against_women.csv
+    year: 2011
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2011"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t11.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t11.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 6cfb64daad27cf15f9f009cf58b319b0e4b60081046c41cf4d069ec25b9e6b1f
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2012_crimes_against_women.csv
+    year: 2012
+    description: "CASES REGISTERED FOR VARIOUS CRIMES AGAINST WOMEN DURING 2012"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t12.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t12.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: ef45631522b21a03f55c60d8432d104eaff6df80c42013f8117c7e7fd1fdf694
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2013_crimes_against_women.csv
+    year: 2013
+    description: "CASES REGISTERED UNDER VARIOUS CRIMES AGAINST WOMEN DURING 2013"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t13.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t13.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 46efb07a31ec33b425c7ba46382d8f583efea30a75d16d75fd03bbf26a52ae9b
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2014_crimes_against_women.csv
+    year: 2014
+    description: "CASES REGISTERED UNDER VARIOUS CRIMES AGAINST WOMEN DURING 2014"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t14.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t14.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 8987cdef1f00f2bd9464711356205a2f95d4c4289bb6b0e9a9d044d0c2702864
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2015_crimes_against_women.csv
+    year: 2015
+    description: "CASES REGISTERED UNDER VARIOUS CRIMES AGAINST WOMEN DURING 2015"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t15.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_1-cases-reported-under-crimes-against-women-during-2001-2015_t15.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/1-Cases-Reported-under-Crimes-against-Women-During-2001-2015(StateUT).xls"
+    original_sha256: 7244976160437862b58a0a0f34d7fb1de418e5ff74ededb7aafdecd190b817f7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: c0471e215151fecf4e5197c18890754af1faa58a4b8e74187fc26ccc68891c76
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2016_table_3A.2i.csv
+    year: 2016
+    description: "3A.2(i) IPC Crimes Against Women - 2016"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/3a-2_1683013216table3a2_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/3a-2_1683013216table3a2_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1683013216Table3A2.pdf"
+    original_sha256: c05e402bda147759a2428e8c0d1637db7bb4ea1f6e2ae75bd9bac562015b867f
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2016
+    licence: MIT (extraction); NCRB data
+    sha256: 626eeaaca9a750f4b70f462ccd79ebbef671edf1bca1a8ee154ed6ad2c5b1955
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2016_table_3A.2ii.csv
+    year: 2016
+    description: "3A.2(ii) SLL Crimes Against Women - 2016"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/3a-2_1683013216table3a2_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/3a-2_1683013216table3a2_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1683013216Table3A2.pdf"
+    original_sha256: c05e402bda147759a2428e8c0d1637db7bb4ea1f6e2ae75bd9bac562015b867f
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2016
+    licence: MIT (extraction); NCRB data
+    sha256: 163ed83745c47fa9e64c0059af5fed7940ef64ed9c9fc13cbb132b7ac08bce4c
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2017_table_3A.2i.csv
+    year: 2017
+    description: "3A.2(i) IPC Crimes against Women (Crime Head-wise & States/UT-wise) - 2017"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/3a-2_table-3a-2-1_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/3a-2_table-3a-2-1_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.2_1.pdf"
+    original_sha256: 3bd6b654e8ca4f9904deed8505878f93285d48e6ea44298ec35d23a71ab0a8be
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2017
+    licence: MIT (extraction); NCRB data
+    sha256: 6700ab308a1c1e7961f9e8448e91144d1f97953de258c89d0b41929d5ff37138
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2017_table_3A.2ii.csv
+    year: 2017
+    description: "3A.2(ii) SLL Crimes against Women (Crime Head-wise & States/UT-wise) - 2017"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/3a-2_table-3a-2-1_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/3a-2_table-3a-2-1_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.2_1.pdf"
+    original_sha256: 3bd6b654e8ca4f9904deed8505878f93285d48e6ea44298ec35d23a71ab0a8be
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2017
+    licence: MIT (extraction); NCRB data
+    sha256: c15d78cdc2edae8ebdee3cd97900f616b0c62b7356c15a8178d50b6190c9a310
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2018_table_3A.2i.csv
+    year: 2018
+    description: "3A.2(i) IPC Crimes against Women (Crime Head-wise & States/UT-wise) - 2018"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/3a-2_table-3a-2-0_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/3a-2_table-3a-2-0_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.2_0.pdf"
+    original_sha256: 97247969b1b9c1d9d03f481a28e5fa9737e33467d1630704830bbb3a3b32ae3d
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2018
+    licence: MIT (extraction); NCRB data
+    sha256: 638fab581158f017ca6e1c4691f42b3bf173236f87be9136d5aa2d3a62c6e770
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2018_table_3A.2ii.csv
+    year: 2018
+    description: "3A.2(ii) SLL Crimes against Women (Crime Head-wise & States/UT-wise) - 2018"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/3a-2_table-3a-2-0_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/3a-2_table-3a-2-0_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.2_0.pdf"
+    original_sha256: 97247969b1b9c1d9d03f481a28e5fa9737e33467d1630704830bbb3a3b32ae3d
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2018
+    licence: MIT (extraction); NCRB data
+    sha256: 979dbf68fd0dbb4b5c3828af407935ae2f5e77673d8139a107dcf250ca1e5cea
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2019_table_3A.2i.csv
+    year: 2019
+    description: "3A.2(i) IPC Crimes against Women (Crime Head-wise & State/UT-wise) - 2019"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/3a-2_table-3a-2-2_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/3a-2_table-3a-2-2_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.2_2.pdf"
+    original_sha256: ebf89cd6073f2ee1fe26824c7b69cd8595c2eaf1f8dc2696997097da12afbff9
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2019
+    licence: MIT (extraction); NCRB data
+    sha256: 4bb35bf59ab5cf19fdaed025b2a76ceb43bf7820b02dd59a968217a4f20280c3
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2019_table_3A.2ii.csv
+    year: 2019
+    description: "3A.2(ii) SLL Crimes against Women (Crime Head-wise & State/UT-wise) - 2019"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/3a-2_table-3a-2-2_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/3a-2_table-3a-2-2_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.2_2.pdf"
+    original_sha256: ebf89cd6073f2ee1fe26824c7b69cd8595c2eaf1f8dc2696997097da12afbff9
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2019
+    licence: MIT (extraction); NCRB data
+    sha256: 5bde680e4d46514459b7df4245258341fc6a951fa8b775c71b0517dbc8e17fb9
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2020_table_3A.2i.csv
+    year: 2020
+    description: "3A.2(i) IPC Crimes against Women (Crime Head‐wise & States/UT‐wise) ‐ 2020"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/3a-2_table-3a-2_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/3a-2_table-3a-2_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/TABLE-3A.2.pdf"
+    original_sha256: 213dd98ca8f994a78db82d418a26fc2ac179ec869fd6662d74453e05294ea3d5
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2020
+    licence: MIT (extraction); NCRB data
+    sha256: ebb1c74fbcd7b7f9c8f6de3a62eb3eb0fae14e25ddcfe877af04bc4edc3fcec2
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2020_table_3A.2ii.csv
+    year: 2020
+    description: "3A.2(ii) SLL Crimes against Women (Crime Head‐wise & States/UT‐wise) ‐ 2020"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/3a-2_table-3a-2_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/3a-2_table-3a-2_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/TABLE-3A.2.pdf"
+    original_sha256: 213dd98ca8f994a78db82d418a26fc2ac179ec869fd6662d74453e05294ea3d5
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2020
+    licence: MIT (extraction); NCRB data
+    sha256: e1d9cfe813ddc5b548fd9be0a4cb056e9ac38167d7892624ce71610ca3cad0b6
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2021_table_3A.2i.csv
+    year: 2021
+    description: "3A.2(i) IPC Crimes against Women (Crime Head-wise & State/UT-wise) - 2021"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/3a-2_1679652786table3a2_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/3a-2_1679652786table3a2_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/post/1679652786TABLE3A2.pdf"
+    original_sha256: fa389e83b794321704d8c355b958eac61324cc607705c935a5286f5d60e0ddd7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2021
+    licence: MIT (extraction); NCRB data
+    sha256: 9fc18432e46cc478bb6b8e52f3456f00ca9a138f4de67d9a8e7e5ef570042cc6
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2021_table_3A.2ii.csv
+    year: 2021
+    description: "3A.2(ii) SLL Crimes against Women (Crime Head-wise & State/UT-wise) - 2021"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/3a-2_1679652786table3a2_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/3a-2_1679652786table3a2_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/post/1679652786TABLE3A2.pdf"
+    original_sha256: fa389e83b794321704d8c355b958eac61324cc607705c935a5286f5d60e0ddd7
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2021
+    licence: MIT (extraction); NCRB data
+    sha256: dc59a12aa22cb52b0d9ae40678c681fe290143bcd1437dc6d906a9ba2f539f8a
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2022_table_3A.2i.csv
+    year: 2022
+    description: "3A.2(i) IPC Crimes against Women (Crime Head-wise & State/UT-wise) - 2022"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/3a-2_1701935180table3a2_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/3a-2_1701935180table3a2_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1701935180TABLE3A2.pdf"
+    original_sha256: e8657c240947598eed4e8aceb7174a2d283565b382c755793057a68f2eac7847
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2022
+    licence: MIT (extraction); NCRB data
+    sha256: d1b2eb7b82ad8aae8800b200ffc62e19f465dec06b54ac8245dbe783c43f9313
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2022_table_3A.2ii.csv
+    year: 2022
+    description: "3A.2(ii) SLL Crimes against Women (Crime Head-wise & State/UT-wise) - 2022"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/3a-2_1701935180table3a2_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/3a-2_1701935180table3a2_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1701935180TABLE3A2.pdf"
+    original_sha256: e8657c240947598eed4e8aceb7174a2d283565b382c755793057a68f2eac7847
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2022
+    licence: MIT (extraction); NCRB data
+    sha256: 8dd6a580d49dd2113c2f0de08c2b17cac9b2015e2f87c3fd1bf942770fbfacdd
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2023_table_3A.2i.csv
+    year: 2023
+    description: "3A.2(i) IPC Crimes against Women (Crime Head-wise & State/UT-wise) - 2023"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/2_table3a2_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/2_table3a2_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE3A2.pdf"
+    original_sha256: 8abf9305c4ad58331fb2ad17c4568260a4f9377e8badc9c515ac2e171fff864c
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2023
+    licence: MIT (extraction); NCRB data
+    sha256: c4ebe35a437a81002ce972e664d8eb486b93a9321693f09794bfa730ce6b2473
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2023_table_3A.2ii.csv
+    year: 2023
+    description: "3A.2(ii) SLL Crimes against Women (Crime Head-wise & State/UT-wise) - 2023"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/2_table3a2_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/2_table3a2_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE3A2.pdf"
+    original_sha256: 8abf9305c4ad58331fb2ad17c4568260a4f9377e8badc9c515ac2e171fff864c
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2023
+    licence: MIT (extraction); NCRB data
+    sha256: 56ba9af007a28b368af09c04bb53c2f5a780e6a7f4fa0990ec8696e704dee822
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2024_table_3A.2i.csv
+    year: 2024
+    description: "3A.2(i) IPC/BNS Crimes against Women (Crime Head-wise & State/UT-wise ) - 2024"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/2_table3a21_t3a-2-i.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/2_table3a21_t3a-2-i.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE3A21.pdf"
+    original_sha256: c6c46e86117fb3a7758efe2ad7f9389dcb886fd82e078fed5cfa7e18fe6a8f91
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2024
+    licence: MIT (extraction); NCRB data
+    sha256: 1502d39249a4b9177d6ff5a1be447df326225d3cf127ba4b978dc41ffc68a6a5
+
+  - name: ncrb_women_heads
+    file: ncrb_cii/ncrb_women_heads/2024_table_3A.2ii.csv
+    year: 2024
+    description: "3A.2(ii) SLL Crimes against Women (Crime Head-wise & State/UT-wise ) - 2024"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/2_table3a21_t3a-2-ii.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/2_table3a21_t3a-2-ii.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE3A21.pdf"
+    original_sha256: c6c46e86117fb3a7758efe2ad7f9389dcb886fd82e078fed5cfa7e18fe6a8f91
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2024
+    licence: MIT (extraction); NCRB data
+    sha256: b0cca8357a13db98cb92b5d0247d589eeab61cae0ac96ebba51299b7e613796a
+
+  # Total IPC/BNS crimes with NCRB's mid-year population (in lakhs) and its
+  # published crime rate: table 1.6 (table 5 in 2001) for 2001-2013, 1.4 for
+  # 2014-2015 and 1A.1 for 2016-2024.
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2001_table_5.csv
+    year: 2001
+    description: "5 Incidence & Rate Of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2001"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2001/7_table-5-2001.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2001/7_table-5-2001.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/TABLE 5-2001.pdf"
+    original_sha256: b00083d294fbf28e66a8eab4618d63bdf37d39fd9de1eca6a67d2e2daa1f9aa6
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2001
+    licence: MIT (extraction); NCRB data
+    sha256: c7a7b775bc908b5e9638c96c22cf93eeec66a1d7b35f126c17d4b6e6e6b11167
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2002_table_1.6.csv
+    year: 2002
+    description: "1.6 Incidence & Rate Of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2002"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2002/6_table-1-6-2002.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2002/6_table-1-6-2002.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/TABLE-1.6_2002.pdf"
+    original_sha256: 7667e750366b1179aad0c57dbf6e7e95936099eccae6a3e963be84506fa67b71
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2002
+    licence: MIT (extraction); NCRB data
+    sha256: 230045739a6cd231666a037104a8c6c01c4584503a517f67456ead706862cfca
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2003_table_1.6.csv
+    year: 2003
+    description: "1.6 Incidence & Rate Of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2003"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2003/6_table1-6-2003.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2003/6_table1-6-2003.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2003.pdf"
+    original_sha256: 52a50fd394ac33e03ea75089da465cfe87351a97f26d2de3ac5ae6a28ba37e87
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2003
+    licence: MIT (extraction); NCRB data
+    sha256: 2945bd479bc9083ff366eaee14dbc8bf698d3abd7bc38cd79180e8b0bb2bd726
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2004_table_1.6.csv
+    year: 2004
+    description: "1.6 Incidence & Rate Of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2004"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2004/5_table1-6-2004.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2004/5_table1-6-2004.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6-2004.pdf"
+    original_sha256: 897a205382e8028ca70faf18580a9324fffa126b82e6fc56fe81047bea1bacc6
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2004
+    licence: MIT (extraction); NCRB data
+    sha256: 8b178bcf04d03de94f19e032bea324db0321415df5a684f784ce820c1ba799a6
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2005_table_1.6.csv
+    year: 2005
+    description: "1.6 Incidence & Rate Of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2005"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2005/6_table1-6-2005.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2005/6_table1-6-2005.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2005.pdf"
+    original_sha256: 9fe36e0ae7bc2d1c18c11f5156fa878edc83ec7001643a1f64bab093606e0df5
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2005
+    licence: MIT (extraction); NCRB data
+    sha256: 7677d57106a6d7d1ee3462ac7c105880c3f5bf660b3a1db6cd7db565dc258914
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2006_table_1.6.csv
+    year: 2006
+    description: "1.6 Incidence & Rate Of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2006"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2006/6_table1-6-2006.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2006/6_table1-6-2006.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2006.pdf"
+    original_sha256: e2e652f9d9f843f1403b345ba2cc624be56fe7b5f38c53fa04ba129b1483f5a8
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2006
+    licence: MIT (extraction); NCRB data
+    sha256: 3b64deaf083326b475f1f44057b18b8fabc4e2f2674dbee7eaf254b0316036b0
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2007_table_1.6.csv
+    year: 2007
+    description: "1.6 Incidence & Rate of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2007"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2007/6_table1-6-2007.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2007/6_table1-6-2007.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2007.pdf"
+    original_sha256: 32ce1b2fece77e0950cc299d7c62028aec7028ba6f699859ef04bc5f914b4a5a
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2007
+    licence: MIT (extraction); NCRB data
+    sha256: 6a967fb4053251f2ac1bd491fd13ce53ddb69d32aa6e431484da10d78243b46c
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2008_table_1.6.csv
+    year: 2008
+    description: "1.6 Incidence & Rate of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2008"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2008/6_table1-6-2008.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2008/6_table1-6-2008.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2008.pdf"
+    original_sha256: 7716a52c9d4375324ec8e10073c7e71531e4ff7bf6800127e034bf74fd0dfa68
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2008
+    licence: MIT (extraction); NCRB data
+    sha256: e4a66203d944c803826b04ff8b88c9cb7ac263cfd3d476bdab461b97e2226554
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2009_table_1.6.csv
+    year: 2009
+    description: "1.6 Incidence & Rate of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2009"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2009/6_table1-6-2009.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2009/6_table1-6-2009.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2009.pdf"
+    original_sha256: b5f7cb44121bc75a0a4bfa086a2aa5483290380cbbd8b359b1d4df56cf4f3b8e
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2009
+    licence: MIT (extraction); NCRB data
+    sha256: 6416952f52503d38d3b4f70237f43a152bc46e075573c9d885d3a1e3f19328e4
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2010_table_1.6.csv
+    year: 2010
+    description: "1.6 Incidence & Rate of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2010"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2010/6_table1-6-2010.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2010/6_table1-6-2010.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2010.pdf"
+    original_sha256: 1cab52e11e6fd4165b8e923cd6fb3d9cbed969433bee37e3d8959313e6c27d93
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2010
+    licence: MIT (extraction); NCRB data
+    sha256: 4075adf94c4caa4a10044acd096cc01b55c4d2eb75ae904b2242ba4f899b5f71
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2011_table_1.6.csv
+    year: 2011
+    description: "1.6 Incidence & Rate of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2011"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2011/6_table1-6-2011.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2011/6_table1-6-2011.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2011.pdf"
+    original_sha256: b0abe3bb604a5b164266e8da3b05b14b256f747a3e2b658f33a3c455773e8bcc
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2011
+    licence: MIT (extraction); NCRB data
+    sha256: 1eb1e8bae094b9aced1bd63ce8240f4f2d876436259dd3690141dbaba435f01f
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2012_table_1.6.csv
+    year: 2012
+    description: "1.6 Incidence & Rate of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2012"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2012/6_table1-6.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2012/6_table1-6.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6.pdf"
+    original_sha256: 2a045a8b669cafc2aca626766634df853645ee2fb3f424965ed7b5fa0830e052
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2012
+    licence: MIT (extraction); NCRB data
+    sha256: 4e1c233e02eda91b3021f9260dd6cf7435fbb632d3557fade4a6465d7bec4ba7
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2013_table_1.6.csv
+    year: 2013
+    description: "1.6 Incidence & Rate of Total Cognizable Crimes (IPC) In States, UTs & Cities During 2013"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2013/6_table1-6-2013.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2013/6_table1-6-2013.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.6_2013.pdf"
+    original_sha256: 12fa745268e7d776bb669ce83a489558efcb7557e190c0e971b33f6c08075933
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2013
+    licence: MIT (extraction); NCRB data
+    sha256: e7dc8068c4fd7ce3d269232bdee6d7f321dca595871db237e188d9233fc392b4
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2014_table_1.4.csv
+    year: 2014
+    description: "1.4 Incidence & Rate of Total Cognizable Crimes (IPC) During 2014"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2014/4_table1-4-2014.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2014/4_table1-4-2014.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table1.4_2014.pdf"
+    original_sha256: d8be3c11fc27446f40d77bbc49f386fd3d73258f969ebc48aa7bf46ab160a456
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2014
+    licence: MIT (extraction); NCRB data
+    sha256: ac74afe3ccb09a54dc95f2aa429850c7cd0ade2e8be530f5fccd15834a59e301
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2015_table_1.4.csv
+    year: 2015
+    description: "1.4 Cases Reported & Rate of Total Cognizable Crimes (IPC) During 2015"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/4_table-1-4-2015.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/4_table-1-4-2015.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-1-4_2015.pdf"
+    original_sha256: c89b474f38764c9f2c506185446de28aa52803da195f5861b8f5b50ea826250f
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 9e536efee87a9477ad72a8a2db9db4f75fa055d7d6071b984def31449a257f80
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2016_table_1A.1.csv
+    year: 2016
+    description: "1A.1 IPC Crimes (State/UT-wise) & Crime Rate - 2014-2016"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/1a-1_1682590347table1a1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/1a-1_1682590347table1a1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1682590347Table1A1.pdf"
+    original_sha256: 98684c3d2918597333479b079dfb4e810afba11de46850c7c7d40cb8157933f4
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2016
+    licence: MIT (extraction); NCRB data
+    sha256: c3d70095a2531e751fb8470557f392d690c1279ae1a7f8d97176c9f4dc9e807a
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2017_table_1A.1.csv
+    year: 2017
+    description: "1A.1 IPC Crimes (State/UT-wise) - 2015-2017"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/1a-1_table-1-1-4-2017.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/1a-1_table-1-1-4-2017.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/table 1.1_4-2017.pdf"
+    original_sha256: 95f610683a3a5b4636bd2cec058e8f0fa63eb15b231973cf63ac61e5bba92bc6
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2017
+    licence: MIT (extraction); NCRB data
+    sha256: 13dc3cbe36f0a39fa8ad2404da00b25b4027ee214d437a428c5582ae9893b648
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2018_table_1A.1.csv
+    year: 2018
+    description: "1A.1 IPC Crimes (State/UT-wise) - 2016-2018"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/1a-1_table-1a-1-0-2018.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/1a-1_table-1a-1-0-2018.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/table-1A.1_0-2018.pdf"
+    original_sha256: 1a7b09a9f0268261de8ece0ab590895153126faeb4a7b02d8f07735a9f10854f
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2018
+    licence: MIT (extraction); NCRB data
+    sha256: 3d814341ae177e6d52b0a35049f9a9bcea0b74230d6b2fac53c7e6860123083a
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2019_table_1A.1.csv
+    year: 2019
+    description: "1A.1 IPC Crimes (State/UT-wise) - 2017-2019"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/1a-1_table-1a-1-2-2019.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/1a-1_table-1a-1-2-2019.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/table-1A.1_2-2019.pdf"
+    original_sha256: 8d8060002778a262ad008b81d7f8b24bfa102777bb6917fba207f07b6c6093de
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2019
+    licence: MIT (extraction); NCRB data
+    sha256: 0a8dabbbc68ee27d5924ac562ecc1425b6c9c575a7c825a5f0763e2bf3ad72f9
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2020_table_1A.1.csv
+    year: 2020
+    description: "1A.1 IPC Crimes (State/UT‐wise) ‐ 2018‐2020"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/1a-1_table-1a-1-2020.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/1a-1_table-1a-1-2020.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/table-1A.1-2020.pdf"
+    original_sha256: 8db95e6839cce8b3e14bb584598ac8ac33ca462bec86ed4320e2dd527b9e82c8
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2020
+    licence: MIT (extraction); NCRB data
+    sha256: 579241fb1ff5b68b190c75c7d29b467fc9471542ede873b4f0b7c737b2c5be65
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2021_table_1A.1.csv
+    year: 2021
+    description: "1A.1 IPC Crimes (State/UT-wise) - 2019-2021"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/1a-1_1679649572table1a1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/1a-1_1679649572table1a1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/post/1679649572TABLE1A1.pdf"
+    original_sha256: affca626601177fd080d89cb974913e9e9e5b8c2b733f9ff10d36ba82045d722
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2021
+    licence: MIT (extraction); NCRB data
+    sha256: 541f68df7d1b17fe2aa320438f304aacf695f51b796208a03cfeeb91228648fe
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2022_table_1A.1.csv
+    year: 2022
+    description: "1A.1 IPC Crimes (State/UT-wise) - 2020-2022"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/1a-1_1701860471table1a1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/1a-1_1701860471table1a1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1701860471TABLE1A1.pdf"
+    original_sha256: 8d4387faecfcb0ea049a4561c823bed249af568502e8c3d29c1ed816e53fc4b2
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2022
+    licence: MIT (extraction); NCRB data
+    sha256: 4851bcb92f7760348a5d2d9345f582ff4e56d7392f02b7acdcc341229745e5f6
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2023_table_1A.1.csv
+    year: 2023
+    description: "1A.1 IPC Crimes (State/UT-wise) - 2021-2023"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/1_table1a11.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/1_table1a11.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE1A11.pdf"
+    original_sha256: b6c9d00ae2f26a52a5befd3c89bc88a92a37548c3a2c9ecd886fca8c5148fd49
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2023
+    licence: MIT (extraction); NCRB data
+    sha256: d5e3672136aee5776e9f1181e05715330f22228f3318098f1bd5b13e315318e6
+
+  - name: ncrb_ipc_totals
+    file: ncrb_cii/ncrb_ipc_totals/2024_table_1A.1.csv
+    year: 2024
+    description: "1A.1 IPC/BNS Crimes (State/UT-wise) - 2022-2024"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/1_table1a12.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/1_table1a12.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE1A12.pdf"
+    original_sha256: 430d7677c69dab3ef965a007a464fbb5c95b2928462c737eb6f82d8758d65688
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2024
+    licence: MIT (extraction); NCRB data
+    sha256: d3c97d3f41f3ba1047b3e1f1191f75ef69d2c61aea702112fca97db617a6284e
+
+  # Total crimes against women with NCRB's female population (in lakhs) and
+  # its published rate: table 5.1 for 2012-2015 and 3A.1 for 2016-2024.
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2012_table_5.1.csv
+    year: 2012
+    description: "5.1 Incidence & Rate Of Crime Committed Against Women In States, UTs and Cities During 2012"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2012/1_table-5-1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2012/1_table-5-1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-5.1.pdf"
+    original_sha256: 261cc12d64333ada9f73da25114fe21afaa8f9d6f43ace31c55d137dd1ad65db
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2012
+    licence: MIT (extraction); NCRB data
+    sha256: 3201e9945af783f60cd209b65088777fc92d1cf644f4fcedb4deb2648cbc29a3
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2013_table_5.1.csv
+    year: 2013
+    description: "5.1 Incidence & Rate Of Crime Committed Against Women In States, UTs and Cities During 2013"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2013/1_table-5-1-2013.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2013/1_table-5-1-2013.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-5.1_2013.pdf"
+    original_sha256: 4e5357a3bd5d61ceaf81db3166fce8179321ceb0994c90aa7fb8535d63578fe4
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2013
+    licence: MIT (extraction); NCRB data
+    sha256: b250404ba7cce8fe5418fd46402bc72a327bc2f0080b03338b6406a980d4d6f0
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2014_table_5.1.csv
+    year: 2014
+    description: "5.1 Incidence & Rate of Crime Committed Against Women During 2014"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2014/1_table-5-1-2014.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2014/1_table-5-1-2014.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-5.1_2014.pdf"
+    original_sha256: 24758026f160ff43c2588866dbf04bde20a83d0a05c99009b14b4e4e9b23251b
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2014
+    licence: MIT (extraction); NCRB data
+    sha256: e60c3fdb46b734f17dcb49f31f54068720fdd4066b03a1c8c1ecc8a2fa1413fe
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2015_table_5.1.csv
+    year: 2015
+    description: "5.1 Cases Reported & Rate of Crime Committed Against Women During 2015"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_table-5-1-2015.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2015/1_table-5-1-2015.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-5.1_2015.pdf"
+    original_sha256: 2214fdcd63831d9e5f21dc41f289b6943397ef229d39d67d769f71504f6953fa
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2015
+    licence: MIT (extraction); NCRB data
+    sha256: 860418d5b36dc1147b09bb67fc52e074bcfd5d99b784fb8cb6615ea1ab5fc632
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2016_table_3A.1.csv
+    year: 2016
+    description: "3A.1 Crime against Women (IPC + SLL) - 2014-2016"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/3a-1_1683016839table3a1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2016/3a-1_1683016839table3a1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1683016839Table3A1.pdf"
+    original_sha256: 6fb00b0b7ee3b9535a5c1796e2cce313e599d131ec4017dacd9cd83ce535ad1b
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2016
+    licence: MIT (extraction); NCRB data
+    sha256: 38b02f6ce0be40629f8692890254f79c4999c80a19d688e51255101fd6c94a0c
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2017_table_3A.1.csv
+    year: 2017
+    description: "3A.1 Crime against Women (IPC + SLL) - 2015-2017"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/3a-1_table-3a-1-1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2017/3a-1_table-3a-1-1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.1_1.pdf"
+    original_sha256: 9aee8bc7bc9d10bcfdc78f2dbf24a2cedda6b3fb158591af87e1064e96af5172
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2017
+    licence: MIT (extraction); NCRB data
+    sha256: badb7c61e5e4aa91f2d7fdc05beb282dec479df21eff40305a17f5f52f7e20c2
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2018_table_3A.1.csv
+    year: 2018
+    description: "3A.1 Crime against Women (IPC + SLL) - 2016-2018"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/3a-1_table-3a-1-0.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2018/3a-1_table-3a-1-0.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.1_0.pdf"
+    original_sha256: 752f07f0eb2e75fd66b4c0be96b321bbec4cc734b29e87e733654da3a56cb5c9
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2018
+    licence: MIT (extraction); NCRB data
+    sha256: f03d4b75988c4499c5241421ea6a5e63ac5f5c80b1c9753d2bae95184c4e99c9
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2019_table_3A.1.csv
+    year: 2019
+    description: "3A.1 Crime against Women (IPC + SLL) - 2017-2019"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/3a-1_table-3a-1-2.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2019/3a-1_table-3a-1-2.csv
+    original_url: "https://www.ncrb.gov.in/uploads/2022/July/11/custom/crime-in-india/Table-3A.1_2.pdf"
+    original_sha256: 31ca54ebef652ff5576470af495e738a87bda218e7137097046b7725ac2e946c
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2019
+    licence: MIT (extraction); NCRB data
+    sha256: 6458f73963d7fbe3e007559ea6e3aacd3f4f2bf01cac13b929c51197bfcbc227
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2020_table_3A.1.csv
+    year: 2020
+    description: "3A.1 Crime against Women (IPC+SLL) ‐ 2018‐2020"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/3a-1_1680767992table3a1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2020/3a-1_1680767992table3a1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/post/1680767992TABLE3A1.pdf"
+    original_sha256: e329ed6b7d964f9602728f24452c31dad9552d187c630e04bba422b86dba1c38
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2020
+    licence: MIT (extraction); NCRB data
+    sha256: 8f7b85213a16a2ea93934934cd554c32f3ff502b82a4102a43f4dfb10040ce68
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2021_table_3A.1.csv
+    year: 2021
+    description: "3A.1 Crime against Women (IPC+SLL) - 2019-2021"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/3a-1_1679652735table3a1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2021/3a-1_1679652735table3a1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/post/1679652735TABLE3A1.pdf"
+    original_sha256: cad11791a789d10cf935b2450425497903a4269dbb80c8b3c0c03d21bb4d9e9b
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2021
+    licence: MIT (extraction); NCRB data
+    sha256: e3ffa612e6db8221734caae8780708c4c2ce999eb3982470cb46549ca81dfee5
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2022_table_3A.1.csv
+    year: 2022
+    description: "3A.1 Crime against Women (IPC+SLL) - 2020-2022"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/3a-1_1701935135table3a1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2022/3a-1_1701935135table3a1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/nationalcrimerecordsbureau/custom/1701935135TABLE3A1.pdf"
+    original_sha256: 6ce1f47d43c4f1a0859bca1519ce0775efbdf5ebc57e855d01e0df6b5c040489
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2022
+    licence: MIT (extraction); NCRB data
+    sha256: 692c0ee96086d3acc7025f37e509e4a6a902ba7d47ca4b5c652b583acb316c01
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2023_table_3A.1.csv
+    year: 2023
+    description: "3A.1 Crime against Women (IPC+SLL) - 2021-2023"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/1_table3a1.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2023/1_table3a1.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE3A1.pdf"
+    original_sha256: c6617ca49e6bb87914a912943a088f93d890ca4a2a05a36fcbd5af001989248c
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2023
+    licence: MIT (extraction); NCRB data
+    sha256: 686e81bf43a8c6b5190329f3d33dc9db40380008e87b1b030a812e280c34643c
+
+  - name: ncrb_women_totals
+    file: ncrb_cii/ncrb_women_totals/2024_table_3A.1.csv
+    year: 2024
+    description: "3A.1 Crime against Women (IPC+SLL) - 2022-2024"
+    url: https://raw.githubusercontent.com/reclaimchennai/NCRB/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/1_table3a12.csv
+    source_url: https://github.com/reclaimchennai/NCRB/blob/4dc5aca356730df25b38e77eed1fde2e1e259c30/data/tables/cii/2024/1_table3a12.csv
+    original_url: "https://www.ncrb.gov.in/uploads/files/TABLE3A12.pdf"
+    original_sha256: e6e7172febd7a10e66beb58edb659f43aa2b02b245c86385c5db037087ee3259
+    original_publisher: National Crime Records Bureau (NCRB), Crime in India 2024
+    licence: MIT (extraction); NCRB data
+    sha256: 918bf59758e5ca83a07bd74e22cfce4ff03171b75fe55271cdad0c8c31b2f568

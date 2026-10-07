@@ -12,7 +12,7 @@ with units as (
 
 coverage as (
     select analysis_unit, min(year) as first_year, max(year) as last_year
-    from {{ ref('int_state_crimes_long') }}
+    from {{ ref('int_women_crimes_by_type') }}
     group by analysis_unit
 )
 

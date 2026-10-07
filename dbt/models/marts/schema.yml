@@ -16,17 +16,17 @@ models:
         tests: [not_null]
 
   - name: dim_crime_type
-    description: The seven crime heads, with the column or label each source uses for them.
+    description: The crime types of the women view (seven heads and the total), with definition changes.
     columns:
       - name: crime_code
         tests: [unique, not_null]
 
   - name: fct_crimes_against_women
     description: >
-      Cases and rate per 100,000 women for each state, year and crime type.
-      `cases` is empty where the source figure is known to be wrong, and
-      `data_issue` explains why. `was_relabelled` marks 2020-2021 rows whose
-      state label was corrected.
+      Cases and rate per 100,000 women for each state, year and crime type,
+      2001-2024, from NCRB's own crimes-against-women tables. Rates use the
+      female population NCRB used that year; `female_population_basis` marks
+      2001-2011, where it is estimated (see dim_population).
     columns:
       - name: fact_id
         tests: [unique, not_null]
@@ -50,11 +50,12 @@ models:
           - value_in_range:
               arguments:
                 min_value: 2001
-                max_value: 2021
-      - name: female_population_2011
+                max_value: 2024
+      - name: female_population
         tests: [not_null]
       - name: cases
         tests:
+          - not_null
           - value_in_range:
               arguments:
                 min_value: 0
@@ -64,6 +65,42 @@ models:
               arguments:
                 min_value: 0
                 max_value: 1000
+
+  - name: dim_population
+    description: >
+      The population NCRB used for its rates, per analysis unit and year:
+      mid-year projected total population, and female population from 2012.
+      For 2001-2011 the female population is estimated from the total and the
+      Census 2011 female share, because NCRB did not publish it.
+    columns:
+      - name: analysis_unit
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_state')
+                field: analysis_unit
+      - name: year
+        tests: [not_null]
+      - name: population
+        tests:
+          - not_null
+          - value_in_range:
+              arguments:
+                min_value: 10000
+      - name: female_population
+        tests: [not_null]
+      - name: female_population_basis
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - 'NCRB female population'
+                  - 'Estimated: NCRB population x Census 2011 female share'
+    tests:
+      - unique_combination:
+          arguments:
+            columns: [analysis_unit, year]
 
   - name: mart_state_crime_profile
     description: Average yearly rate per 100,000 women by crime type over the profile window; one row per state.
@@ -75,7 +112,10 @@ models:
     description: All-India cases and rate per crime type and year.
 
   - name: mart_source_comparison
-    description: Kaggle and NCRB 2001-2010 figures side by side, with whether they match.
+    description: >
+      The Kaggle file against the original NCRB 2001-2010 women file, figure by
+      figure, before any correction. Both feed only the Kaggle backup
+      (int_state_crimes_long).
     columns:
       - name: comparison
         tests:
@@ -118,7 +158,7 @@ models:
               arguments:
                 min_value: 2001
                 max_value: 2024
-      - name: population_2011
+      - name: population
         tests: [not_null]
       - name: cases
         tests:
@@ -132,8 +172,9 @@ models:
   - name: mart_crime_source_overlap
     description: >
       Figures that two sources both report, side by side: the 2014 district
-      file against NCRB table 1.6, and the Kaggle women file against NCRB's
-      own tables for the women crime groups.
+      file against NCRB table 1.6, NCRB's women tables against its all-crimes
+      tables, and the Kaggle women file (kept as a backup) against NCRB's
+      women tables.
     columns:
       - name: comparison
         tests:

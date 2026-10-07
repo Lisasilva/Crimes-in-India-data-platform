@@ -309,3 +309,45 @@ ncrb_state_heads,2024,2024,cruelty_by_husband,Offences against Women and Child |
 ncrb_state_heads,2024,2024,importation_of_girls,Offences affecting Human Body Kidnapping & Abduction (Section 137-142 BNS/Section 363-369 IPC) e) Importation of Girl or Boy from Foreign Country (Section 141 BNS/Section 366-B IPC) | i) Importation of Girls Below 21 yrs | Total
 ncrb_state_heads,2024,2024,causing_death_by_negligence,Offences affecting Human Body Causing Death by Negligence (Section 106 BNS /Section 304-A IPC) | Causing Death by Negligence (Total a+b+c+d+e) | Total
 ncrb_state_heads,2024,2024,total_ipc,Total Cognizable IPC/BNS crimes | Total
+ncrb_women_heads,2001,2015,rape,Rape
+ncrb_women_heads,2016,2016,rape,Rape * | Rape (Total ) | I 27
+ncrb_women_heads,2017,2019,rape,Rape (Sec. 376 IPC) | Rape (Total) | I
+ncrb_women_heads,2020,2023,rape,Rape (Sec.376 IPC) | Rape (Total) | I
+ncrb_women_heads,2024,2024,rape,"Rape (Sec 64-68,70-71 BNS/Sec.376 IPC) | Rape (Total a+b) | Total"
+ncrb_women_heads,2001,2012,kidnapping_abduction,Kidnapping & Abduction
+ncrb_women_heads,2013,2015,kidnapping_abduction,Kidnapping & Abduction of Women
+ncrb_women_heads,2016,2016,kidnapping_abduction,Kidnapping & Abduction of Women | Kidnapping & Abduction of Women (Total) | I 21
+ncrb_women_heads,2017,2023,kidnapping_abduction,Kidnapping & Abduction of Women | Kidnapping & Abduction of Women (Total) | I
+ncrb_women_heads,2024,2024,kidnapping_abduction,Kidnapping & Abduction of Women | Kidnapping & Abduction of Women (Total a+b+c+d+e) | Total
+ncrb_women_heads,2001,2015,dowry_deaths,Dowry Deaths
+ncrb_women_heads,2016,2016,dowry_deaths,Dowry Deaths (Sec.304B IPC) | I
+ncrb_women_heads,2017,2023,dowry_deaths,Dowry Deaths (Sec. 304B IPC) | I
+ncrb_women_heads,2024,2024,dowry_deaths,Dowry Deaths (Sec 80 BNS /Sec 304B IPC) | Total
+ncrb_women_heads,2001,2012,assault_on_women,Assault on women with intent to outrage her modesty
+ncrb_women_heads,2013,2013,assault_on_women,Assault on Women with intent to outrage her Modesty : Total
+ncrb_women_heads,2014,2015,assault_on_women,Assault on Women with intent to outrage her Modesty
+ncrb_women_heads,2016,2016,assault_on_women,Assault On Women With Intent To Outrage Her Modesty | Assault On Women (Total) | I 36
+ncrb_women_heads,2017,2023,assault_on_women,Assault on Women with Intent to Outrage her Modesty (Sec. 354 IPC) | Assault on Women with Intent to Outrage her Modesty (Total) | I
+ncrb_women_heads,2024,2024,assault_on_women,Assault on Women with intent to outrage her Modesty (Sec 74 BNS/Sec 354 IPC)) | Assault on Women with intent to outrage her Modesty (Total a+b) | Total
+ncrb_women_heads,2024,2024,assault_on_women,Assault or Use of Criminal Force with intent to disrobe (Sec. 76 BNS/Sec. 354B IPC) | Assault or Use of Criminal Force with intent to disrobe (Total a+b) | Total
+ncrb_women_heads,2024,2024,assault_on_women,Sexual Harassment (Sec. 75 BNS/Sec.354A IPC) Sexual Harassment (Total a+b) | Total
+ncrb_women_heads,2024,2024,assault_on_women,Stalking (Sec. 78 BNS/Sec. 354D IPC) | Stalking (Total a+b) | Total
+ncrb_women_heads,2024,2024,assault_on_women,Voyeurism (Sec. 77 BNS/Sec. 354C IPC) Voyeurism (Total a+b) | Total
+ncrb_women_heads,2001,2012,insult_to_modesty,Insult to modesty of women
+ncrb_women_heads,2013,2013,insult_to_modesty,Insult to the Modesty of Women : Total
+ncrb_women_heads,2014,2015,insult_to_modesty,Insult to the Modesty of Women
+ncrb_women_heads,2016,2016,insult_to_modesty,Insult to Modesty of Women (Sec. 509 IPC) | I 39
+ncrb_women_heads,2017,2023,insult_to_modesty,Insult to the Modesty of Women (Sec. 509 IPC) | Insult to the Modesty of Women (Total) | I
+ncrb_women_heads,2024,2024,insult_to_modesty,Insult to the Modesty of Women (Sec. 79 BNS/Sec. 509 IPC) Insult to the Modesty of Women (Total a+b) | Total
+ncrb_women_heads,2001,2015,cruelty_by_husband,Cruelty by Husband or his Relatives
+ncrb_women_heads,2016,2016,cruelty_by_husband,Cruelty by Husband or his relatives (Sec. 498 A) | I
+ncrb_women_heads,2017,2023,cruelty_by_husband,Cruelty by Husband or his relatives (Sec. 498 A IPC) | I
+ncrb_women_heads,2024,2024,cruelty_by_husband,Cruelty by Husband or his relatives (Sec 85 BNS/Sec 498-A IPC) | Total
+ncrb_women_heads,2001,2012,importation_of_girls,Importation of Girls from foreign country
+ncrb_women_heads,2013,2015,importation_of_girls,Importation of Girls from Foreign Country
+ncrb_women_heads,2017,2023,importation_of_girls,Kidnapping & Abduction of Women | Importation of Girls from Foreign Country (Sec. 366B IPC) | I
+ncrb_women_heads,2024,2024,importation_of_girls,Kidnapping & Abduction of Women | d) Importation of Girls from Foreign Country (Sec. 141 BNS/Sec. 366-B IPC) | Total
+ncrb_women_heads,2001,2012,total_against_women,Total Crimes Against Women
+ncrb_women_heads,2013,2015,total_against_women,Total Crimes against Women
+ncrb_women_heads,2016,2023,total_against_women,Total Crime against Women (IPC+SLL) | I
+ncrb_women_heads,2024,2024,total_against_women,Total Crime against Women (IPC/BNS + SLL Crimes) | I

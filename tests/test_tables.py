@@ -5,7 +5,7 @@ import pytest
 from pipeline.fetch import fetch
 from pipeline.ingest import ChecksumMismatchError, ingest, sha256_of
 from pipeline.quality import CRITICAL, run_checks
-from pipeline.sources import IPC_DISTRICT, NCRB_STATE_HEADS
+from pipeline.sources import IPC_DISTRICT, NCRB_IPC_TOTALS, NCRB_STATE_HEADS
 
 DISTRICT_HEADER = "STATE/UT,DISTRICT,YEAR,MURDER,TOTAL IPC CRIMES"
 NCRB_HEADER = "section,sl_no,State/UT,Murder | I,Murder | R,Total Cognizable IPC crimes | I"
@@ -96,7 +96,7 @@ def test_missing_mapped_column_is_critical(con, tmp_path, write_source, seeds):
     _, checks = load(con, tmp_path, write_source, seeds)
     missing = checks[("ncrb_state_heads", "mapped_columns_present")]
     assert missing.severity == CRITICAL and missing.examples == [
-        {"year": 2016, "crime_group": "rape", "column_name": "Rape | I"}
+        {"year": 2016, "mapped_to": "rape", "column_name": "Rape | I"}
     ]
 
 
@@ -134,3 +134,36 @@ def test_fetch_downloads_missing_files_and_checks_them(tmp_path):
     with pytest.raises(ChecksumMismatchError):
         fetch([bad], raw)
     assert not (raw / "ncrb" / "other.csv").exists()
+
+
+POPULATION_HEADER = "section,sl_no,State/UT,Incidence,Population (In Lakhs),Rate"
+
+
+def test_population_tables_allow_decimals_and_skip_cities(con, tmp_path, write_source, seeds):
+    (seeds / "population_columns.csv").write_text(
+        "source,year_from,year_to,measure,column_name\n"
+        "ncrb_ipc_totals,2010,2010,cases,Incidence\n"
+        "ncrb_ipc_totals,2010,2010,population_lakhs,Population (In Lakhs)\n"
+        "ncrb_ipc_totals,2010,2010,published_rate,Rate\n"
+    )
+    rows = [
+        # A footnote mark after a population, and one after a state name.
+        "STATES:,1,GOA,30,15.2*,197.4", "STATES:,2,KERALA*,70,340.1,20.6",
+        "STATES:,,TOTAL (STATES),100,355.3,28.1",
+        "UNION TERRITORIES,,TOTAL (ALL-INDIA),100,355.3,28.1",
+        # The city section repeats names and uses "NR" for not reported.
+        "CITIES:,1,GOA,NR,-,-",
+    ]
+    manifest = [{**write_source(
+        "ncrb_ipc_totals", "p.csv", "\n".join([POPULATION_HEADER, *rows]) + "\n"), "year": 2010}]
+    ingest(con, raw_dir=tmp_path, manifest=manifest)
+    checks = {r.check: r for r in run_checks(con, [], [NCRB_IPC_TOTALS], seeds_dir=seeds)}
+    assert [name for name, r in checks.items() if not r.passed] == []
+
+    # A rate that is not a number is still caught.
+    rows[0] = "STATES:,1,GOA,30,15.2,n/a"
+    manifest = [{**write_source(
+        "ncrb_ipc_totals", "p.csv", "\n".join([POPULATION_HEADER, *rows]) + "\n"), "year": 2010}]
+    ingest(con, raw_dir=tmp_path, manifest=manifest)
+    checks = {r.check: r for r in run_checks(con, [], [NCRB_IPC_TOTALS], seeds_dir=seeds)}
+    assert checks["numbers_are_valid"].failing_rows == 1
