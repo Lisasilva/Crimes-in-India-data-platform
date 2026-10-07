@@ -14,7 +14,6 @@ import html
 import json
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 
 import duckdb
@@ -29,10 +28,29 @@ from pipeline.sources import DEFAULT_DB_PATH, PROJECT_ROOT, REPORTS_DIR
 SITE_DIR = PROJECT_ROOT / "site"
 REPO_URL = "https://github.com/Lisasilva/Crimes-in-India-data-platform"
 
-# Colours: two categorical slots for the two clusters, ink and grid for chrome.
-BLUE, ORANGE = "#2a78d6", "#eb6834"
-INK, INK_2, INK_3, GRID, SURFACE = "#0b0b0b", "#52514e", "#8a8984", "#e6e5e0", "#fcfcfb"
-FONT = "Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+# Two themes, one per view.
+# Midnight Vigil (all crimes): a nation under watch.
+NAVY, AMBER, SLATE, IVORY = "#0B132B", "#F4A261", "#495057", "#F8F9FA"
+# Broken Pedestal (crimes against women): dignity, resilience, truth and hope.
+PURPLE, TEAL, GOLD, CHARCOAL = "#5B3A9A", "#2A9D8F", "#C8A24D", "#2B2D42"
+INK_3, GRID = "#868e96", "#e3e5e8"
+FONT = "'IBM Plex Sans', system-ui, -apple-system, Segoe UI, sans-serif"
+SERIF = "'Source Serif 4', Georgia, serif"
+
+
+@dataclass(frozen=True)
+class Theme:
+    lower: str   # K-Means "Lower crime rates" group
+    higher: str  # K-Means "Higher crime rates" group
+    line: str    # trend lines
+    ink: str
+    ink_2: str
+
+
+THEMES = {
+    "all_crimes": Theme(lower=NAVY, higher=AMBER, line=NAVY, ink=NAVY, ink_2=SLATE),
+    "women": Theme(lower=TEAL, higher=PURPLE, line=PURPLE, ink=CHARCOAL, ink_2="#5c5f73"),
+}
 
 CRIME_LABELS = {
     "murder": "Murder",
@@ -70,6 +88,13 @@ class View:
     @property
     def unit(self) -> str:
         return f"per 100,000 {self.per}"
+
+    @property
+    def theme(self) -> Theme:
+        return THEMES[self.key]
+
+    def cluster_colour(self, cluster_name: str) -> str:
+        return self.theme.higher if cluster_name.startswith("Higher") else self.theme.lower
 
 
 # --- data --------------------------------------------------------------------
@@ -136,14 +161,14 @@ def build_views(data: dict[str, pd.DataFrame], clustering: dict) -> list[View]:
 # --- charts ------------------------------------------------------------------
 
 
-def base_layout(fig: go.Figure, height: int) -> go.Figure:
+def base_layout(fig: go.Figure, height: int, theme: Theme) -> go.Figure:
     fig.update_layout(
         height=height,
         margin=dict(l=8, r=8, t=24, b=8),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family=FONT, size=13, color=INK_2),
-        hoverlabel=dict(bgcolor="white", bordercolor=GRID, font=dict(family=FONT, color=INK)),
+        font=dict(family=FONT, size=13, color=theme.ink_2),
+        hoverlabel=dict(bgcolor="white", bordercolor=GRID, font=dict(family=FONT, color=theme.ink)),
         showlegend=False,
     )
     fig.update_xaxes(showgrid=False, linecolor=GRID, tickcolor=GRID, ticks="outside", zeroline=False)
@@ -160,11 +185,11 @@ def national_trend_charts(view: View) -> list[tuple[str, go.Figure]]:
         fig = go.Figure(
             go.Scatter(
                 x=d["year"], y=d["rate"], mode="lines+markers",
-                line=dict(color=BLUE, width=2), marker=dict(size=5, color=BLUE), connectgaps=False,
+                line=dict(color=view.theme.line, width=2), marker=dict(size=5, color=view.theme.line), connectgaps=False,
                 hovertemplate="%{x}: %{y:.1f} " + view.unit + "<extra></extra>",
             )
         )
-        base_layout(fig, 220)
+        base_layout(fig, 220, view.theme)
         fig.update_layout(margin=dict(l=8, r=8, t=8, b=8))
         fig.update_yaxes(rangemode="tozero")
         fig.update_xaxes(dtick=5, range=[first - 0.5, last + 0.5])
@@ -175,7 +200,7 @@ def national_trend_charts(view: View) -> list[tuple[str, go.Figure]]:
 def state_ranking_chart(view: View) -> go.Figure:
     clusters = view.clusters
     d = clusters.assign(total=clusters[view.features].sum(axis=1)).sort_values("total")
-    colour = d["cluster_name"].map(lambda name: ORANGE if name.startswith("Higher") else BLUE)
+    colour = d["cluster_name"].map(view.cluster_colour)
     label = d["analysis_unit"] + d["is_unusual"].map({True: "  ◆", False: ""})
     fig = go.Figure(
         go.Bar(
@@ -185,33 +210,37 @@ def state_ranking_chart(view: View) -> go.Figure:
                           "<br>%{customdata[0]}<extra></extra>",
         )
     )
-    base_layout(fig, 820)
+    base_layout(fig, 820, view.theme)
     fig.update_layout(bargap=0.25, margin=dict(l=8, r=16, t=8, b=8))
     fig.update_xaxes(title=dict(text=f"Average cases {view.unit} a year", font=dict(size=12)),
                      showgrid=True, gridcolor=GRID)
-    fig.update_yaxes(showgrid=False, tickfont=dict(size=12, color=INK_2))
+    fig.update_yaxes(showgrid=False, tickfont=dict(size=12, color=view.theme.ink_2))
     return fig
 
 
 def cluster_map_chart(view: View) -> go.Figure:
     clusters = view.clusters
     fig = go.Figure()
-    for name, colour in (("Lower crime rates", BLUE), ("Higher crime rates", ORANGE)):
+    for name in ("Lower crime rates", "Higher crime rates"):
         d = clusters[clusters["cluster_name"] == name]
         fig.add_trace(
             go.Scatter(
-                x=d["pca_x"], y=d["pca_y"], mode="markers", name=name,
-                marker=dict(size=11, color=colour, line=dict(color=SURFACE, width=2),
+                x=d["pca_x"], y=d["pca_y"], mode="markers", name=f"K-Means: {name.lower()}",
+                marker=dict(size=11, color=view.cluster_colour(name), line=dict(color="white", width=2),
                             symbol=d["is_unusual"].map({True: "diamond", False: "circle"})),
                 text=d["analysis_unit"],
-                hovertemplate="<b>%{text}</b><br>" + name + "<extra></extra>",
+                customdata=d["is_unusual"].map({True: "<br>DBSCAN: unusual", False: ""}),
+                hovertemplate="<b>%{text}</b><br>K-Means: " + name.lower() + "%{customdata}<extra></extra>",
             )
         )
+    # Legend entry only: the diamond shape marks the states DBSCAN flagged.
+    fig.add_trace(go.Scatter(x=[None], y=[None], mode="markers", name="DBSCAN: unusual (diamond)",
+                             marker=dict(size=11, color=INK_3, symbol="diamond"), hoverinfo="skip"))
     for row in clusters[clusters["is_unusual"]].itertuples():
         fig.add_annotation(x=row.pca_x, y=row.pca_y, text=row.analysis_unit, showarrow=False,
-                           yshift=16, font=dict(size=12, color=INK))
-    base_layout(fig, 440)
-    fig.update_layout(showlegend=True, legend=dict(orientation="h", y=-0.12, x=0, font=dict(color=INK_2)),
+                           yshift=16, font=dict(size=12, color=view.theme.ink))
+    base_layout(fig, 440, view.theme)
+    fig.update_layout(showlegend=True, legend=dict(orientation="h", y=-0.12, x=0, font=dict(color=view.theme.ink_2)),
                       margin=dict(l=8, r=8, t=8, b=8))
     pad = (clusters["pca_y"].max() - clusters["pca_y"].min()) * 0.12
     fig.update_yaxes(range=[clusters["pca_y"].min() - pad, clusters["pca_y"].max() + pad])
@@ -239,7 +268,7 @@ def state_explorer_chart(view: View) -> go.Figure:
         fig.add_trace(
             go.Scatter(
                 x=d["year"], y=d["rate"], mode="lines+markers", name=state, visible=(i == default),
-                line=dict(color=BLUE, width=2), marker=dict(size=6, color=BLUE), connectgaps=False,
+                line=dict(color=view.theme.line, width=2), marker=dict(size=6, color=view.theme.line), connectgaps=False,
                 hovertemplate=state + ", %{x}: %{y:.1f}<extra></extra>",
             )
         )
@@ -248,12 +277,12 @@ def state_explorer_chart(view: View) -> go.Figure:
              args=[{"visible": [True] + [j == i for j in range(len(states))]}])
         for i, state in enumerate(states)
     ]
-    base_layout(fig, 380)
+    base_layout(fig, 380, view.theme)
     fig.update_layout(
-        showlegend=True, legend=dict(orientation="h", y=1.12, x=0.32, font=dict(color=INK_2)),
+        showlegend=True, legend=dict(orientation="h", y=1.12, x=0.32, font=dict(color=view.theme.ink_2)),
         margin=dict(l=8, r=8, t=56, b=8),
         updatemenus=[dict(buttons=buttons, active=default, x=0, y=1.18, xanchor="left", yanchor="top",
-                          bgcolor="white", bordercolor=GRID, font=dict(color=INK))],
+                          bgcolor="white", bordercolor=GRID, font=dict(color=view.theme.ink))],
     )
     fig.update_yaxes(title=dict(text=f"Cases {view.unit}", font=dict(size=12)), rangemode="tozero")
     return fig
@@ -308,12 +337,66 @@ VIEW_TEXT = {
 }
 
 
+# Small inline icons for the two themes (24px line icons).
+ICONS = {
+    # Midnight Vigil: an open eye, a nation under watch.
+    "all_crimes": '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" '
+                  'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+                  '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    # Broken Pedestal: a shield, strength rather than fragility.
+    "women": '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" '
+             'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+             '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
+}
+
+THEME_NOTES = {
+    "all_crimes": {
+        "name": "Midnight Vigil",
+        "colours": ((NAVY, "Midnight navy"), (AMBER, "Burnt amber"), (SLATE, "Slate grey"), (IVORY, "Soft ivory")),
+        "text": "A nation under watch: the data is here not to sensationalise crime, but to understand it and "
+                "help make communities safer. Midnight navy stands for what lies beneath the surface of the "
+                "numbers, burnt amber for vigilance and attention, slate grey for neutral, objective evidence, "
+                "and soft ivory for clarity and transparency.",
+    },
+    "women": {
+        "name": "Broken Pedestal",
+        "colours": ((PURPLE, "Royal purple"), (TEAL, "Deep teal"), (GOLD, "Burnished gold"), (CHARCOAL, "Charcoal")),
+        "text": "This theme is built around four ideas: dignity, resilience, truth, and hope. Purple reflects the "
+                "strength and dignity every woman deserves. Gold represents the respect society often promises "
+                "but must also practice. Teal symbolizes healing and solidarity with survivors. Charcoal reminds "
+                "us that behind every statistic is a real person whose story deserves to be seen, heard, and "
+                "acted upon.",
+    },
+}
+WOMEN_QUOTE = "Respect is not measured by the names we give women, but by the safety we give them."
+WOMEN_PURPOSE = ("Every point on this dashboard represents lives affected—not just numbers. The goal is not to "
+                 "provoke fear, but to encourage understanding, accountability, and meaningful action.")
+
+
 def silhouette_note(score: float) -> str:
     if score >= 0.25:
         return (f"A score of {score:.2f} means the groups are real but overlap: states sit on a "
-                "spectrum rather than in tidy boxes.")
-    return (f"A score of {score:.2f} is weak: the two groups are a rough split of a spectrum, "
-            "not clearly separate types of state.")
+                "spectrum, and the line between the groups is a rough one.")
+    return (f"A score of {score:.2f} is weak: the groups overlap heavily. States sit on one continuous "
+            "spectrum, so read the two groups as the lower and higher halves of it, not as separate "
+            "types of state.")
+
+
+def chart_card(inner: str, note: str = "") -> str:
+    """A card holding one or more charts, with a button that undoes any zoom."""
+    return (f'<div class="card chart-card"><button type="button" class="reset" '
+            f'title="Undo any zoom or pan on this chart">↺ Reset view</button>{inner}{note}</div>')
+
+
+def theme_note(key: str) -> str:
+    note = THEME_NOTES[key]
+    chips = "".join(
+        f"<span class='chip'><span class='dot' style='background:{hex_}'></span>{esc(name)}</span>"
+        for hex_, name in note["colours"]
+    )
+    purpose = f"<p class='purpose'>{esc(WOMEN_PURPOSE)}</p>" if key == "women" else ""
+    return (f"<div class='palette only-{key}'><div class='palette-head'><b>{esc(note['name'])}</b>{chips}</div>"
+            f"<p>{esc(note['text'])}</p>{purpose}</div>")
 
 
 def view_section(view: View) -> str:
@@ -326,7 +409,7 @@ def view_section(view: View) -> str:
         for r in c["scores"]
     )
     cluster_lists = "".join(
-        f"<p><span class='swatch' style='background:{ORANGE if name.startswith('Higher') else BLUE}'></span>"
+        f"<p><span class='swatch' style='background:{view.cluster_colour(name)}'></span>"
         f"<b>{esc(name)}:</b> {esc(', '.join(sorted(group['analysis_unit'])))}</p>"
         for name, group in view.clusters.groupby("cluster_name")
     )
@@ -341,7 +424,7 @@ def view_section(view: View) -> str:
 <section>
   <h2>How rates have changed across India</h2>
   <p>{esc(text['trend'])}</p>
-  <div class="card"><div class="minis">{trend}</div></div>
+  {chart_card(f'<div class="minis">{trend}</div>')}
   <p class="note">Reported cases depend on whether crimes are reported and recorded, so a rising line can mean
   better reporting as well as more crime. {esc(text['trend_note'])}</p>
 </section>
@@ -349,33 +432,39 @@ def view_section(view: View) -> str:
 <section>
   <h2>Which states have the highest rates</h2>
   <p>Average yearly cases {view.unit}, {profile_window()}, {esc(text['ranking'])}.
-  Colour shows the group each state falls into (next section); ◆ marks a state whose pattern is unlike any other.</p>
-  <div class="card">{chart_html(state_ranking_chart(view), f'chart-{k}-ranking')}</div>
+  Colour shows the K-Means group each state falls into, and ◆ marks a state DBSCAN flagged as unusual.</p>
+  {chart_card(chart_html(state_ranking_chart(view), f'chart-{k}-ranking'))}
+  <p class="note">The bars are sorted by this total, but K-Means groups states by their pattern across all {n}
+  rates, each given equal weight. So a state can rank above one in the higher group and still fall in the lower
+  group, for example when one crime type is high and the others are low.</p>
 </section>
 
 <section>
   <h2>States grouped by their crime pattern</h2>
-  <p>K-Means clustering compares states on all {n} rates at once. It tried 2 to 6 groups and kept the
-  number with the best <i>silhouette score</i>, which measures how clearly the groups separate (from −1 to 1).
-  DBSCAN then looked for states with too few similar neighbours.</p>
+  <p>Three methods work together here. <b>K-Means</b> sorts states into groups by comparing all {n} rates at
+  once; it tried 2 to 6 groups and kept the number with the best <i>silhouette score</i>, which measures how
+  clearly the groups separate (from −1 to 1). <b>DBSCAN</b> flags states with too few similar neighbours.
+  <b>PCA</b> only places the dots on the map.</p>
+  <div class="key"><span><i class="k-dot"></i>Colour: K-Means group</span><span><i class="k-diamond"></i>Diamond: DBSCAN, unusual</span><span><i class="k-pos"></i>Position: similarity (PCA)</span></div>
   <div class="two">
-    <div class="card">{chart_html(cluster_map_chart(view), f'chart-{k}-map')}<p class="note">Each dot is a state, placed so
-    that states with similar rates sit close together. The two map dimensions summarise the {n} rates
-    (principal component analysis) and have no units.</p></div>
+    {chart_card(chart_html(cluster_map_chart(view), f'chart-{k}-map'),
+                f'<p class="note">A similarity map: each dot is a state, and states with similar rate patterns sit '
+                f'close together. The two axes summarise the {n} rates (principal component analysis) and have '
+                f'no units, so distances are approximate.</p>')}
     <div>
-      <div class="card"><table><thead><tr><th>Groups</th><th class="num">Silhouette</th></tr></thead><tbody>{score_rows}</tbody></table>
+      <div class="card"><table><thead><tr><th>K-Means groups</th><th class="num">Silhouette</th></tr></thead><tbody>{score_rows}</tbody></table>
       <p class="note">{esc(silhouette_note(c['best_silhouette']))}</p></div>
-      <div class="card"><p class="note"><b>Unusual states.</b> {describe_unusual(view)}
+      <div class="card"><p class="note"><b>Unusual states (DBSCAN).</b> {describe_unusual(view)}
       For very small territories, a handful of cases is enough to move a rate this much.</p></div>
     </div>
   </div>
-  <div class="card note">{cluster_lists}</div>
+  <div class="card note"><p class="small-head">K-Means groups</p>{cluster_lists}</div>
 </section>
 
 <section>
   <h2>Explore a state</h2>
   <p>{esc(view.total_label)} {view.unit}, against the all-India rate. Choose a state from the menu.</p>
-  <div class="card">{chart_html(state_explorer_chart(view), f'chart-{k}-explorer')}</div>
+  {chart_card(chart_html(state_explorer_chart(view), f'chart-{k}-explorer'))}
 </section>
 </div>"""
 
@@ -391,10 +480,9 @@ def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -
     cross_checked = overlap.get(("NCRB women tables vs NCRB crime-head tables", "match"), 0)
     kaggle_match = overlap.get(("Kaggle women file vs NCRB women tables", "match"), 0)
     kaggle_diff = overlap.get(("Kaggle women file vs NCRB women tables", "different"), 0)
-    built = datetime.now(timezone.utc).strftime("%d %B %Y")
     tabs = "".join(
-        f'<button type="button" role="tab" id="tab-{v.key}" aria-controls="view-{v.key}" '
-        f'aria-selected="{"true" if i == 0 else "false"}">{esc(v.tab)}</button>'
+        f'<button type="button" role="tab" id="tab-{v.key}" aria-controls="view-{v.key}" data-theme="{v.key}" '
+        f'aria-selected="{"true" if i == 0 else "false"}">{ICONS[v.key]}{esc(v.tab)}</button>'
         for i, v in enumerate(views)
     )
     sections = "\n".join(view_section(v) for v in views)
@@ -407,31 +495,69 @@ def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -
 <title>Crime in India, {first}–{last}</title>
 <meta name="description" content="State-level crime in India, {first}-{last}, from official NCRB tables: all IPC/BNS crimes and crimes against women, as rates, with states grouped by clustering.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
 <script src="https://cdn.plot.ly/plotly-{get_plotlyjs_version()}.min.js" charset="utf-8"></script>
 <style>
+/* Midnight Vigil (all crimes) is the default; Broken Pedestal (crimes against women) overrides it. */
 :root {{
   color-scheme: light;
-  --surface: {SURFACE}; --card: #ffffff; --ink: {INK}; --ink-2: {INK_2}; --ink-3: {INK_3};
-  --line: {GRID}; --blue: {BLUE}; --orange: {ORANGE};
+  --surface: {IVORY}; --card: #ffffff; --ink: {NAVY}; --ink-2: {SLATE}; --ink-3: {INK_3}; --line: {GRID};
+  --accent: {AMBER}; --accent-ink: {NAVY}; --link: #1f4e8c;
+  --hero-bg: linear-gradient(160deg, {NAVY} 0%, #1c2541 100%); --hero-ink: {IVORY}; --hero-ink-2: #c5cad3;
+  --hero-tile: rgba(255,255,255,.06); --hero-line: rgba(255,255,255,.14);
+  --tab-on-bg: {AMBER}; --tab-on-ink: {NAVY};
   --ok: #0ca30c; --warn: #b07a00; --bad: #d03b3b;
 }}
+body[data-theme="women"] {{
+  --ink: {CHARCOAL}; --ink-2: #5c5f73; --accent: {GOLD}; --accent-ink: {PURPLE}; --link: {PURPLE};
+  --hero-bg: linear-gradient(170deg, #f3eff9 0%, #fbfaf6 100%); --hero-ink: {CHARCOAL}; --hero-ink-2: #5c5f73;
+  --hero-tile: #ffffff; --hero-line: #e4dcef;
+  --tab-on-bg: {PURPLE}; --tab-on-ink: #ffffff;
+}}
 * {{ box-sizing: border-box; }}
-body {{ margin: 0; background: var(--surface); color: var(--ink); font: 16px/1.6 {FONT}; }}
-main {{ max-width: 1040px; margin: 0 auto; padding: 48px 16px 64px; }}
-header p.lead {{ font-size: 18px; color: var(--ink-2); max-width: 720px; }}
-h1 {{ font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }}
-h2 {{ font-size: 24px; margin: 0 0 8px; letter-spacing: -0.01em; }}
+body {{ margin: 0; background: var(--surface); color: var(--ink); font: 16px/1.6 {FONT}; transition: color .2s; }}
+main {{ max-width: 1040px; margin: 0 auto; padding: 0 16px 64px; }}
+.hero {{ background: var(--hero-bg); color: var(--hero-ink); border-bottom: 4px solid var(--accent); transition: background .3s; }}
+.hero-inner {{ max-width: 1040px; margin: 0 auto; padding: 48px 16px 32px; }}
+.hero p.lead {{ font-size: 18px; color: var(--hero-ink-2); max-width: 720px; }}
+h1, h2 {{ font-family: {SERIF}; font-weight: 700; }}
+h1 {{ font-size: clamp(30px, 4.4vw, 46px); line-height: 1.1; margin: 0 0 14px; letter-spacing: -0.01em; }}
+body[data-theme="women"] h1 {{ color: {PURPLE}; }}
+h2 {{ font-size: 26px; margin: 0 0 8px; }}
+h2::before {{ content: ""; display: block; width: 36px; height: 3px; background: var(--accent); margin-bottom: 10px; border-radius: 2px; }}
 section {{ margin-top: 56px; }}
 section > p {{ color: var(--ink-2); max-width: 760px; }}
-a {{ color: var(--blue); }}
-.eyebrow {{ font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }}
-.tiles {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 32px; }}
-.tile {{ background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }}
-.tile .value {{ font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }}
-.tile .label {{ font-size: 14px; color: var(--ink-2); }}
-.card {{ background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 16px; }}
+a {{ color: var(--link); }}
+.hero a {{ color: inherit; }}
+.eyebrow {{ display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }}
+body[data-theme="women"] .eyebrow {{ color: {PURPLE}; }}
+.tiles {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 28px; }}
+.tile {{ background: var(--hero-tile); border: 1px solid var(--hero-line); border-radius: 10px; padding: 16px 18px; }}
+.tile .value {{ font-size: 28px; font-weight: 700; letter-spacing: -0.01em; }}
+.tile .label {{ font-size: 14px; color: var(--hero-ink-2); }}
+.quote {{ margin: 20px 0 0; padding: 4px 0 4px 18px; border-left: 3px solid {GOLD}; max-width: 720px;
+  font: italic 600 20px/1.4 {SERIF}; color: {CHARCOAL}; }}
+.palette p.purpose {{ font-size: 15px; font-weight: 500; color: var(--hero-ink); margin-top: 10px; }}
+.palette {{ margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--hero-line); max-width: 860px; }}
+.palette-head {{ display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 14px; }}
+.palette p {{ font-size: 14px; color: var(--hero-ink-2); margin: 8px 0 0; }}
+.chip {{ display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--hero-ink-2); }}
+.dot {{ width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--hero-line); }}
+body:not([data-theme="women"]) .only-women, body[data-theme="women"] .only-all_crimes {{ display: none; }}
+.card {{ background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-top: 16px; }}
+.chart-card {{ position: relative; padding-top: 48px; }}
+.reset {{ position: absolute; top: 10px; right: 10px; z-index: 2; font: 500 12px/1 {FONT}; color: var(--ink-2);
+  background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; cursor: pointer; }}
+.reset:hover {{ color: var(--accent-ink); border-color: var(--accent); }}
 .note {{ font-size: 14px; color: var(--ink-2); }}
+.small-head {{ font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); margin: 0 0 4px; }}
+.key {{ display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--ink-2); margin-top: 12px; }}
+.key span {{ display: inline-flex; align-items: center; gap: 6px; }}
+.k-dot, .k-diamond, .k-pos {{ display: inline-block; width: 10px; height: 10px; }}
+.k-dot {{ border-radius: 50%; background: linear-gradient(90deg, {NAVY} 50%, {AMBER} 50%); }}
+body[data-theme="women"] .k-dot {{ background: linear-gradient(90deg, {TEAL} 50%, {PURPLE} 50%); }}
+.k-diamond {{ background: {INK_3}; transform: rotate(45deg) scale(.85); }}
+.k-pos {{ border: 2px dotted {INK_3}; border-radius: 50%; }}
 .minis {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px 16px; }}
 .mini {{ min-width: 0; }}
 .mini h3 {{ font-size: 14px; font-weight: 600; margin: 4px 0 0 8px; }}
@@ -441,7 +567,7 @@ table {{ width: 100%; border-collapse: collapse; font-size: 14px; }}
 th, td {{ text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }}
 th {{ color: var(--ink-3); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }}
 td.num, th.num {{ text-align: right; font-variant-numeric: tabular-nums; }}
-tr.best td {{ font-weight: 700; }}
+tr.best td {{ font-weight: 700; color: var(--accent-ink); }}
 .table-wrap {{ overflow-x: auto; }}
 .badge {{ display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }}
 .badge.ok {{ color: var(--ok); background: #e9f6e9; }}
@@ -449,44 +575,51 @@ tr.best td {{ font-weight: 700; }}
 .badge.bad {{ color: var(--bad); background: #fbe7e7; }}
 .swatch {{ display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; }}
 .flow {{ display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin-top: 16px; }}
-.step {{ flex: 1 1 150px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }}
+.step {{ flex: 1 1 150px; background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 10px; padding: 12px 14px; }}
 .step b {{ display: block; }}
 .step span {{ font-size: 13px; color: var(--ink-2); }}
-details summary {{ cursor: pointer; color: var(--blue); font-weight: 500; }}
-.switch {{ display: inline-flex; gap: 4px; margin-top: 28px; padding: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; }}
-.switch button {{ font: 600 14px/1 {FONT}; color: var(--ink-2); background: none; border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; }}
-.switch button[aria-selected="true"] {{ background: var(--ink); color: #fff; }}
+details summary {{ cursor: pointer; color: var(--link); font-weight: 500; }}
+.switch {{ display: inline-flex; flex-wrap: wrap; gap: 4px; margin-top: 28px; padding: 4px; background: var(--hero-tile); border: 1px solid var(--hero-line); border-radius: 999px; }}
+.switch button {{ display: inline-flex; align-items: center; gap: 8px; font: 600 14px/1 {FONT}; color: var(--hero-ink-2); background: none; border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; }}
+.switch button[aria-selected="true"] {{ background: var(--tab-on-bg); color: var(--tab-on-ink); }}
 .view[hidden] {{ display: none; }}
 footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }}
 </style>
 </head>
-<body>
-<main>
-<header>
-  <div class="eyebrow">Data engineering project</div>
+<body data-theme="all_crimes">
+<header class="hero">
+<div class="hero-inner">
+  <div class="eyebrow"><span class="only-all_crimes">{ICONS['all_crimes']}</span><span class="only-women">{ICONS['women']}</span>Data engineering project · NCRB {first}–{last}</div>
   <h1>Crime in India, {first}–{last}</h1>
   <p class="lead">Official NCRB figures for every state and union territory: checked, mapped across changes in
   the law, and turned into rates using the population NCRB itself used. States are then grouped by how similar
   their crime patterns are. The whole site is rebuilt from the raw files by an automated pipeline.</p>
+  <div class="only-women">
+    <blockquote class="quote">{esc(WOMEN_QUOTE)}</blockquote>
+  </div>
   <div class="tiles">
     <div class="tile"><div class="value">{all_cases:,}</div><div class="label">IPC/BNS crimes recorded, {first}–{last}</div></div>
-    <div class="tile"><div class="value">{women_cases:,}</div><div class="label">crimes against women recorded</div></div>
+    <div class="tile"><div class="value">{women_cases:,}</div><div class="label">crimes against women recorded: NCRB's category for offences specific to women, such as rape, dowry deaths and cruelty by husband</div></div>
     <div class="tile"><div class="value">{len(data['states'])}</div><div class="label">states and union territories</div></div>
     <div class="tile"><div class="value">{summary['checks_passed']} / {summary['checks_run']}</div><div class="label">data quality checks passed; the rest are reported problems in the sources</div></div>
   </div>
   <div class="switch" role="tablist" aria-label="Choose a view">{tabs}</div>
+  {theme_note('all_crimes')}
+  {theme_note('women')}
+</div>
 </header>
+<main>
 
 {sections}
 
 <section>
   <h2>Data quality</h2>
-  <p>Every run checks the raw files before anything is built. Critical checks stop the pipeline;
-  warnings describe problems in the published sources, and each one is handled by a reviewed rule rather than a manual edit.</p>
+  <p>The raw files are checked before anything is built. Critical problems stop the pipeline, and each known
+  problem in NCRB's tables is handled by a reviewed rule, never a manual edit.</p>
   <div class="card">
     <ul class="note">
-      <li><b>Official tables only.</b> Every figure comes from NCRB's <i>Crime in India</i> tables, downloaded from
-      one fixed version with a checksum for each file, and every state adds up to NCRB's all-India row.</li>
+      <li><b>Official tables only.</b> Every figure comes from NCRB's <i>Crime in India</i> tables, kept in the
+      repository with a checksum for each file, and every state adds up to NCRB's all-India row.</li>
       <li><b>Two NCRB tables agree.</b> The crimes-against-women tables and the all-crimes tables report
       {cross_checked:,} of the same figures, and all of them match.</li>
       <li><b>Rates match NCRB's.</b> Rates use the population NCRB used, and reproduce NCRB's printed rates.
@@ -495,7 +628,7 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
       <li><b>The Kaggle copy is a backup only.</b> Compared with NCRB's tables, {kaggle_match:,} of its figures match
       and {kaggle_diff:,} differ, so it is not used for the charts.</li>
     </ul>
-    <details><summary>Show all {summary['checks_run']} checks from the latest run</summary>
+    <details><summary>Show all {summary['checks_run']} checks</summary>
       <div class="table-wrap"><table>
         <thead><tr><th>Source</th><th>Check</th><th>Severity</th><th>Result</th><th class="num">Rows</th></tr></thead>
         <tbody>{quality_rows(quality)}</tbody>
@@ -507,9 +640,11 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
 
 <section>
   <h2>How it is built</h2>
-  <p>Everything runs in GitHub Actions on every change and once a month, using only free, open-source tools.</p>
+  <p>GitHub Actions runs the tests and the full pipeline on every code change, then publishes this site. To add a
+  new year, its NCRB table is added to the manifest and the same pipeline checks, maps and rebuilds everything.
+  Only free, open-source tools are used.</p>
   <div class="flow">
-    <div class="step"><b>Raw files</b><span>NCRB tables, downloaded and verified by checksum</span></div>
+    <div class="step"><b>Raw files</b><span>NCRB tables, kept in the repository and verified by checksum</span></div>
     <div class="step"><b>Bronze</b><span>Loaded into DuckDB as text, one row per table cell</span></div>
     <div class="step"><b>Checks</b><span>{summary['checks_run']} data quality checks in Python and SQL</span></div>
     <div class="step"><b>Silver &amp; gold</b><span>dbt models, reviewed mappings and dbt tests</span></div>
@@ -528,11 +663,11 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
   Source: National Crime Records Bureau (NCRB), <i>Crime in India</i> 2001–2024, as extracted by the
   <a href="https://github.com/reclaimchennai/NCRB">reclaimchennai/NCRB</a> project, and NCRB's district-wise
   files on data.gov.in. Population: NCRB (Registrar General of India projections); Census of India 2011
-  for the female share before 2012. Built {built}.
+  for the female share before 2012.
 </footer>
 </main>
 <script>
-// The view switch: show one view, and size its charts to their boxes.
+// The view switch: show one view, change the theme, and size the view's charts to their boxes.
 const tabs = document.querySelectorAll(".switch button");
 tabs.forEach((tab) => tab.addEventListener("click", () => {{
   tabs.forEach((t) => {{
@@ -540,17 +675,43 @@ tabs.forEach((tab) => tab.addEventListener("click", () => {{
     t.setAttribute("aria-selected", on);
     document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
   }});
+  document.body.dataset.theme = tab.dataset.theme;
   document.querySelectorAll("#" + tab.getAttribute("aria-controls") + " .plotly-graph-div")
     .forEach((div) => Plotly.Plots.resize(div));
 }}));
+// Remember each chart's starting axes, so "Reset view" can undo zooming and panning.
+const startAxes = new Map();
+function rememberAxes(div) {{
+  const axes = {{}};
+  for (const name of ["xaxis", "yaxis"]) {{
+    const axis = div.layout[name] || {{}};
+    axes[name] = axis.autorange !== true && axis.range ? axis.range.slice() : null;
+  }}
+  startAxes.set(div, axes);
+}}
+function resetAxes(div) {{
+  const update = {{}};
+  for (const [name, range] of Object.entries(startAxes.get(div) || {{}})) {{
+    if (range) update[name + ".range"] = range.slice();
+    else update[name + ".autorange"] = true;
+  }}
+  Plotly.relayout(div, update);
+}}
+document.querySelectorAll(".chart-card .reset").forEach((button) => button.addEventListener("click", () => {{
+  button.closest(".chart-card").querySelectorAll(".plotly-graph-div").forEach(resetAxes);
+}}));
 // Charts are drawn while the page is still loading; size them to their final boxes.
 window.addEventListener("load", () => {{
-  document.querySelectorAll(".plotly-graph-div").forEach((div) => Plotly.Plots.resize(div));
+  document.querySelectorAll(".plotly-graph-div").forEach((div) => {{
+    rememberAxes(div);
+    Plotly.Plots.resize(div);
+  }});
 }});
 </script>
 </body>
 </html>
 """
+
 
 
 def profile_window() -> str:
