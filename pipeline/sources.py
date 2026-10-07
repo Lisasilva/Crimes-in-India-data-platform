@@ -122,6 +122,13 @@ class TableSourceContract:
     total_labels: tuple[str, ...]
     # Column whose label identifies a row within one state and year.
     row_column: str | None = None
+    # Reviewed seed (in dbt/seeds) that says which columns are used, and the
+    # seed column holding what each one is mapped to.
+    mapping_seed: str = "crime_head_columns.csv"
+    mapped_to_column: str = "crime_group"
+    # Mapped values that are decimals (populations in lakhs, published rates)
+    # rather than case counts. They are not summed by the totals check.
+    decimal_measures: tuple[str, ...] = ()
 
 
 IPC_DISTRICT = TableSourceContract(
@@ -135,6 +142,13 @@ IPC_DISTRICT = TableSourceContract(
     row_column="district",
 )
 
+# Total rows in NCRB's state tables. The spelling changes from year to year.
+NCRB_TOTAL_LABELS = (
+    "TOTAL STATE(S)", "TOTAL UT(S)", "TOTAL (ALL INDIA)", "TOTAL ALL INDIA",
+    "TOTAL (STATES)", "TOTAL STATES", "TOTAL (UTS)", "TOTAL UT", "TOTAL (ALL-INDIA)",
+    "TOTAL (CITIES)", "TOTAL STATE",
+)
+
 NCRB_STATE_HEADS = TableSourceContract(
     name="ncrb_state_heads",
     table="bronze.ncrb_state_cells",
@@ -142,8 +156,54 @@ NCRB_STATE_HEADS = TableSourceContract(
     state_column="state",
     year_in_manifest=True,
     total_column="state",
-    total_labels=("TOTAL STATE(S)", "TOTAL UT(S)", "TOTAL (ALL INDIA)", "TOTAL ALL INDIA"),
+    total_labels=NCRB_TOTAL_LABELS,
+)
+
+# Crimes against women by crime head: NCRB's consolidated 2001-2015 table and
+# tables 3A.2(i) (IPC/BNS) and 3A.2(ii) (special and local laws) for 2016-2024.
+NCRB_WOMEN_HEADS = TableSourceContract(
+    name="ncrb_women_heads",
+    table="bronze.ncrb_women_cells",
+    id_columns=["section", "sl_no", "state"],
+    state_column="state",
+    year_in_manifest=True,
+    total_column="state",
+    total_labels=NCRB_TOTAL_LABELS,
+)
+
+# Total IPC/BNS crimes with NCRB's mid-year population and published crime
+# rate: tables 1.6 (2001-2013), 1.4 (2014-2015) and 1A.1 (2016-2024).
+NCRB_IPC_TOTALS = TableSourceContract(
+    name="ncrb_ipc_totals",
+    table="bronze.ncrb_ipc_total_cells",
+    id_columns=["section", "sl_no", "state"],
+    state_column="state",
+    year_in_manifest=True,
+    total_column="state",
+    total_labels=NCRB_TOTAL_LABELS,
+    mapping_seed="population_columns.csv",
+    mapped_to_column="measure",
+    decimal_measures=("population_lakhs", "published_rate"),
+)
+
+# Total crimes against women with NCRB's female population and published rate:
+# table 5.1 (2012-2015) and 3A.1 (2016-2024). Before 2012 NCRB published the
+# women's rate against the total population, so those years are not loaded.
+NCRB_WOMEN_TOTALS = TableSourceContract(
+    name="ncrb_women_totals",
+    table="bronze.ncrb_women_total_cells",
+    id_columns=["section", "sl_no", "state"],
+    state_column="state",
+    year_in_manifest=True,
+    total_column="state",
+    total_labels=NCRB_TOTAL_LABELS,
+    mapping_seed="population_columns.csv",
+    mapped_to_column="measure",
+    decimal_measures=("population_lakhs", "published_rate"),
 )
 
 CONTRACTS = {c.name: c for c in (KAGGLE_STATE_CRIMES, NCRB_CASES_2001_2010)}
-TABLE_CONTRACTS = {c.name: c for c in (IPC_DISTRICT, NCRB_STATE_HEADS)}
+TABLE_CONTRACTS = {
+    c.name: c
+    for c in (IPC_DISTRICT, NCRB_STATE_HEADS, NCRB_WOMEN_HEADS, NCRB_IPC_TOTALS, NCRB_WOMEN_TOTALS)
+}

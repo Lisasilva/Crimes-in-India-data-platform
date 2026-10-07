@@ -1,0 +1,82 @@
+source,year_from,year_to,measure,column_name
+ncrb_ipc_totals,2001,2001,cases,INCIDENCE OF TOTAL COGNIZABLE CRIMES
+ncrb_ipc_totals,2002,2002,cases,Percentage | Incidence of Total Cognizable Crimes
+ncrb_ipc_totals,2003,2014,cases,Incidence of Total Cognizable Crimes
+ncrb_ipc_totals,2015,2015,cases,Cases Reported under Total Cognizable Crimes
+ncrb_ipc_totals,2016,2016,cases,2016
+ncrb_ipc_totals,2017,2017,cases,2017
+ncrb_ipc_totals,2018,2018,cases,2018
+ncrb_ipc_totals,2019,2019,cases,2019
+ncrb_ipc_totals,2020,2020,cases,2020
+ncrb_ipc_totals,2021,2021,cases,2021
+ncrb_ipc_totals,2022,2022,cases,2022
+ncrb_ipc_totals,2023,2023,cases,2023
+ncrb_ipc_totals,2024,2024,cases,2024 | Total
+ncrb_ipc_totals,2001,2001,population_lakhs,POPULATION (IN LAKHS)
+ncrb_ipc_totals,2002,2002,population_lakhs,Percentage | Estimated mid- Year Population (In Lakhs)
+ncrb_ipc_totals,2003,2009,population_lakhs,Rate of Total | Estimated mid- Year Population (In Lakhs)
+ncrb_ipc_totals,2010,2010,population_lakhs,Estimated mid- Year Population (In Lakhs)
+ncrb_ipc_totals,2011,2011,population_lakhs,Rate of Total | Estimated mid- Year Population (In Lakhs)
+ncrb_ipc_totals,2012,2012,population_lakhs,Estimated mid- Year Population (In Lakhs)**
+ncrb_ipc_totals,2013,2013,population_lakhs,Mid-Year Projected Population (In Lakh)**
+ncrb_ipc_totals,2014,2015,population_lakhs,Mid-Year Projected Population (In Lakhs)+
+ncrb_ipc_totals,2016,2016,population_lakhs,Mid-Year Projected Population (In Lakhs) (2016) +
+ncrb_ipc_totals,2017,2017,population_lakhs,Mid-Year Projected Population (in Lakhs) (2017)+
+ncrb_ipc_totals,2018,2018,population_lakhs,Mid-Year Projected Population (in Lakhs) (2018)+
+ncrb_ipc_totals,2019,2019,population_lakhs,Mid-Year Projected Population (in Lakhs)
+ncrb_ipc_totals,2020,2020,population_lakhs,Mid‐Year Projected Population (in Lakhs) (2020)
+ncrb_ipc_totals,2021,2021,population_lakhs,Mid-Year Projected Population (in Lakhs)
+ncrb_ipc_totals,2022,2022,population_lakhs,Mid-Year Projected Population (in Lakhs) (2022)
+ncrb_ipc_totals,2023,2023,population_lakhs,Mid-Year Projected Population (in Lakhs) (2023)
+ncrb_ipc_totals,2024,2024,population_lakhs,Mid-Year Projected Population (in Lakhs) (2024)+
+ncrb_ipc_totals,2001,2001,published_rate,RATE OF TOTAL COGNIZABLE CRIMES
+ncrb_ipc_totals,2002,2002,published_rate,Rate of Total Cognizable Crimes
+ncrb_ipc_totals,2003,2009,published_rate,Rate of Total | Cognizable Crimes
+ncrb_ipc_totals,2010,2010,published_rate,Rate of Total Cognizable Crimes
+ncrb_ipc_totals,2011,2011,published_rate,Rate of Total | Cognizable Crimes
+ncrb_ipc_totals,2012,2015,published_rate,Rate of Total Cognizable Crimes
+ncrb_ipc_totals,2016,2016,published_rate,Rate of Cognizable Crimes (IPC) (2016)++
+ncrb_ipc_totals,2017,2017,published_rate,Rate of Total Cognizable Crime (IPC) (2017)++
+ncrb_ipc_totals,2018,2018,published_rate,Rate of Total Cognizable Crime (IPC) (2018)++
+ncrb_ipc_totals,2019,2019,published_rate,Rate of Total Cognizable Crime (IPC) (2019)+
+ncrb_ipc_totals,2020,2020,published_rate,Rate of Cognizable Crimes (IPC) (2020)
+ncrb_ipc_totals,2021,2021,published_rate,Rate of Cognizable Crimes (IPC) (2021)
+ncrb_ipc_totals,2022,2022,published_rate,Rate of Cognizable Crimes (IPC) (2022)
+ncrb_ipc_totals,2023,2023,published_rate,Rate of Cognizable Crimes (IPC) (2023)
+ncrb_ipc_totals,2024,2024,published_rate,Rate of Cognizable Crimes
+ncrb_women_totals,2012,2014,cases,Incidence
+ncrb_women_totals,2015,2015,cases,Cases Reported
+ncrb_women_totals,2016,2016,cases,2016
+ncrb_women_totals,2017,2017,cases,2017
+ncrb_women_totals,2018,2018,cases,2018
+ncrb_women_totals,2019,2019,cases,2019
+ncrb_women_totals,2020,2020,cases,2020
+ncrb_women_totals,2021,2021,cases,2021
+ncrb_women_totals,2022,2022,cases,2022
+ncrb_women_totals,2023,2023,cases,2023
+ncrb_women_totals,2024,2024,cases,2024
+ncrb_women_totals,2012,2012,population_lakhs,Female Population* (in lakhs)
+ncrb_women_totals,2013,2013,population_lakhs,Female Population* (in lakh)
+ncrb_women_totals,2014,2014,population_lakhs,Mid-year Projected Female Population + (in Lakhs)
+ncrb_women_totals,2015,2015,population_lakhs,Mid-Year Projected Female Population + (in Lakhs)
+ncrb_women_totals,2016,2016,population_lakhs,Mid-Year Projected Female Population (in Lakhs) (2016)+
+ncrb_women_totals,2017,2017,population_lakhs,Mid-Year Projected Female Population (In Lakhs) (2017)+
+ncrb_women_totals,2018,2018,population_lakhs,Mid-Year Projected Female Population (In Lakhs) (2018)+
+ncrb_women_totals,2019,2019,population_lakhs,Mid-Year Projected Female Population (In Lakhs)
+ncrb_women_totals,2020,2020,population_lakhs,Mid‐Year Projected Population (in Lakhs)
+ncrb_women_totals,2021,2021,population_lakhs,Mid-Year Projected Population (in Lakhs) (2021)
+ncrb_women_totals,2022,2022,population_lakhs,Mid-Year Projected Population (in Lakhs) (2022)
+ncrb_women_totals,2023,2023,population_lakhs,Mid-Year Projected Population (in Lakhs) (2023)
+ncrb_women_totals,2024,2024,population_lakhs,Mid-Year Projected Population (in Lakhs) (2024)
+ncrb_women_totals,2012,2012,published_rate,Rate Of Total Cognizable Crimes
+ncrb_women_totals,2013,2013,published_rate,Rate Of Total Cognizable Crimes (Col. 3/Col.5)
+ncrb_women_totals,2014,2015,published_rate,Rate of Total Cognizable Crimes
+ncrb_women_totals,2016,2016,published_rate,Rate of Total Cognizable Crimes (2016)++
+ncrb_women_totals,2017,2017,published_rate,Rate of Total Crime against Women (2017)++
+ncrb_women_totals,2018,2018,published_rate,Rate of Total Crime against Women (2018)++
+ncrb_women_totals,2019,2019,published_rate,Rate of Total Crime against Women (2019)+
+ncrb_women_totals,2020,2020,published_rate,Rate of Total Crime against Women
+ncrb_women_totals,2021,2021,published_rate,Rate of Total Crime against Women (2021)
+ncrb_women_totals,2022,2022,published_rate,Rate of Total Crime against Women (2022)
+ncrb_women_totals,2023,2023,published_rate,Rate of Total Crime against Women (2023)
+ncrb_women_totals,2024,2024,published_rate,Rate of Total Crime against Women (2024)

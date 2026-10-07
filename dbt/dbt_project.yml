@@ -30,6 +30,8 @@ seeds:
       +column_types: {valid_from_year: integer, valid_to_year: integer, population: bigint}
     crime_head_columns:
       +column_types: {year_from: integer, year_to: integer}
+    population_columns:
+      +column_types: {year_from: integer, year_to: integer}
     crime_groups:
       +column_types: {is_against_women: boolean, sort_order: integer}
 

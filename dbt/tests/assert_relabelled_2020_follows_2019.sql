@@ -1,8 +1,9 @@
--- After relabelling, each sizeable state's 2020 total should be close to its own
--- 2018-2019 level. Before the fix, Rajasthan went from about 40,000 cases to 33.
+-- After relabelling the Kaggle backup, each sizeable state's 2020 total should be
+-- close to its own 2018-2019 level. Before the fix, Rajasthan went from about
+-- 40,000 cases to 33.
 with totals as (
     select analysis_unit, year, sum(cases) as total
-    from {{ ref('fct_crimes_against_women') }}
+    from {{ ref('int_state_crimes_long') }}
     where year between 2018 and 2020
     group by analysis_unit, year
 ),

@@ -18,3 +18,16 @@ sources:
           NCRB state x crime-head tables 2014-2024 (tables 1.6 and 1A.4), one row
           per cell: section, serial number, state, column name and value, with the
           year from the manifest.
+      - name: ncrb_women_cells
+        description: >
+          NCRB crimes against women by crime head, one row per cell: the
+          consolidated 2001-2015 table and tables 3A.2(i) and 3A.2(ii) for
+          2016-2024.
+      - name: ncrb_ipc_total_cells
+        description: >
+          NCRB total IPC/BNS crimes with mid-year population and crime rate,
+          2001-2024 (tables 1.6, 1.4 and 1A.1), one row per cell.
+      - name: ncrb_women_total_cells
+        description: >
+          NCRB total crimes against women with female population and rate,
+          2012-2024 (tables 5.1 and 3A.1), one row per cell.

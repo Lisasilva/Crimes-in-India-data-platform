@@ -32,28 +32,32 @@ def test_known_source_problems_are_still_detected(built):
     assert not by_check[("ncrb_cases_2001_2010", "labels_consistent")]["passed"]
 
 
-def test_gold_layer_has_corrected_figures(built):
+def test_women_figures_match_ncrb_published_totals(built):
     _, out = built
     with duckdb.connect(str(out / "crime.duckdb")) as con:
-        # Delhi 2020 rape cases (997) were in the row labelled "D&N Haveli".
+        national = {
+            year: (cases, rate)
+            for year, cases, rate in con.sql(
+                "SELECT year, cases, rate_per_100k_women FROM gold.mart_national_trend "
+                "WHERE crime_code = 'total_against_women'"
+            ).fetchall()
+        }
+        # Delhi 2020 rape cases; the Kaggle copy had them under "D&N Haveli".
         delhi = con.sql(
             "SELECT cases FROM gold.fct_crimes_against_women "
             "WHERE analysis_unit = 'Delhi' AND year = 2020 AND crime_code = 'rape'"
         ).fetchone()[0]
-        # Delhi 2001-2010 comes from the NCRB file.
-        delhi_2005 = con.sql(
-            "SELECT source FROM gold.fct_crimes_against_women "
-            "WHERE analysis_unit = 'Delhi' AND year = 2005 AND crime_code = 'rape'"
-        ).fetchone()[0]
-        copied = con.sql(
-            "SELECT count(*) FROM gold.fct_crimes_against_women "
-            "WHERE analysis_unit = 'West Bengal' AND year = 2019 AND cases IS NOT NULL"
-        ).fetchone()[0]
+        sources = con.sql("SELECT DISTINCT source FROM gold.fct_crimes_against_women").fetchall()
         clustered = con.sql("SELECT count(*) FROM gold.state_clusters").fetchone()[0]
 
+    # All-India total crimes against women and rate per 100,000 women, as
+    # printed by NCRB (tables 5.1 and 3A.1).
+    assert national[2012] == (244270, 41.74)
+    assert national[2022][0] == 445256 and round(national[2022][1], 1) == 66.4
+    assert national[2024][0] == 441534 and round(national[2024][1], 1) == 64.6
+    assert sorted(national) == list(range(2001, 2025))
     assert delhi == 997
-    assert delhi_2005 == "ncrb_2001_2010"
-    assert copied == 0
+    assert sources == [("ncrb_women_heads",)]
     assert clustered == 35
 
 

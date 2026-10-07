@@ -14,8 +14,10 @@ models:
 
   - name: int_state_crimes_long
     description: >
-      One row per state, year and crime type after all corrections. `cases` is
-      empty where the source is known to be wrong; `data_issue` says why.
+      The Kaggle copy of the women data (2001-2021), one row per state, year and
+      crime type after all corrections. `cases` is empty where the source is
+      known to be wrong; `data_issue` says why. Kept as a backup and cross-check
+      only: the gold layer uses NCRB's own tables (int_women_crimes_by_type).
     columns:
       - name: crime_code
         tests:
@@ -29,3 +31,22 @@ models:
           - accepted_values:
               arguments:
                 values: ['kaggle', 'ncrb_2001_2010']
+
+  - name: int_women_crimes_by_type
+    description: >
+      One row per state, year and crime type from NCRB's crimes-against-women
+      tables, 2001-2024.
+    columns:
+      - name: crime_code
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('crime_types')
+                field: crime_code
+      - name: cases
+        tests:
+          - not_null
+          - value_in_range:
+              arguments:
+                min_value: 0

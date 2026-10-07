@@ -24,7 +24,10 @@ seeds:
       are correct and are not listed.
 
   - name: crime_types
-    description: The seven crime heads and the column or label each source uses for them.
+    description: >
+      The crime types of the crimes-against-women view: seven crime heads and
+      the total, with the column or label the older sources use for them and
+      how NCRB's definitions changed over the years.
     columns:
       - name: crime_code
         tests: [unique, not_null]
@@ -57,14 +60,44 @@ seeds:
         tests:
           - accepted_values:
               arguments:
-                values: ['ipc_district', 'ncrb_state_heads']
+                values: ['ipc_district', 'ncrb_state_heads', 'ncrb_women_heads']
       - name: crime_group
+        description: >
+          A crime group (crime_groups seed) for the all-crimes sources, or a
+          crime type (crime_types seed) for ncrb_women_heads.
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('crime_groups')
                 field: crime_group
+              config:
+                where: "source <> 'ncrb_women_heads'"
+          - relationships:
+              arguments:
+                to: ref('crime_types')
+                field: crime_code
+              config:
+                where: "source = 'ncrb_women_heads'"
+
+  - name: population_columns
+    description: >
+      Which column of NCRB's state total tables holds the case count, the
+      population (in lakhs) and NCRB's published rate, per source and year.
+      Every column listed must exist in the raw files (pipeline/quality.py,
+      check mapped_columns_present).
+    columns:
+      - name: source
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['ncrb_ipc_totals', 'ncrb_women_totals']
+      - name: measure
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['cases', 'population_lakhs', 'published_rate']
 
   - name: crime_groups
     description: The standard crime groups used across all years, and which are crimes against women.
