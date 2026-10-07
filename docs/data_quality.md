@@ -8,7 +8,7 @@ guessed: a figure known to be wrong or missing stays missing.
 
 | Layer | Where | What happens |
 | --- | --- | --- |
-| Download | `pipeline/fetch.py` | NCRB tables are downloaded from one fixed commit of reclaimchennai/NCRB and must match the sha256 in `data/raw/manifest.yml`. |
+| Download | `pipeline/fetch.py` | NCRB tables were taken from one fixed commit of reclaimchennai/NCRB and a copy is kept in `data/raw`, so the project does not depend on that repository staying online. Every file must match the sha256 in `data/raw/manifest.yml`; `fetch.py` only downloads a file that is missing. |
 | Bronze | `pipeline/ingest.py` | Every cell is loaded as text, with its file, line and column name, so nothing is coerced or lost. |
 | Checks | `pipeline/quality.py` | 75 checks. Critical checks stop the pipeline; warnings are reported in `reports/data_quality_report.md`. |
 | Silver | `dbt/models/staging`, `dbt/models/intermediate` | Columns are mapped to crime groups and state names to analysis units, using the seed files in `dbt/seeds`. |

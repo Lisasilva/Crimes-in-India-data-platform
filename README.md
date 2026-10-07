@@ -5,11 +5,12 @@
 **Live site:** https://lisasilva.github.io/Crimes-in-India-data-platform/
 
 This is an end-to-end, reproducible data pipeline for official NCRB crime statistics covering every
-Indian state and union territory from 2001 to 2024. It downloads and verifies the raw tables, runs
+Indian state and union territory from 2001 to 2024. It verifies the raw tables against checksums, runs
 data quality checks, models the data in dbt on DuckDB, groups states by clustering, and publishes a
 website with two views: **all crimes** under the Indian Penal Code (and, from July 2024, the
 Bharatiya Nyaya Sanhita), and **crimes against women**. The whole pipeline runs in GitHub Actions on
-every change and once a month, using only free, open-source tools.
+every code change, using only free, open-source tools. Adding a new year means adding its NCRB table
+to the manifest; the same pipeline then checks, maps and rebuilds everything.
 
 It grew out of my university Data Mining project, which applied K-Means and DBSCAN to crimes against
 women for 2001–2010 ([original repository](https://github.com/Lisasilva/Crime-Analysis-in-India),
@@ -22,7 +23,7 @@ crimes, and replaces a community copy of the data with NCRB's own published tabl
 
 ```mermaid
 flowchart LR
-    ncrb["NCRB tables<br/>fixed version + checksums"] --> bronze["Bronze<br/>DuckDB, text only"]
+    ncrb["NCRB tables<br/>copy in repo + checksums"] --> bronze["Bronze<br/>DuckDB, text only"]
     bronze --> checks{"Data quality<br/>checks"}
     checks -- critical failure --> stop["Run stops"]
     checks -- pass --> silver["Silver<br/>dbt: typed, mapped"]
@@ -35,12 +36,12 @@ flowchart LR
 
 | Layer | Tool | What it does |
 | --- | --- | --- |
-| Ingestion | Python, DuckDB | Downloads NCRB tables from one fixed commit (`pipeline/fetch.py`), verifies each file against its sha256 in `data/raw/manifest.yml`, and loads every cell as text so nothing is coerced or lost. |
+| Ingestion | Python, DuckDB | Reads the NCRB tables kept in `data/raw` (a copy taken from one fixed commit of the source, so the project does not depend on that repository staying online), verifies each file against its sha256 in `data/raw/manifest.yml`, and loads every cell as text so nothing is coerced or lost. |
 | Data quality | Python, SQL | 75 checks: schema drift, unrecognised state names, invalid numbers, missing years, totals that do not add up to NCRB's all-India row, copied years and sudden jumps. Critical checks stop the run. |
 | Modelling | dbt-core, dbt-duckdb | Staging views, a silver layer that maps NCRB's changing column names onto stable crime groups using reviewed seed files, and a gold star schema with rates per 100,000 people or women. Backed by 118 dbt tests, including tests that reproduce NCRB's own published totals and rates. |
 | Analysis | scikit-learn | For each view, K-Means picks the number of groups by silhouette score and DBSCAN flags states unlike any other. |
-| Presentation | Plotly, GitHub Pages | A static site rebuilt from the gold tables on every run, with an All crimes / Crimes against women switch and CSV downloads. |
-| Orchestration | GitHub Actions | Runs tests, then the pipeline, then deploys the site, on every push and pull request and monthly. |
+| Presentation | Plotly, GitHub Pages | A static site rebuilt from the gold tables on every run, with an All crimes / Crimes against women switch (each view has its own colour theme), a reset button on every chart, and CSV downloads. |
+| Orchestration | GitHub Actions | Runs tests, then the pipeline, then deploys the site, on every push and pull request. |
 
 ## Data quality
 
@@ -110,7 +111,7 @@ run dbt directly from `dbt/` with `dbt build --profiles-dir .`.
 ## Repository layout
 
 ```
-data/raw/          raw files and the checksum manifest (NCRB tables are downloaded on demand)
+data/raw/          raw files and the checksum manifest (including a copy of every NCRB table used)
 pipeline/          download, ingestion, quality checks, clustering, site builder, entry point
 dbt/               models (staging, intermediate, marts), seeds, tests
 tests/             pytest suite
