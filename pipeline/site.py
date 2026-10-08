@@ -605,27 +605,21 @@ def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -
   --surface: {IVORY}; --card: #ffffff; --ink: {NAVY}; --ink-2: {SLATE}; --ink-3: {INK_3}; --line: {GRID};
   --accent: {AMBER}; --accent-ink: {NAVY}; --link: #1f4e8c;
   --band-color: {NAVY};
-  --band-bg:
-    radial-gradient(rgba(244,162,97,.13) 1px, transparent 1.4px) 0 0 / 18px 18px,
-    radial-gradient(ellipse at 50% -20%, rgba(244,162,97,.22), transparent 60%),
-    linear-gradient(165deg, {NAVY} 0%, #16203d 100%);
-  --band-ink: {IVORY}; --band-ink-2: #c5cad3; --band-head: #f8c99b; --band-accent: {AMBER};
-  --band-card: #060b1a; --band-card-ink: {IVORY}; --band-card-ink-2: #b9bfca; --band-card-line: rgba(255,255,255,.08);
-  --band-link: #f8c99b;
+  --band-bg: linear-gradient(160deg, {NAVY} 0%, #1c2541 100%);
+  --band-ink: {IVORY}; --band-ink-2: #c5cad3; --band-head: #f8c99b; --band-accent: {AMBER}; --band-eyebrow: {AMBER};
+  --band-card: rgba(255,255,255,.06); --band-card-ink: {IVORY}; --band-card-ink-2: #c5cad3; --band-card-line: rgba(255,255,255,.14);
+  --band-link: {AMBER}; --band-step: {AMBER};
   --tab-on-bg: {AMBER}; --tab-on-ink: {NAVY};
   --pq-rule: {AMBER}; --pq-mark: {AMBER}; --pq-kicker: #b4581a; --pq-ink: {NAVY};
   --ok: #0ca30c; --warn: #b07a00; --bad: #d03b3b;
 }}
 body[data-theme="women"] {{
-  --surface: #fbf8f0; --ink: {CHARCOAL}; --ink-2: #5c5f73; --accent: {PURPLE}; --accent-ink: {PURPLE}; --link: {PURPLE};
+  --surface: #faf8fc; --ink: {CHARCOAL}; --ink-2: #5c5f73; --accent: {PURPLE}; --accent-ink: {PURPLE}; --link: {PURPLE};
   --band-color: {GOLD};
-  --band-bg:
-    repeating-linear-gradient(45deg, rgba(255,255,255,.08) 0 2px, transparent 2px 10px),
-    radial-gradient(ellipse at 50% -10%, rgba(255,246,220,.6), transparent 60%),
-    linear-gradient(170deg, #d6b465 0%, {GOLD} 50%, #b48e3c 100%);
-  --band-ink: {CHARCOAL}; --band-ink-2: #3b3d50; --band-head: #3f2471; --band-accent: {PURPLE};
-  --band-card: #8a6a21; --band-card-ink: #fff8e6; --band-card-ink-2: #f3e6c4; --band-card-line: rgba(255,255,255,.16);
-  --band-link: #3f2471;
+  --band-bg: radial-gradient(circle at 50% 0%, #e6dbf5 0%, #f1ebf9 45%, #faf6ec 100%);
+  --band-ink: {CHARCOAL}; --band-ink-2: #55586b; --band-head: {PURPLE}; --band-accent: {GOLD}; --band-eyebrow: {PURPLE};
+  --band-card: #ffffff; --band-card-ink: {CHARCOAL}; --band-card-ink-2: #55586b; --band-card-line: #dccdee;
+  --band-link: {PURPLE}; --band-step: {PURPLE};
   --tab-on-bg: {PURPLE}; --tab-on-ink: #ffffff;
   --pq-rule: {GOLD}; --pq-mark: {PURPLE}; --pq-kicker: #8a6a21; --pq-ink: {CHARCOAL};
 }}
@@ -645,7 +639,7 @@ a {{ color: var(--link); }}
 .hero {{ border-bottom: 5px solid var(--band-accent); }}
 .hero-inner {{ max-width: 1040px; margin: 0 auto; padding: 56px 16px 36px; text-align: center; }}
 .hero p.lead {{ font-size: 19px; color: var(--band-ink-2); max-width: 640px; margin: 0 auto; }}
-.eyebrow {{ display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--band-accent); margin-bottom: 10px; }}
+.eyebrow {{ display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--band-eyebrow); margin-bottom: 10px; }}
 .tiles {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 30px; text-align: left; }}
 .tile {{ background: var(--band-card); color: var(--band-card-ink); border: 1px solid var(--band-card-line); border-radius: 10px; padding: 16px 18px; transition: background .3s, transform .3s, box-shadow .3s; }}
 .tile .value {{ font-size: 30px; font-weight: 700; letter-spacing: -0.01em; }}
@@ -653,6 +647,10 @@ a {{ color: var(--link); }}
 body[data-theme="women"] .tile.women-tile {{ background: {PURPLE}; border-color: {PURPLE}; color: #fff;
   box-shadow: 0 12px 26px rgba(63,36,113,.35); transform: translateY(-4px); }}
 body[data-theme="women"] .tile.women-tile .label {{ color: #e8def7; }}
+/* In the all crimes view its total is the lead tile instead. */
+body:not([data-theme="women"]) .tile.all-tile {{ background: {AMBER}; border-color: {AMBER}; color: {NAVY};
+  box-shadow: 0 12px 26px rgba(244,162,97,.30); transform: translateY(-4px); }}
+body:not([data-theme="women"]) .tile.all-tile .label {{ color: #3a2a1c; }}
 .switch {{ display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 32px; padding: 4px; background: var(--band-card); border: 1px solid var(--band-card-line); border-radius: 999px; }}
 .switch button {{ display: inline-flex; align-items: center; gap: 8px; font: 600 15px/1 {FONT}; color: var(--band-card-ink-2); background: none; border: 0; border-radius: 999px; padding: 12px 20px; cursor: pointer; transition: background .2s; }}
 .switch button[aria-selected="true"] {{ background: var(--tab-on-bg); color: var(--tab-on-ink); }}
@@ -672,12 +670,11 @@ body:not([data-theme="women"]) .only-women, body[data-theme="women"] .only-all_c
 .closing-inner {{ max-width: 1040px; margin: 0 auto; padding: 8px 16px 48px; }}
 .closing h2 {{ color: var(--band-head); }}
 .closing section > p {{ color: var(--band-ink-2); }}
-.closing .card, .closing .step {{ background: var(--band-card); color: var(--band-card-ink); border-color: var(--band-card-line); }}
-.closing .card .note, .closing .step span {{ color: var(--band-card-ink-2); }}
-.closing th, .closing td {{ border-bottom-color: var(--band-card-line); }}
-.closing th {{ color: var(--band-card-ink-2); }}
-.closing a, .closing details summary {{ color: var(--band-link); }}
-.closing .card a, .closing .card details summary {{ color: var(--band-card-ink); }}
+.closing .card, .closing .step {{ background: var(--card); color: var(--ink); }}
+.closing .card .note, .closing .step span {{ color: var(--ink-2); }}
+.closing .step {{ border-top: 4px solid var(--band-step); }}
+.closing a {{ color: var(--band-link); }}
+.closing .card a, .closing .card details summary {{ color: var(--link); }}
 .closing footer {{ border-top-color: var(--band-card-line); color: var(--band-ink-2); }}
 
 /* "Behind every number": a pull quote, the same words in both views, in the open view's colours. */
@@ -760,7 +757,7 @@ footer {{ margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line)
   <p class="lead">Official NCRB figures for every state and union territory, checked, turned into rates and
   grouped by crime pattern by an automated pipeline.</p>
   <div class="tiles">
-    <div class="tile"><div class="value">{all_cases:,}</div><div class="label">IPC/BNS crimes recorded, {first}–{last}</div></div>
+    <div class="tile all-tile"><div class="value">{all_cases:,}</div><div class="label">IPC/BNS crimes recorded, {first}–{last}</div></div>
     <div class="tile women-tile"><div class="value">{women_cases:,}</div><div class="label">crimes against women (NCRB's category for offences specific to women)</div></div>
     <div class="tile"><div class="value">{len(data['states'])}</div><div class="label">states and union territories</div></div>
     <div class="tile"><div class="value">{summary['checks_passed']} / {summary['checks_run']}</div><div class="label">data quality checks passed</div></div>
