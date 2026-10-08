@@ -35,8 +35,10 @@ NAVY, AMBER, SLATE, IVORY = "#0B132B", "#F4A261", "#495057", "#F8F9FA"
 # Broken Pedestal (crimes against women): dignity, resilience, truth and hope.
 PURPLE, TEAL, GOLD, CHARCOAL = "#5B3A9A", "#2A9D8F", "#C8A24D", "#2B2D42"
 INK_3, GRID = "#868e96", "#e3e5e8"
-FONT = "'IBM Plex Sans', system-ui, -apple-system, Segoe UI, sans-serif"
-SERIF = "'Source Serif 4', Georgia, serif"
+# One family for headings and text; change these two lines (and FONT_URL) to swap it.
+FONT = "'Fraunces', Georgia, serif"
+HEAD_FONT = FONT
+FONT_URL = "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap"
 
 
 @dataclass(frozen=True)
@@ -315,11 +317,9 @@ def model_comparison_note(view: View) -> str:
         for r in rows
     )
     if better:
-        verdict = (f"{esc(better[0]['method'])} scores higher here; K-Means is kept because it is the simplest "
-                   "to explain and the groups are similar.")
+        verdict = f"{esc(better[0]['method'])} scores higher; K-Means is kept as the simplest to explain."
     else:
-        verdict = ("None finds clearly better groups. A higher score that comes from putting one or two states "
-                   "in a group of their own is not a useful grouping.")
+        verdict = "None finds clearly better groups. A high score from a group of one state isn't useful."
     return (f"<div class='card'><p class='small-head'>Other methods checked, {view.clustering['best_k']} groups</p>"
             f"<table><thead><tr><th>Method</th><th class='num'>Silhouette</th><th class='num'>Smallest group</th>"
             f"</tr></thead><tbody>{body}</tbody></table><p class='note'>{verdict}</p></div>")
@@ -396,18 +396,13 @@ def quality_rows(quality: dict) -> str:
 
 VIEW_TEXT = {
     "all_crimes": {
-        "trend": "Cases reported per 100,000 people each year for eleven large crime groups under the "
-                 "Indian Penal Code, and from July 2024 the Bharatiya Nyaya Sanhita that replaced it.",
-        "trend_note": "NCRB regrouped its crime heads in 2014, 2017 and 2024, and each group is mapped across "
-                      "those changes in a reviewed table. Hurt has no 2024 point: under the new law NCRB's "
-                      "grievous hurt group also counts some simple hurt, so it is not comparable.",
+        "trend": "Cases per 100,000 people a year, for eleven major IPC/BNS crime groups.",
+        "trend_note": "Crime heads were regrouped in 2014, 2017 and 2024; hurt has no comparable 2024 figure.",
         "ranking": "the eleven crime groups added together",
     },
     "women": {
-        "trend": "Cases reported per 100,000 women each year, for the six main crimes against women.",
-        "trend_note": "Legal definitions changed with the Criminal Law (Amendment) Act, 2013, which is why "
-                      "several lines bend around 2013–2014. Rates before 2012 use an estimated female "
-                      "population (see Data quality).",
+        "trend": "Cases per 100,000 women a year, for the six main crimes against women.",
+        "trend_note": "Definitions widened in 2013; the female population before 2012 is estimated.",
         "ranking": "the six crime types added together",
     },
 }
@@ -445,29 +440,18 @@ NAV = [
     ("quality", "Data quality", line_icon('<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>')),
     ("built", "How it is built", line_icon('<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>')),
 ]
-QUOTE_ICON = ('<svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" fill="currentColor">'
-              '<path d="M4 18c0-6 3-10 9-12l1 2c-3 1.5-5 4-5 7h4v9H4v-6zm14 0c0-6 3-10 9-12l1 2c-3 1.5-5 4-5 '
-              '7h4v9h-9v-6z"/></svg>')
-PEOPLE_ICON = line_icon('<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/>'
-                        '<circle cx="17" cy="9" r="2.5"/><path d="M16 14.2c2.9.4 5 2.8 5 5.8"/>')
-
 THEME_NOTES = {
     "all_crimes": {
         "name": "Midnight Vigil",
         "colours": ((NAVY, "Midnight navy"), (AMBER, "Burnt amber"), (SLATE, "Slate grey"), (IVORY, "Soft ivory")),
-        "text": "A nation under watch: the data is here not to sensationalise crime, but to understand it and "
-                "help make communities safer. Midnight navy stands for what lies beneath the surface of the "
-                "numbers, burnt amber for vigilance and attention, slate grey for neutral, objective evidence, "
-                "and soft ivory for clarity and transparency.",
+        "text": "A nation under watch: navy for what lies beneath the numbers, amber for vigilance, "
+                "slate for evidence, ivory for clarity.",
     },
     "women": {
         "name": "Broken Pedestal",
         "colours": ((PURPLE, "Royal purple"), (TEAL, "Deep teal"), (GOLD, "Burnished gold"), (CHARCOAL, "Charcoal")),
-        "text": "This theme is built around four ideas: dignity, resilience, truth, and hope. Purple reflects the "
-                "strength and dignity every woman deserves. Gold represents the respect society often promises "
-                "but must also practice. Teal symbolizes healing and solidarity with survivors. Charcoal reminds "
-                "us that behind every statistic is a real person whose story deserves to be seen, heard, and "
-                "acted upon.",
+        "text": "Dignity, resilience, truth and hope: purple for dignity, gold for the respect society promises, "
+                "teal for healing, charcoal for the person behind every statistic.",
     },
 }
 WOMEN_QUOTE = "Respect is not measured by the names we give women, but by the safety we give them."
@@ -475,11 +459,8 @@ WOMEN_QUOTE = "Respect is not measured by the names we give women, but by the sa
 
 def silhouette_note(score: float) -> str:
     if score >= 0.25:
-        return (f"A score of {score:.2f} means the groups are real but overlap: states sit on a "
-                "spectrum, and the line between the groups is a rough one.")
-    return (f"A score of {score:.2f} is weak: the groups overlap heavily. States sit on one continuous "
-            "spectrum, so read the two groups as the lower and higher halves of it, not as separate "
-            "types of state.")
+        return f"{score:.2f}: real groups, but they overlap."
+    return f"{score:.2f} is weak: states form a spectrum, so the two groups are a rough split."
 
 
 def chart_card(inner: str, note: str = "", reset: bool = True) -> str:
@@ -492,11 +473,10 @@ def chart_card(inner: str, note: str = "", reset: bool = True) -> str:
 
 def purpose_callout() -> str:
     """The shared 'Behind every number' statement; its colours follow the theme."""
-    return (f'<aside class="callout"><span class="icon">{PEOPLE_ICON}</span><div>'
-            '<div class="label">Behind every number</div>'
+    return ('<figure class="pullquote"><div class="kicker">Behind every number</div>'
             '<p class="big">Every point on this dashboard represents lives affected, not just numbers.</p>'
             '<p class="small">The goal is not to provoke fear, but to encourage understanding, accountability, '
-            'and meaningful action.</p></div></aside>')
+            'and meaningful action.</p></figure>')
 
 
 def theme_note(key: str) -> str:
@@ -505,8 +485,8 @@ def theme_note(key: str) -> str:
         f"<span class='chip'><span class='dot' style='background:{hex_}'></span>{esc(name)}</span>"
         for hex_, name in note["colours"]
     )
-    return (f"<div class='palette only-{key}'><div class='palette-head'><b>{esc(note['name'])}</b>{chips}</div>"
-            f"<p>{esc(note['text'])}</p></div>")
+    return (f"<div class='palette only-{key}'><b>{esc(note['name'])}</b>{chips}"
+            f"<p class='meaning'>{esc(note['text'])}</p></div>")
 
 
 def view_section(view: View) -> str:
@@ -535,38 +515,30 @@ def view_section(view: View) -> str:
   <h2>How rates have changed across India</h2>
   <p>{esc(text['trend'])}</p>
   {chart_card(f'<div class="minis">{trend}</div>')}
-  <p class="note">Reported cases depend on whether crimes are reported and recorded, so a rising line can mean
-  better reporting as well as more crime. {esc(text['trend_note'])}</p>
+  <p class="note">A rising line can mean better reporting as well as more crime. {esc(text['trend_note'])}</p>
 </section>
 
 <section data-nav="ranking">
   <h2>Which states have the highest rates</h2>
   {purpose_callout()}
-  <p>Average yearly cases {view.unit}, {profile_window()}, {esc(text['ranking'])}.
-  Colour shows the K-Means group each state falls into, and ◆ marks a state DBSCAN flagged as unusual.</p>
+  <p>Average yearly cases {view.unit}, {profile_window()}. Colour: K-Means group. ◆: unusual (DBSCAN).</p>
   {chart_card(chart_html(state_ranking_chart(view), f'chart-{k}-ranking'), reset=False)}
-  <p class="note">The bars are sorted by this total, but K-Means groups states by their pattern across all {n}
-  rates, each given equal weight. So a state can rank above one in the higher group and still fall in the lower
-  group, for example when one crime type is high and the others are low.</p>
+  <p class="note">Bars are sorted by the total, but K-Means groups states by their pattern across all {n} rates,
+  so colours don't always follow the order.</p>
 </section>
 
 <section data-nav="groups">
   <h2>States grouped by their crime pattern</h2>
-  <p>Three methods work together here. <b>K-Means</b> sorts states into groups by comparing all {n} rates at
-  once; it tried 2 to 6 groups and kept the number with the best <i>silhouette score</i>, which measures how
-  clearly the groups separate (from −1 to 1). <b>DBSCAN</b> flags states with too few similar neighbours.
-  <b>PCA</b> only places the dots on the map.</p>
+  <p><b>K-Means</b> groups states on all {n} rates (2 to 6 groups tried, best <i>silhouette score</i> kept).
+  <b>DBSCAN</b> flags states unlike any other. <b>PCA</b> only places the dots.</p>
   <div class="key"><span><i class="k-dot"></i>Colour: K-Means group</span><span><i class="k-diamond"></i>Diamond: DBSCAN, unusual</span><span><i class="k-pos"></i>Position: similarity (PCA)</span></div>
   <div class="two">
     {chart_card(chart_html(cluster_map_chart(view), f'chart-{k}-map'),
-                f'<p class="note">A similarity map: each dot is a state, and states with similar rate patterns sit '
-                f'close together. The two axes summarise the {n} rates (principal component analysis) and have '
-                f'no units, so distances are approximate.</p>')}
+                '<p class="note">States with similar patterns sit close together. The axes have no units.</p>')}
     <div>
       <div class="card"><table><thead><tr><th>K-Means groups</th><th class="num">Silhouette</th></tr></thead><tbody>{score_rows}</tbody></table>
       <p class="note">{esc(silhouette_note(c['best_silhouette']))}</p></div>
-      <div class="card"><p class="note"><b>Unusual states (DBSCAN).</b> {describe_unusual(view)}
-      For very small territories, a handful of cases is enough to move a rate this much.</p></div>
+      <div class="card"><p class="note"><b>Unusual states (DBSCAN).</b> {describe_unusual(view)}</p></div>
     </div>
   </div>
   {model_comparison_note(view)}
@@ -575,16 +547,14 @@ def view_section(view: View) -> str:
 
 <section data-nav="patterns">
   <h2>What sets each group apart</h2>
-  <p>Each cell compares a state's rate for one crime with the typical (median) state's rate:
-  {view.theme.higher_word} is higher than typical, {view.theme.lower_word} is lower, and white is about the same.
-  These are the {n} rates K-Means compares. States above the line are in the higher group, and those below it
-  are in the lower group, so the colours show which crimes put each state where it is.</p>
+  <p>Each cell compares a state's rate with the typical state's: {view.theme.higher_word} is higher,
+  {view.theme.lower_word} lower. The line separates the two K-Means groups.</p>
   {chart_card(chart_html(pattern_heatmap_chart(view), f'chart-{k}-heatmap'))}
 </section>
 
 <section data-nav="explore">
   <h2>Explore a state</h2>
-  <p>{esc(view.total_label)} {view.unit}, against the all-India rate. Choose a state from the menu.</p>
+  <p>{esc(view.total_label)} {view.unit}, against the all-India rate.</p>
   {chart_card(chart_html(state_explorer_chart(view), f'chart-{k}-explorer'))}
 </section>
 </div>"""
@@ -625,87 +595,95 @@ def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -
 <title>Crime in India, {first}–{last}</title>
 <meta name="description" content="State-level crime in India, {first}-{last}, from official NCRB tables: all IPC/BNS crimes and crimes against women, as rates, with states grouped by clustering.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="{FONT_URL}" rel="stylesheet">
 <script src="https://cdn.plot.ly/plotly-{get_plotlyjs_version()}.min.js" charset="utf-8"></script>
 <style>
-/* Midnight Vigil (all crimes) is the default; Broken Pedestal (crimes against women) overrides it. */
+/* Midnight Vigil (all crimes) is the default; Broken Pedestal (crimes against women) overrides it.
+   The "band" is the header and the closing sections: the theme is strongest there. */
 :root {{
   color-scheme: light;
   --surface: {IVORY}; --card: #ffffff; --ink: {NAVY}; --ink-2: {SLATE}; --ink-3: {INK_3}; --line: {GRID};
   --accent: {AMBER}; --accent-ink: {NAVY}; --link: #1f4e8c;
-  --hero-bg: linear-gradient(160deg, {NAVY} 0%, #1c2541 100%); --hero-ink: {IVORY}; --hero-ink-2: #c5cad3;
-  --hero-tile: rgba(255,255,255,.06); --hero-line: rgba(255,255,255,.14);
+  --band-color: {NAVY};
+  --band-bg: linear-gradient(160deg, {NAVY} 0%, #1c2541 100%);
+  --band-ink: {IVORY}; --band-ink-2: #c5cad3; --band-head: #f8c99b; --band-accent: {AMBER}; --band-eyebrow: {AMBER};
+  --band-card: rgba(255,255,255,.06); --band-card-ink: {IVORY}; --band-card-ink-2: #c5cad3; --band-card-line: rgba(255,255,255,.14);
+  --band-link: {AMBER}; --band-step: {AMBER};
   --tab-on-bg: {AMBER}; --tab-on-ink: {NAVY};
-  --callout-bg: linear-gradient(110deg, {NAVY} 0%, #1c2541 100%); --callout-bar: {AMBER};
-  --callout-icon-bg: {AMBER}; --callout-icon: {NAVY}; --callout-label: {AMBER};
-  --callout-ink: {IVORY}; --callout-ink-2: #c5cad3; --callout-shadow: rgba(11,19,43,.18);
-  --closing-link: {AMBER}; --closing-step: {AMBER};
+  --pq-rule: {AMBER}; --pq-mark: {AMBER}; --pq-kicker: #b4581a; --pq-ink: {NAVY};
   --ok: #0ca30c; --warn: #b07a00; --bad: #d03b3b;
 }}
 body[data-theme="women"] {{
   --surface: #faf8fc; --ink: {CHARCOAL}; --ink-2: #5c5f73; --accent: {PURPLE}; --accent-ink: {PURPLE}; --link: {PURPLE};
-  --hero-bg: radial-gradient(circle at 50% 0%, #e6dbf5 0%, #f1ebf9 45%, #faf6ec 100%);
-  --hero-ink: {CHARCOAL}; --hero-ink-2: #55586b;
-  --hero-tile: #ffffff; --hero-line: #dccdee;
+  --band-color: {GOLD};
+  --band-bg: radial-gradient(circle at 50% 0%, #e6dbf5 0%, #f1ebf9 45%, #faf6ec 100%);
+  --band-ink: {CHARCOAL}; --band-ink-2: #55586b; --band-head: {PURPLE}; --band-accent: {GOLD}; --band-eyebrow: {PURPLE};
+  --band-card: #ffffff; --band-card-ink: {CHARCOAL}; --band-card-ink-2: #55586b; --band-card-line: #dccdee;
+  --band-link: {PURPLE}; --band-step: {PURPLE};
   --tab-on-bg: {PURPLE}; --tab-on-ink: #ffffff;
-  --callout-bg: linear-gradient(110deg, {PURPLE} 0%, #4a2f80 100%); --callout-bar: {GOLD};
-  --callout-icon-bg: {GOLD}; --callout-icon: #ffffff; --callout-label: #f1dfae;
-  --callout-ink: #ffffff; --callout-ink-2: #e3d9f3; --callout-shadow: rgba(91,58,154,.25);
-  --closing-link: {PURPLE}; --closing-step: {PURPLE};
+  --pq-rule: {GOLD}; --pq-mark: {PURPLE}; --pq-kicker: #8a6a21; --pq-ink: {CHARCOAL};
 }}
 * {{ box-sizing: border-box; }}
 body {{ margin: 0; background: var(--surface); color: var(--ink); font: 16px/1.6 {FONT}; transition: color .2s; }}
 main {{ max-width: 1040px; margin: 0 auto; padding: 0 16px; }}
-.hero {{ background: var(--hero-bg); color: var(--hero-ink); border-bottom: 4px solid var(--accent); transition: background .3s; }}
-body[data-theme="women"] .hero {{ border-bottom: 6px solid {GOLD}; }}
-.hero-inner {{ max-width: 1040px; margin: 0 auto; padding: 56px 16px 36px; text-align: center; }}
-.hero p.lead {{ font-size: 18px; color: var(--hero-ink-2); max-width: 720px; margin: 0 auto; }}
-.hero .tiles, .hero .palette {{ text-align: left; }}
-h1, h2 {{ font-family: {SERIF}; font-weight: 700; }}
-h1 {{ font-size: clamp(32px, 5vw, 52px); line-height: 1.08; margin: 0 0 16px; letter-spacing: -0.01em; }}
-body[data-theme="women"] h1 {{ color: {PURPLE}; font-size: clamp(34px, 5.6vw, 60px); }}
-h1 .years {{ display: block; font-size: .5em; font-weight: 600; color: var(--accent); margin-top: 6px; }}
-body[data-theme="women"] h1 .years {{ color: {GOLD}; }}
-h2 {{ font-size: 26px; margin: 0 0 8px; }}
-h2::before {{ content: ""; display: block; width: 36px; height: 3px; background: var(--accent); margin-bottom: 10px; border-radius: 2px; }}
+h1, h2, h3 {{ font-family: {HEAD_FONT}; font-weight: 700; }}
+h1 {{ font-size: clamp(34px, 5.4vw, 58px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.01em; color: var(--band-head); }}
+h1 .years {{ display: block; font-size: .46em; font-weight: 600; color: var(--band-accent); margin-top: 8px; }}
+h2 {{ font-size: 28px; margin: 0 0 6px; }}
 section {{ margin-top: 56px; }}
-section > p {{ color: var(--ink-2); max-width: 760px; }}
+section > p {{ color: var(--ink-2); max-width: 720px; }}
 a {{ color: var(--link); }}
-.hero a {{ color: inherit; }}
-.eyebrow {{ display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }}
-body[data-theme="women"] .eyebrow {{ color: {PURPLE}; }}
-.tiles {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 28px; }}
-.tile {{ background: var(--hero-tile); border: 1px solid var(--hero-line); border-radius: 10px; padding: 16px 18px; }}
-.tile .value {{ font-size: 28px; font-weight: 700; letter-spacing: -0.01em; }}
-.tile .label {{ font-size: 14px; color: var(--hero-ink-2); }}
-/* The women's total becomes the lead tile when that view is on. */
+
+/* Header and closing band */
+.band {{ background: var(--band-bg); background-color: var(--band-color); color: var(--band-ink); transition: background .3s, color .3s; }}
+.hero {{ border-bottom: 5px solid var(--band-accent); }}
+.hero-inner {{ max-width: 1040px; margin: 0 auto; padding: 56px 16px 36px; text-align: center; }}
+.hero p.lead {{ font-size: 19px; color: var(--band-ink-2); max-width: 640px; margin: 0 auto; }}
+.eyebrow {{ display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--band-eyebrow); margin-bottom: 10px; }}
+.tiles {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 30px; text-align: left; }}
+.tile {{ background: var(--band-card); color: var(--band-card-ink); border: 1px solid var(--band-card-line); border-radius: 10px; padding: 16px 18px; transition: background .3s, transform .3s, box-shadow .3s; }}
+.tile .value {{ font-size: 30px; font-weight: 700; letter-spacing: -0.01em; }}
+.tile .label {{ font-size: 14px; color: var(--band-card-ink-2); }}
 body[data-theme="women"] .tile.women-tile {{ background: {PURPLE}; border-color: {PURPLE}; color: #fff;
-  box-shadow: 0 10px 24px rgba(91,58,154,.28), inset 0 -4px 0 {GOLD}; transform: translateY(-4px); }}
+  box-shadow: 0 12px 26px rgba(63,36,113,.35); transform: translateY(-4px); }}
 body[data-theme="women"] .tile.women-tile .label {{ color: #e8def7; }}
-.tile {{ transition: background .3s, transform .3s, box-shadow .3s; }}
-.quote-band {{ margin: 32px -16px 0; padding: 36px 24px 32px; background: linear-gradient(135deg, {PURPLE} 0%, #4a2f80 100%);
-  color: #fff; text-align: center; border-radius: 14px; position: relative; }}
-.quote-band svg {{ color: {GOLD}; }}
-.quote-band blockquote {{ margin: 8px auto 0; max-width: 760px; font: italic 600 clamp(22px, 3vw, 30px)/1.35 {SERIF}; }}
-.quote-band .rule {{ width: 64px; height: 3px; background: {GOLD}; margin: 18px auto 0; border-radius: 2px; }}
-/* "Behind every number": the same words in both views, in the open view's colours. */
-.callout {{ display: flex; gap: 18px; align-items: center; margin: 18px 0 20px; padding: 22px 24px 22px 28px;
-  background: var(--callout-bg); border-radius: 14px; position: relative; overflow: hidden;
-  box-shadow: 0 8px 22px var(--callout-shadow); }}
-.callout::before {{ content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--callout-bar); }}
-.callout .icon {{ flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
-  background: var(--callout-icon-bg); color: var(--callout-icon); }}
-.callout .icon svg {{ width: 24px; height: 24px; }}
-.callout .label {{ font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--callout-label); }}
-.callout .big {{ margin: 4px 0 0; font: 600 clamp(19px, 2.2vw, 23px)/1.35 {SERIF}; color: var(--callout-ink); }}
-.callout .small {{ margin: 6px 0 0; font-size: 15px; color: var(--callout-ink-2); }}
-@media (max-width: 560px) {{ .callout {{ flex-direction: column; align-items: flex-start; }} }}
-.palette {{ margin: 24px auto 0; padding-top: 16px; border-top: 1px solid var(--hero-line); max-width: 860px; }}
-.palette-head {{ display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 14px; }}
-.palette p {{ font-size: 14px; color: var(--hero-ink-2); margin: 8px 0 0; }}
-.chip {{ display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--hero-ink-2); }}
-.dot {{ width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--hero-line); }}
+/* In the all crimes view its total is the lead tile instead. */
+body:not([data-theme="women"]) .tile.all-tile {{ background: {AMBER}; border-color: {AMBER}; color: {NAVY};
+  box-shadow: 0 12px 26px rgba(244,162,97,.30); transform: translateY(-4px); }}
+body:not([data-theme="women"]) .tile.all-tile .label {{ color: #3a2a1c; }}
+.switch {{ display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 32px; padding: 4px; background: var(--band-card); border: 1px solid var(--band-card-line); border-radius: 999px; }}
+.switch button {{ display: inline-flex; align-items: center; gap: 8px; font: 600 15px/1 {FONT}; color: var(--band-card-ink-2); background: none; border: 0; border-radius: 999px; padding: 12px 20px; cursor: pointer; transition: background .2s; }}
+.switch button[aria-selected="true"] {{ background: var(--tab-on-bg); color: var(--tab-on-ink); }}
+.band-quote {{ margin: 34px auto 0; max-width: 760px; }}
+.band-quote blockquote {{ margin: 0; font: italic 600 clamp(24px, 3.2vw, 34px)/1.3 {HEAD_FONT}; color: #2b1752; }}
+.band-quote blockquote::before, .band-quote blockquote::after {{ font: 700 1.6em/0 {HEAD_FONT}; color: {PURPLE}; vertical-align: -0.35em; }}
+.band-quote blockquote::before {{ content: "“"; margin-right: 4px; }}
+.band-quote blockquote::after {{ content: "”"; margin-left: 4px; }}
+.palette {{ margin: 26px auto 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 14px; font-size: 14px; color: var(--band-ink-2); max-width: 860px; }}
+.palette b {{ color: var(--band-ink); }}
+.palette .meaning {{ flex-basis: 100%; margin: 0; }}
+.chip {{ display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }}
+.dot {{ width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--band-card-line); }}
 body:not([data-theme="women"]) .only-women, body[data-theme="women"] .only-all_crimes {{ display: none; }}
+
+.closing {{ margin-top: 72px; border-top: 5px solid var(--band-accent); }}
+.closing-inner {{ max-width: 1040px; margin: 0 auto; padding: 8px 16px 48px; }}
+.closing h2 {{ color: var(--band-head); }}
+.closing section > p {{ color: var(--band-ink-2); }}
+.closing .card, .closing .step {{ background: var(--card); color: var(--ink); }}
+.closing .card .note, .closing .step span {{ color: var(--ink-2); }}
+.closing .step {{ border-top: 4px solid var(--band-step); }}
+.closing a {{ color: var(--band-link); }}
+.closing .card a, .closing .card details summary {{ color: var(--link); }}
+.closing footer {{ border-top-color: var(--band-card-line); color: var(--band-ink-2); }}
+
+/* "Behind every number": a pull quote, the same words in both views, in the open view's colours. */
+.pullquote {{ margin: 20px 0 26px; padding: 22px 8px 20px; text-align: center; border-top: 2px solid var(--pq-rule); border-bottom: 2px solid var(--pq-rule); }}
+.pullquote .kicker {{ font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--pq-kicker); }}
+.pullquote .big {{ margin: 6px auto 0; max-width: 760px; font: italic 600 clamp(22px, 2.8vw, 30px)/1.3 {HEAD_FONT}; color: var(--pq-ink); }}
+.pullquote .big::before {{ content: "“"; font: 700 1.7em/0 {HEAD_FONT}; color: var(--pq-mark); vertical-align: -0.38em; margin-right: 4px; }}
+.pullquote .small {{ margin: 8px auto 0; max-width: 620px; font-size: 15px; color: var(--ink-2); }}
+
 .card {{ background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-top: 16px; }}
 .chart-card {{ position: relative; padding-top: 48px; }}
 .reset {{ position: absolute; top: 10px; right: 10px; z-index: 2; font: 500 12px/1 {FONT}; color: var(--ink-2);
@@ -722,7 +700,7 @@ body[data-theme="women"] .k-dot {{ background: linear-gradient(90deg, {TEAL} 50%
 .k-pos {{ border: 2px dotted {INK_3}; border-radius: 50%; }}
 .minis {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px 16px; }}
 .mini {{ min-width: 0; }}
-.mini h3 {{ font-size: 14px; font-weight: 600; margin: 4px 0 0 8px; }}
+.mini h3 {{ font-size: 15px; font-weight: 600; margin: 4px 0 0 8px; }}
 .two {{ display: grid; grid-template-columns: 2fr 1fr; gap: 16px; align-items: start; }}
 @media (max-width: 760px) {{ .two {{ grid-template-columns: 1fr; }} }}
 table {{ width: 100%; border-collapse: collapse; font-size: 14px; }}
@@ -737,19 +715,16 @@ tr.best td {{ font-weight: 700; color: var(--accent-ink); }}
 .badge.bad {{ color: var(--bad); background: #fbe7e7; }}
 .swatch {{ display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; }}
 .flow {{ display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin-top: 16px; }}
-.step {{ flex: 1 1 150px; background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 10px; padding: 12px 14px; }}
+.step {{ flex: 1 1 150px; border: 1px solid var(--line); border-top: 3px solid var(--band-accent); border-radius: 10px; padding: 12px 14px; }}
 .step b {{ display: block; }}
-.step span {{ font-size: 13px; color: var(--ink-2); }}
-details summary {{ cursor: pointer; color: var(--link); font-weight: 500; }}
-.switch {{ display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 32px; padding: 4px; background: var(--hero-tile); border: 1px solid var(--hero-line); border-radius: 999px; }}
-.switch button {{ display: inline-flex; align-items: center; gap: 8px; font: 600 15px/1 {FONT}; color: var(--hero-ink-2); background: none; border: 0; border-radius: 999px; padding: 12px 20px; cursor: pointer; transition: background .2s; }}
-.switch button[aria-selected="true"] {{ background: var(--tab-on-bg); color: var(--tab-on-ink); }}
+.step span {{ font-size: 13px; }}
+details summary {{ cursor: pointer; font-weight: 500; }}
 .view[hidden] {{ display: none; }}
 /* Side navigation: one icon per section, a line that fills as you scroll, labels on hover. */
 .sidenav {{ position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 10;
   display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 6px;
   background: rgba(255,255,255,.92); border: 1px solid var(--line); border-radius: 999px;
-  box-shadow: 0 6px 20px rgba(11,19,43,.10); backdrop-filter: blur(6px); }}
+  box-shadow: 0 6px 20px rgba(11,19,43,.12); backdrop-filter: blur(6px); }}
 .sidenav .track {{ position: absolute; left: 50%; top: 16px; bottom: 16px; width: 2px; margin-left: -1px; background: var(--line); z-index: -1; }}
 .sidenav .fill {{ position: absolute; left: 0; top: 0; width: 100%; height: 0; background: var(--accent); }}
 .sidenav a, .sidenav button {{ position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
@@ -765,21 +740,7 @@ body[data-theme="women"] .sidenav a.active {{ color: #fff; }}
 .sidenav [data-label]:hover::after, .sidenav [data-label]:focus-visible::after {{ opacity: 1; transform: none; }}
 @media (max-width: 1180px) {{ .sidenav {{ right: 8px; }} }}
 @media (max-width: 760px) {{ .sidenav {{ display: none; }} }}
-/* The closing sections (data quality onwards) carry the theme as strongly as the header. */
-.closing {{ margin-top: 72px; background: var(--hero-bg); color: var(--hero-ink); border-top: 4px solid var(--accent); transition: background .3s; }}
-body[data-theme="women"] .closing {{ border-top: 6px solid {GOLD}; }}
-.closing-inner {{ max-width: 1040px; margin: 0 auto; padding: 8px 16px 48px; }}
-.closing section > p {{ color: var(--hero-ink-2); }}
-.closing h2 {{ color: var(--hero-ink); }}
-body[data-theme="women"] .closing h2 {{ color: {PURPLE}; }}
-.closing h2::before {{ background: var(--closing-step); }}
-body[data-theme="women"] .closing h2::before {{ background: {GOLD}; }}
-.closing .card, .closing .step {{ color: {NAVY}; }}
-body[data-theme="women"] .closing .card, body[data-theme="women"] .closing .step {{ color: {CHARCOAL}; }}
-.closing .step {{ border-top: 4px solid var(--closing-step); }}
-.closing > .closing-inner > section > p a, .closing footer a {{ color: var(--closing-link); }}
-.closing footer {{ border-top-color: var(--hero-line); color: var(--hero-ink-2); }}
-footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }}
+footer {{ margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; }}
 </style>
 </head>
 <body data-theme="all_crimes">
@@ -789,22 +750,21 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
   <span class="sep"></span>
   {nav_links}
 </nav>
-<header class="hero" id="top">
+<header class="hero band" id="top">
 <div class="hero-inner">
   <div class="eyebrow"><span class="only-all_crimes">{ICONS['all_crimes']}</span><span class="only-women">{ICONS['women']}</span>Data engineering project · NCRB {first}–{last}</div>
   <h1><span class="only-all_crimes">Crime in India</span><span class="only-women">Crimes against women in India</span><span class="years">{first}–{last}</span></h1>
-  <p class="lead">Official NCRB figures for every state and union territory: checked, mapped across changes in
-  the law, and turned into rates using the population NCRB itself used. States are then grouped by how similar
-  their crime patterns are. The whole site is rebuilt from the raw files by an automated pipeline.</p>
+  <p class="lead">Official NCRB figures for every state and union territory, checked, turned into rates and
+  grouped by crime pattern by an automated pipeline.</p>
   <div class="tiles">
-    <div class="tile"><div class="value">{all_cases:,}</div><div class="label">IPC/BNS crimes recorded, {first}–{last}</div></div>
-    <div class="tile women-tile"><div class="value">{women_cases:,}</div><div class="label">crimes against women recorded: NCRB's category for offences specific to women, such as rape, dowry deaths and cruelty by husband</div></div>
+    <div class="tile all-tile"><div class="value">{all_cases:,}</div><div class="label">IPC/BNS crimes recorded, {first}–{last}</div></div>
+    <div class="tile women-tile"><div class="value">{women_cases:,}</div><div class="label">crimes against women (NCRB's category for offences specific to women)</div></div>
     <div class="tile"><div class="value">{len(data['states'])}</div><div class="label">states and union territories</div></div>
-    <div class="tile"><div class="value">{summary['checks_passed']} / {summary['checks_run']}</div><div class="label">data quality checks passed; the rest are reported problems in the sources</div></div>
+    <div class="tile"><div class="value">{summary['checks_passed']} / {summary['checks_run']}</div><div class="label">data quality checks passed</div></div>
   </div>
   <div class="switch" role="tablist" aria-label="Choose a view">{tabs}</div>
   <div class="only-women">
-    <figure class="quote-band">{QUOTE_ICON}<blockquote>{esc(WOMEN_QUOTE)}</blockquote><div class="rule"></div></figure>
+    <figure class="band-quote"><blockquote>{esc(WOMEN_QUOTE)}</blockquote></figure>
   </div>
   {theme_note('all_crimes')}
   {theme_note('women')}
@@ -814,22 +774,16 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
 
 {sections}
 </main>
-<div class="closing"><div class="closing-inner">
+<div class="closing band"><div class="closing-inner">
 <section id="quality">
   <h2>Data quality</h2>
-  <p>The raw files are checked before anything is built. Critical problems stop the pipeline, and each known
-  problem in NCRB's tables is handled by a reviewed rule, never a manual edit.</p>
+  <p>Raw files are checked before anything is built; critical problems stop the run.</p>
   <div class="card">
     <ul class="note">
-      <li><b>Official tables only.</b> Every figure comes from NCRB's <i>Crime in India</i> tables, kept in the
-      repository with a checksum for each file, and every state adds up to NCRB's all-India row.</li>
-      <li><b>Two NCRB tables agree.</b> The crimes-against-women tables and the all-crimes tables report
-      {cross_checked:,} of the same figures, and all of them match.</li>
-      <li><b>Rates match NCRB's.</b> Rates use the population NCRB used, and reproduce NCRB's printed rates.
-      NCRB did not publish the female population before 2012, so for 2001–2011 it is estimated from
-      NCRB's total population and each state's female share in the 2011 Census.</li>
-      <li><b>The Kaggle copy is a backup only.</b> Compared with NCRB's tables, {kaggle_match:,} of its figures match
-      and {kaggle_diff:,} differ, so it is not used for the charts.</li>
+      <li><b>Official tables only,</b> checksummed; every state adds up to NCRB's all-India row.</li>
+      <li><b>Two NCRB tables agree</b> on all {cross_checked:,} shared figures.</li>
+      <li><b>Rates reproduce NCRB's printed rates.</b> Female population before 2012 is estimated from the 2011 Census.</li>
+      <li><b>Kaggle copy is a backup only:</b> {kaggle_diff:,} of its {kaggle_match + kaggle_diff:,} figures differ from NCRB.</li>
     </ul>
     <details><summary>Show all {summary['checks_run']} checks</summary>
       <div class="table-wrap"><table>
@@ -837,25 +791,23 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
         <tbody>{quality_rows(quality)}</tbody>
       </table></div>
     </details>
-    <p class="note">Full write-up: <a href="{REPO_URL}/blob/main/docs/data_quality.md">docs/data_quality.md</a>.</p>
+    <p class="note"><a href="{REPO_URL}/blob/main/docs/data_quality.md">Full write-up</a></p>
   </div>
 </section>
 
 <section id="built">
   <h2>How it is built</h2>
-  <p>GitHub Actions runs the tests and the full pipeline on every code change, then publishes this site. To add a
-  new year, its NCRB table is added to the manifest and the same pipeline checks, maps and rebuilds everything.
-  Only free, open-source tools are used.</p>
+  <p>GitHub Actions tests and rebuilds everything on every change, with free, open-source tools.</p>
   <div class="flow">
-    <div class="step"><b>Raw files</b><span>NCRB tables, kept in the repository and verified by checksum</span></div>
-    <div class="step"><b>Bronze</b><span>Loaded into DuckDB as text, one row per table cell</span></div>
-    <div class="step"><b>Checks</b><span>{summary['checks_run']} data quality checks in Python and SQL</span></div>
-    <div class="step"><b>Silver &amp; gold</b><span>dbt models, reviewed mappings and dbt tests</span></div>
-    <div class="step"><b>Clustering</b><span>K-Means and DBSCAN with scikit-learn</span></div>
-    <div class="step"><b>This site</b><span>Plotly charts published to GitHub Pages</span></div>
+    <div class="step"><b>Raw files</b><span>NCRB tables, checksummed</span></div>
+    <div class="step"><b>Bronze</b><span>DuckDB, loaded as text</span></div>
+    <div class="step"><b>Checks</b><span>{summary['checks_run']} quality checks</span></div>
+    <div class="step"><b>Silver &amp; gold</b><span>dbt models and tests</span></div>
+    <div class="step"><b>Clustering</b><span>K-Means, DBSCAN</span></div>
+    <div class="step"><b>This site</b><span>Plotly on GitHub Pages</span></div>
   </div>
-  <p class="note">Download the data:
-    <a href="data/crimes.csv">crimes.csv</a> (all crime groups, one row per state, year and group),
+  <p class="note">Data:
+    <a href="data/crimes.csv">crimes.csv</a>,
     <a href="data/crimes_against_women.csv">crimes_against_women.csv</a>,
     <a href="data/state_clusters.csv">state_clusters.csv</a>,
     <a href="data/national_trend.csv">national_trend.csv</a>.
@@ -863,10 +815,8 @@ footer {{ margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line)
 </section>
 
 <footer>
-  Source: National Crime Records Bureau (NCRB), <i>Crime in India</i> {first}–{last}, as extracted by the
-  <a href="https://github.com/reclaimchennai/NCRB">reclaimchennai/NCRB</a> project, and NCRB's district-wise
-  files on data.gov.in. Population: NCRB (Registrar General of India projections); Census of India 2011
-  for the female share before 2012.
+  Source: NCRB, <i>Crime in India</i> {first}–{last}, via <a href="https://github.com/reclaimchennai/NCRB">reclaimchennai/NCRB</a>
+  and data.gov.in. Population: NCRB; Census of India 2011.
 </footer>
 </div></div>
 <script>
