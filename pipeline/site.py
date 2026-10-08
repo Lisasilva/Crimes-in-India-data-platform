@@ -420,26 +420,7 @@ ICONS = {
              '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
 }
 
-def line_icon(paths: str) -> str:
-    return ('<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" '
-            f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths}</svg>')
 
-
-# Side navigation: (target, label, icon). Targets inside a view use data-nav; the others are ids.
-NAV = [
-    ("top", "Overview", line_icon('<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>')),
-    ("trends", "Trends", line_icon('<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>')),
-    ("ranking", "Highest rates", line_icon('<path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h6"/>')),
-    ("groups", "Groups", line_icon('<circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/>'
-                                   '<circle cx="12" cy="17" r="3"/>')),
-    ("patterns", "What sets groups apart", line_icon('<rect x="3" y="3" width="7" height="7"/>'
-                                                     '<rect x="14" y="3" width="7" height="7"/>'
-                                                     '<rect x="3" y="14" width="7" height="7"/>'
-                                                     '<rect x="14" y="14" width="7" height="7"/>')),
-    ("explore", "Explore a state", line_icon('<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>')),
-    ("quality", "Data quality", line_icon('<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>')),
-    ("built", "How it is built", line_icon('<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>')),
-]
 THEME_NOTES = {
     "all_crimes": {
         "name": "Midnight Vigil",
@@ -472,8 +453,8 @@ def chart_card(inner: str, note: str = "", reset: bool = True) -> str:
 
 
 def purpose_callout() -> str:
-    """The shared 'Behind every number' statement; its colours follow the theme."""
-    return ('<figure class="pullquote"><div class="kicker">Behind every number</div>'
+    """The shared statement under the ranking heading; its colours follow the theme."""
+    return ('<figure class="pullquote">'
             '<p class="big">Every point on this dashboard represents lives affected, not just numbers.</p>'
             '<p class="small">The goal is not to provoke fear, but to encourage understanding, accountability, '
             'and meaningful action.</p></figure>')
@@ -511,14 +492,14 @@ def view_section(view: View) -> str:
     n = len(view.features)
     hidden = "" if k == "all_crimes" else " hidden"
     return f"""<div class="view" id="view-{k}" role="tabpanel"{hidden}>
-<section data-nav="trends">
+<section>
   <h2>How rates have changed across India</h2>
   <p>{esc(text['trend'])}</p>
   {chart_card(f'<div class="minis">{trend}</div>')}
   <p class="note">A rising line can mean better reporting as well as more crime. {esc(text['trend_note'])}</p>
 </section>
 
-<section data-nav="ranking">
+<section>
   <h2>Which states have the highest rates</h2>
   {purpose_callout()}
   <p>Average yearly cases {view.unit}, {profile_window()}. Colour: K-Means group. ◆: unusual (DBSCAN).</p>
@@ -527,7 +508,7 @@ def view_section(view: View) -> str:
   so colours don't always follow the order.</p>
 </section>
 
-<section data-nav="groups">
+<section>
   <h2>States grouped by their crime pattern</h2>
   <p><b>K-Means</b> groups states on all {n} rates (2 to 6 groups tried, best <i>silhouette score</i> kept).
   <b>DBSCAN</b> flags states unlike any other. <b>PCA</b> only places the dots.</p>
@@ -545,14 +526,14 @@ def view_section(view: View) -> str:
   <div class="card note"><p class="small-head">K-Means groups</p>{cluster_lists}</div>
 </section>
 
-<section data-nav="patterns">
+<section>
   <h2>What sets each group apart</h2>
   <p>Each cell compares a state's rate with the typical state's: {view.theme.higher_word} is higher,
   {view.theme.lower_word} lower. The line separates the two K-Means groups.</p>
   {chart_card(chart_html(pattern_heatmap_chart(view), f'chart-{k}-heatmap'))}
 </section>
 
-<section data-nav="explore">
+<section>
   <h2>Explore a state</h2>
   <p>{esc(view.total_label)} {view.unit}, against the all-India rate.</p>
   {chart_card(chart_html(state_explorer_chart(view), f'chart-{k}-explorer'))}
@@ -577,15 +558,6 @@ def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -
         for i, v in enumerate(views)
     )
     sections = "\n".join(view_section(v) for v in views)
-    nav_switch = "".join(
-        f'<button type="button" data-switch="{v.key}" data-label="{esc(v.tab)}" aria-label="{esc(v.tab)}" '
-        f'aria-pressed="{"true" if i == 0 else "false"}">{ICONS[v.key]}</button>'
-        for i, v in enumerate(views)
-    )
-    nav_links = "".join(
-        f'<a href="#{target}" data-target="{target}" data-label="{esc(label)}" aria-label="{esc(label)}">{icon}</a>'
-        for target, label, icon in NAV
-    )
 
     return f"""<!doctype html>
 <html lang="en">
@@ -610,7 +582,7 @@ def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -
   --band-card: rgba(255,255,255,.06); --band-card-ink: {IVORY}; --band-card-ink-2: #c5cad3; --band-card-line: rgba(255,255,255,.14);
   --band-link: {AMBER}; --band-step: {AMBER};
   --tab-on-bg: {AMBER}; --tab-on-ink: {NAVY};
-  --pq-rule: {AMBER}; --pq-mark: {AMBER}; --pq-kicker: #b4581a; --pq-ink: {NAVY};
+  --pq-rule: {AMBER}; --pq-mark: {AMBER}; --pq-ink: {NAVY};
   --ok: #0ca30c; --warn: #b07a00; --bad: #d03b3b;
 }}
 body[data-theme="women"] {{
@@ -621,11 +593,12 @@ body[data-theme="women"] {{
   --band-card: #ffffff; --band-card-ink: {CHARCOAL}; --band-card-ink-2: #55586b; --band-card-line: #dccdee;
   --band-link: {PURPLE}; --band-step: {PURPLE};
   --tab-on-bg: {PURPLE}; --tab-on-ink: #ffffff;
-  --pq-rule: {GOLD}; --pq-mark: {PURPLE}; --pq-kicker: #8a6a21; --pq-ink: {CHARCOAL};
+  --pq-rule: {GOLD}; --pq-mark: {PURPLE}; --pq-ink: {CHARCOAL};
 }}
 * {{ box-sizing: border-box; }}
 body {{ margin: 0; background: var(--surface); color: var(--ink); font: 16px/1.6 {FONT}; transition: color .2s; }}
 main {{ max-width: 1040px; margin: 0 auto; padding: 0 16px; }}
+body[data-theme="women"] main {{ padding-bottom: 72px; }}
 h1, h2, h3 {{ font-family: {HEAD_FONT}; font-weight: 700; }}
 h1 {{ font-size: clamp(34px, 5.4vw, 58px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.01em; color: var(--band-head); }}
 h1 .years {{ display: block; font-size: .46em; font-weight: 600; color: var(--band-accent); margin-top: 8px; }}
@@ -677,9 +650,8 @@ body:not([data-theme="women"]) .only-women, body[data-theme="women"] .only-all_c
 .closing .card a, .closing .card details summary {{ color: var(--link); }}
 .closing footer {{ border-top-color: var(--band-card-line); color: var(--band-ink-2); }}
 
-/* "Behind every number": a pull quote, the same words in both views, in the open view's colours. */
+/* A pull quote under the ranking heading: the same words in both views, in the open view's colours. */
 .pullquote {{ margin: 20px 0 26px; padding: 22px 8px 20px; text-align: center; border-top: 2px solid var(--pq-rule); border-bottom: 2px solid var(--pq-rule); }}
-.pullquote .kicker {{ font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--pq-kicker); }}
 .pullquote .big {{ margin: 6px auto 0; max-width: 760px; font: italic 600 clamp(22px, 2.8vw, 30px)/1.3 {HEAD_FONT}; color: var(--pq-ink); }}
 .pullquote .big::before {{ content: "“"; font: 700 1.7em/0 {HEAD_FONT}; color: var(--pq-mark); vertical-align: -0.38em; margin-right: 4px; }}
 .pullquote .small {{ margin: 8px auto 0; max-width: 620px; font-size: 15px; color: var(--ink-2); }}
@@ -720,36 +692,10 @@ tr.best td {{ font-weight: 700; color: var(--accent-ink); }}
 .step span {{ font-size: 13px; }}
 details summary {{ cursor: pointer; font-weight: 500; }}
 .view[hidden] {{ display: none; }}
-/* Side navigation: one icon per section, a line that fills as you scroll, labels on hover. */
-.sidenav {{ position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 10;
-  display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 6px;
-  background: rgba(255,255,255,.92); border: 1px solid var(--line); border-radius: 999px;
-  box-shadow: 0 6px 20px rgba(11,19,43,.12); backdrop-filter: blur(6px); }}
-.sidenav .track {{ position: absolute; left: 50%; top: 16px; bottom: 16px; width: 2px; margin-left: -1px; background: var(--line); z-index: -1; }}
-.sidenav .fill {{ position: absolute; left: 0; top: 0; width: 100%; height: 0; background: var(--accent); }}
-.sidenav a, .sidenav button {{ position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
-  color: var(--ink-2); background: #fff; border: 1px solid transparent; cursor: pointer; text-decoration: none; padding: 0; }}
-.sidenav a:hover, .sidenav button:hover {{ color: var(--accent-ink); border-color: var(--accent); }}
-.sidenav a.active {{ background: var(--accent); color: var(--tab-on-ink); }}
-body[data-theme="women"] .sidenav a.active {{ color: #fff; }}
-.sidenav .sep {{ width: 18px; height: 1px; background: var(--line); margin: 2px 0; }}
-.sidenav button[aria-pressed="true"] {{ background: var(--tab-on-bg); color: var(--tab-on-ink); }}
-.sidenav [data-label]::after {{ content: attr(data-label); position: absolute; right: 44px; white-space: nowrap;
-  font: 500 12px/1 {FONT}; color: #fff; background: var(--ink); padding: 6px 10px; border-radius: 6px;
-  opacity: 0; pointer-events: none; transform: translateX(4px); transition: opacity .15s, transform .15s; }}
-.sidenav [data-label]:hover::after, .sidenav [data-label]:focus-visible::after {{ opacity: 1; transform: none; }}
-@media (max-width: 1180px) {{ .sidenav {{ right: 8px; }} }}
-@media (max-width: 760px) {{ .sidenav {{ display: none; }} }}
 footer {{ margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; }}
 </style>
 </head>
 <body data-theme="all_crimes">
-<nav class="sidenav" aria-label="Sections">
-  <span class="track"><span class="fill"></span></span>
-  {nav_switch}
-  <span class="sep"></span>
-  {nav_links}
-</nav>
 <header class="hero band" id="top">
 <div class="hero-inner">
   <div class="eyebrow"><span class="only-all_crimes">{ICONS['all_crimes']}</span><span class="only-women">{ICONS['women']}</span>Data engineering project · NCRB {first}–{last}</div>
@@ -774,7 +720,7 @@ footer {{ margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line)
 
 {sections}
 </main>
-<div class="closing band"><div class="closing-inner">
+<div class="closing band only-all_crimes"><div class="closing-inner">
 <section id="quality">
   <h2>Data quality</h2>
   <p>Raw files are checked before anything is built; critical problems stop the run.</p>
@@ -830,37 +776,9 @@ tabs.forEach((tab) => tab.addEventListener("click", () => {{
   }});
   document.body.dataset.theme = tab.dataset.theme;
   window.scrollTo({{ top: 0, behavior: "smooth" }});
-  document.querySelectorAll(".sidenav [data-switch]").forEach((b) =>
-    b.setAttribute("aria-pressed", b.dataset.switch === tab.dataset.theme));
   document.querySelectorAll("#" + tab.getAttribute("aria-controls") + " .plotly-graph-div")
     .forEach((div) => Plotly.Plots.resize(div));
-  updateNav();
 }}));
-// Side navigation: the view buttons work like the switch, and links go to the section in the open view.
-document.querySelectorAll(".sidenav [data-switch]").forEach((b) => b.addEventListener("click", () => {{
-  document.getElementById("tab-" + b.dataset.switch).click();
-}}));
-function navTarget(name) {{
-  return document.getElementById(name) || document.querySelector(`.view:not([hidden]) [data-nav="${{name}}"]`);
-}}
-const navLinks = [...document.querySelectorAll(".sidenav a")];
-navLinks.forEach((a) => a.addEventListener("click", (event) => {{
-  event.preventDefault();
-  navTarget(a.dataset.target).scrollIntoView({{ behavior: "smooth", block: "start" }});
-}}));
-function updateNav() {{
-  const line = window.innerHeight * 0.35;
-  let current = navLinks[0];
-  for (const a of navLinks) {{
-    const target = navTarget(a.dataset.target);
-    if (target && target.getBoundingClientRect().top <= line) current = a;
-  }}
-  navLinks.forEach((a) => a.classList.toggle("active", a === current));
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  document.querySelector(".sidenav .fill").style.height = (max > 0 ? 100 * window.scrollY / max : 0) + "%";
-}}
-window.addEventListener("scroll", updateNav, {{ passive: true }});
-updateNav();
 // Remember each chart's starting axes, so "Reset view" can undo zooming and panning.
 const startAxes = new Map();
 function rememberAxes(div) {{

@@ -21,10 +21,8 @@ def test_site_builds_with_charts_and_downloads(tmp_path):
     assert "Respect is not measured by the names we give women" in page
     assert "Other methods checked" in page
     assert page.count('class="pullquote"') == 2
-    # Every side-navigation link points at a section that exists.
-    for target in ("top", "quality", "built"):
-        assert f'id="{target}"' in page
-    for target in ("trends", "ranking", "groups", "patterns", "explore"):
-        assert page.count(f'data-nav="{target}"') == 2
+    assert "sidenav" not in page
+    # Data quality and the build steps appear once, in the all crimes view only.
+    assert 'class="closing band only-all_crimes"' in page
     for name in ("crimes.csv", "crimes_against_women.csv", "state_clusters.csv", "national_trend.csv"):
         assert (out / "data" / name).stat().st_size > 0
