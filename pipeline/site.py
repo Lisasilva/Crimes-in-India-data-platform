@@ -576,21 +576,19 @@ def build_page(data: dict[str, pd.DataFrame], quality: dict, clustering: dict) -
   color-scheme: light;
   --surface: {IVORY}; --card: #ffffff; --ink: {NAVY}; --ink-2: {SLATE}; --ink-3: {INK_3}; --line: {GRID};
   --accent: {AMBER}; --accent-ink: {NAVY}; --link: #1f4e8c;
-  --band-color: {NAVY};
-  --band-bg: linear-gradient(160deg, {NAVY} 0%, #1c2541 100%);
-  --band-ink: {IVORY}; --band-ink-2: #c5cad3; --band-head: #f8c99b; --band-accent: {AMBER}; --band-eyebrow: {AMBER};
-  --band-card: rgba(255,255,255,.06); --band-card-ink: {IVORY}; --band-card-ink-2: #c5cad3; --band-card-line: rgba(255,255,255,.14);
-  --band-link: {AMBER}; --band-step: {AMBER};
+  --band-color: #fbf8f2;
+  --band-bg: radial-gradient(ellipse at 50% 0%, rgba(244,162,97,.16), transparent 65%), linear-gradient(180deg, #fdfbf7 0%, #f7f2e9 100%);
+  --band-ink: {NAVY}; --band-ink-2: {SLATE}; --band-head: {NAVY}; --band-accent: {AMBER}; --band-years: #c0662a; --band-eyebrow: #c0662a;
+  --band-card: #ffffff; --band-card-ink: {NAVY}; --band-card-ink-2: {SLATE}; --band-card-line: #ebe4d8;
+  --band-link: #1f4e8c; --band-step: {AMBER};
   --tab-on-bg: {AMBER}; --tab-on-ink: {NAVY};
   --pq-rule: {AMBER}; --pq-mark: {AMBER}; --pq-ink: {NAVY};
   --ok: #0ca30c; --warn: #b07a00; --bad: #d03b3b;
 }}
 body[data-theme="women"] {{
-  --surface: #faf8fc; --ink: {CHARCOAL}; --ink-2: #5c5f73; --accent: {PURPLE}; --accent-ink: {PURPLE}; --link: {PURPLE};
-  --band-color: {GOLD};
-  --band-bg: radial-gradient(circle at 50% 0%, #e6dbf5 0%, #f1ebf9 45%, #faf6ec 100%);
-  --band-ink: {CHARCOAL}; --band-ink-2: #55586b; --band-head: {PURPLE}; --band-accent: {GOLD}; --band-eyebrow: {PURPLE};
-  --band-card: #ffffff; --band-card-ink: {CHARCOAL}; --band-card-ink-2: #55586b; --band-card-line: #dccdee;
+  --ink: {CHARCOAL}; --ink-2: #5c5f73; --accent: {PURPLE}; --accent-ink: {PURPLE}; --link: {PURPLE};
+  --band-bg: radial-gradient(ellipse at 50% 0%, rgba(91,58,154,.12), transparent 65%), linear-gradient(180deg, #fdfbf7 0%, #f7f2e9 100%);
+  --band-ink: {CHARCOAL}; --band-ink-2: #55586b; --band-head: {PURPLE}; --band-accent: {GOLD}; --band-years: #a6822f; --band-eyebrow: {PURPLE};
   --band-link: {PURPLE}; --band-step: {PURPLE};
   --tab-on-bg: {PURPLE}; --tab-on-ink: #ffffff;
   --pq-rule: {GOLD}; --pq-mark: {PURPLE}; --pq-ink: {CHARCOAL};
@@ -601,7 +599,7 @@ main {{ max-width: 1040px; margin: 0 auto; padding: 0 16px; }}
 body[data-theme="women"] main {{ padding-bottom: 72px; }}
 h1, h2, h3 {{ font-family: {HEAD_FONT}; font-weight: 700; }}
 h1 {{ font-size: clamp(34px, 5.4vw, 58px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.01em; color: var(--band-head); }}
-h1 .years {{ display: block; font-size: .46em; font-weight: 600; color: var(--band-accent); margin-top: 8px; }}
+h1 .years {{ display: block; font-size: .46em; font-weight: 600; color: var(--band-years); margin-top: 8px; }}
 h2 {{ font-size: 28px; margin: 0 0 6px; }}
 section {{ margin-top: 56px; }}
 section > p {{ color: var(--ink-2); max-width: 720px; }}
@@ -636,7 +634,7 @@ body:not([data-theme="women"]) .tile.all-tile .label {{ color: #3a2a1c; }}
 .palette b {{ color: var(--band-ink); }}
 .palette .meaning {{ flex-basis: 100%; margin: 0; }}
 .chip {{ display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }}
-.dot {{ width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--band-card-line); }}
+.dot {{ width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(11,19,43,.25); }}
 body:not([data-theme="women"]) .only-women, body[data-theme="women"] .only-all_crimes {{ display: none; }}
 
 .closing {{ margin-top: 72px; border-top: 5px solid var(--band-accent); }}
