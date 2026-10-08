@@ -20,7 +20,7 @@ def test_site_builds_with_charts_and_downloads(tmp_path):
         assert f'data-theme="{view}"' in page
     assert "Respect is not measured by the names we give women" in page
     assert "Other methods checked" in page
-    assert page.count('class="callout"') == 2
+    assert page.count('class="pullquote"') == 2
     # Every side-navigation link points at a section that exists.
     for target in ("top", "quality", "built"):
         assert f'id="{target}"' in page
